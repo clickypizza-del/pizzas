@@ -1,0 +1,667 @@
+     1→<!DOCTYPE html>
+     2→<html lang="es">
+     3→<head>
+     4→    <meta charset="UTF-8">
+     5→    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     6→    <meta name="description" content="Click & Pizza: experiencia gourmet congelada. Suscripción semanal de pizzas artesanales premium entregadas en casa. Muzza, Especial Salame, Especial Jamón y Especial Queso Azul.">
+     7→    <title>Click & Pizza - Experiencia Gourmet a un Click</title>
+     8→    <script src="https://cdn.tailwindcss.com"></script>
+     9→    <link rel="preconnect" href="https://fonts.googleapis.com">
+    10→    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    11→    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    12→    <style>
+    13→        body {
+    14→            font-family: 'Inter', sans-serif;
+    15→            scroll-behavior: smooth;
+    16→            background-color: #161616;
+    17→            color: #e5e5e5;
+    18→        }
+    19→        .font-brand {
+    20→            font-family: 'Bebas Neue', sans-serif;
+    21→            letter-spacing: 0.02em;
+    22→        }
+    23→        .gradient-text {
+    24→            background: linear-gradient(90deg, #c81009, #e0332a);
+    25→            -webkit-background-clip: text;
+    26→            -webkit-text-fill-color: transparent;
+    27→            background-clip: text;
+    28→        }
+    29→        .fade-in {
+    30→            opacity: 0;
+    31→            transform: translateY(30px);
+    32→            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    33→        }
+    34→        .fade-in.visible {
+    35→            opacity: 1;
+    36→            transform: translateY(0);
+    37→        }
+    38→        .glass-card {
+    39→            background: rgba(30, 30, 30, 0.8);
+    40→            backdrop-filter: blur(10px);
+    41→            border: 1px solid rgba(200, 16, 9, 0.2);
+    42→        }
+    43→        .hero-bg {
+    44→            background: radial-gradient(circle at top right, #1a1a1a 0%, #161616 40%, #111111 100%);
+    45→        }
+    46→        .pulse-dot {
+    47→            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    48→        }
+    49→        @keyframes pulse-ring {
+    50→            0%, 100% { opacity: 1; transform: scale(1); }
+    51→            50% { opacity: 0.5; transform: scale(1.5); }
+    52→        }
+    53→        .float-anim {
+    54→            animation: float 6s ease-in-out infinite;
+    55→        }
+    56→        @keyframes float {
+    57→            0%, 100% { transform: translateY(0px); }
+    58→            50% { transform: translateY(-10px); }
+    59→        }
+    60→        .pizza-card:hover img {
+    61→            transform: scale(1.05);
+    62→        }
+    63→        .pizza-card img {
+    64→            transition: transform 0.5s ease;
+    65→        }
+    66→        *:focus-visible {
+    67→            outline: 2px solid #c81009;
+    68→            outline-offset: 2px;
+    69→            border-radius: 4px;
+    70→        }
+    71→        .text-dark-bg {
+    72→            color: #e5e5e5;
+    73→        }
+    74→        .text-dark-muted {
+    75→            color: #a3a3a3;
+    76→        }
+    77→        .bg-dark-card {
+    78→            background-color: #1e1e1e;
+    79→        }
+    80→        .border-dark {
+    81→            border-color: #2a2a2a;
+    82→        }
+    83→        .logo-nav {
+    84→            height: 120px;
+    85→            width: auto;
+    86→            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+    87→            transition: filter 0.3s ease;
+    88→        }
+    89→        .logo-nav:hover {
+    90→            filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.8));
+    91→        }
+    92→        .logo-footer {
+    93→            height: 65px;
+    94→            width: auto;
+    95→            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+    96→        }
+    97→        .qr-code {
+    98→            width: 120px;
+    99→            height: 120px;
+   100→            border-radius: 12px;
+   101→            border: 2px solid #c81009;
+   102→            padding: 8px;
+   103→            background: white;
+   104→        }
+   105→        .qr-code-large {
+   106→            width: 250px;
+   107→            height: 250px;
+   108→            border-radius: 20px;
+   109→            border: 3px solid #c81009;
+   110→            padding: 12px;
+   111→            background: white;
+   112→            box-shadow: 0 0 30px rgba(200, 16, 9, 0.5);
+   113→            transition: transform 0.3s ease;
+   114→        }
+   115→        .qr-code-large:hover {
+   116→            transform: scale(1.05);
+   117→        }
+   118→    </style>
+   119→</head>
+   120→<body class="text-dark-bg overflow-x-hidden">
+   121→
+   122→    <!-- Navbar -->
+   123→    <nav class="fixed w-full z-50 bg-[#161616]/90 backdrop-blur-md border-b border-[#2a2a2a] transition-all duration-300" id="navbar">
+   124→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   125→            <div class="flex justify-between items-center h-36">
+   126→                <div class="flex items-center gap-2">
+   127→                    <img src="https://i.postimg.cc/QFxKZKbn/logo-click.png" alt="Logo Click & Pizza" class="logo-nav">
+   128→                </div>
+   129→                
+   130→                <div class="hidden md:flex items-center space-x-8">
+   131→                    <a href="#historia" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Nuestra historia</a>
+   132→                    <a href="#productos" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Menú</a>
+   133→                    <a href="#suscripcion" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Suscripción</a>
+   134→                    <a href="#como-funciona" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Cómo funciona</a>
+   135→                    <a href="#pedidos" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Pedidos</a>
+   136→                    <a href="#testimonios" class="text-dark-muted hover:text-[#c81009] font-medium transition-colors">Testimonios</a>
+   137→                </div>
+   138→
+   139→                <button class="md:hidden text-dark-muted" id="mobile-menu-btn" aria-label="Abrir menú de navegación">
+   140→                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+   141→                </button>
+   142→            </div>
+   143→        </div>
+   144→        <div class="md:hidden hidden bg-[#161616] border-t border-[#2a2a2a]" id="mobile-menu">
+   145→            <div class="px-4 py-6 space-y-4 flex flex-col">
+   146→                <a href="#historia" class="text-dark-muted font-medium">Nuestra historia</a>
+   147→                <a href="#productos" class="text-dark-muted font-medium">Menú</a>
+   148→                <a href="#suscripcion" class="text-dark-muted font-medium">Suscripción</a>
+   149→                <a href="#como-funciona" class="text-dark-muted font-medium">Cómo funciona</a>
+   150→                <a href="#pedidos" class="text-dark-muted font-medium">Pedidos</a>
+   151→                <a href="#testimonios" class="text-dark-muted font-medium">Testimonios</a>
+   152→            </div>
+   153→        </div>
+   154→    </nav>
+   155→
+   156→    <!-- Hero Section -->
+   157→    <header class="hero-bg pt-32 pb-20 lg:pt-40 lg:pb-32 relative overflow-hidden">
+   158→        <div class="absolute top-20 right-0 w-96 h-96 bg-[#c81009] rounded-full blur-3xl opacity-10"></div>
+   159→        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#c81009] rounded-full blur-3xl opacity-10"></div>
+   160→        
+   161→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   162→            <div class="grid lg:grid-cols-2 gap-12 items-center">
+   163→                <div class="fade-in">
+   164→                    <div class="inline-flex items-center gap-2 bg-[#c81009]/10 border border-[#c81009]/20 rounded-full px-4 py-1.5 mb-6 mt-8">
+   165→                        <span class="w-2 h-2 bg-[#c81009] rounded-full pulse-dot"></span>
+   166→                        <span class="text-[#c81009] text-sm font-semibold">Experiencia Gourmet sin Esfuerzo</span>
+   167→                    </div>
+   168→                    <h1 class="text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+   169→                        Tu pizza premium, directa a tu freezer, <span class="gradient-text">lista en 15 minutos</span>
+   170→                    </h1>
+   171→                    <p class="text-xl text-dark-muted mb-8 leading-relaxed max-w-lg">
+   172→                        Somos la marca de conveniencia premium que te garantiza una cena de restaurante en casa, sin moverte. Suscribite a nuestro kit semanal y olvidate de cocinar.
+   173→                    </p>
+   174→                    <div class="flex flex-col sm:flex-row gap-4">
+   175→                        <a href="#suscripcion" class="bg-[#c81009] hover:bg-[#e0332a] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-[#c81009]/30 transition-all hover:scale-105 text-center">
+   176→                            Quiero mi suscripción
+   177→                        </a>
+   178→                        <a href="#productos" class="bg-[#1e1e1e] hover:bg-[#2a2a2a] text-dark-bg border border-[#2a2a2a] px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105 flex items-center justify-center gap-2">
+   179→                            <svg class="w-5 h-5 text-[#c81009]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+   180→                            Ver menú
+   181→                        </a>
+   182→                    </div>
+   183→                </div>
+   184→                <div class="fade-in relative float-anim">
+   185→                    <div class="absolute -inset-4 bg-gradient-to-r from-[#c81009] to-[#e0332a] rounded-3xl blur-2xl opacity-10"></div>
+   186→                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&q=80" alt="Pizza congelada premium lista para hornear" class="relative rounded-2xl shadow-2xl border border-[#2a2a2a] w-full h-[400px] object-cover object-center" loading="lazy">
+   187→                </div>
+   188→            </div>
+   189→        </div>
+   190→    </header>
+   191→
+   192→    <!-- Why Click & Pizza Section (actualizada con propuesta D2C) -->
+   193→    <section id="historia" class="py-24 bg-[#161616] overflow-hidden">
+   194→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   195→            <div class="grid lg:grid-cols-2 gap-16 items-center">
+   196→                <div class="fade-in">
+   197→                    <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Nuestra filosofía</span>
+   198→                    <h2 class="text-4xl font-extrabold text-white mt-3 mb-6">La <span class="gradient-text">experiencia gourmet</span> que merecés</h2>
+   199→                    <p class="text-lg text-dark-muted mb-6 leading-relaxed">
+   200→                        No vendemos pizzas congeladas comunes. Somos una <strong class="text-white">marca de conveniencia premium</strong>: productos curados, empaque diseñado para tu freezer y la garantía de una cena perfecta en 15 minutos.
+   201→                    </p>
+   202→                    <p class="text-lg text-dark-muted mb-8 leading-relaxed">
+   203→                        <strong class="text-white">"Click"</strong> es la facilidad de pedir desde casa. <strong class="text-white">"Pizza"</strong> es nuestra pasión artesanal. Directo a tu puerta, sin intermediarios, para que disfrutes calidad de restaurante sin esfuerzo.
+   204→                    </p>
+   205→                    
+   206→                    <div class="grid grid-cols-2 gap-6">
+   207→                        <div class="bg-[#c81009]/10 p-5 rounded-xl border border-[#c81009]/20">
+   208→                            <div class="text-3xl font-extrabold text-[#c81009] mb-1">100%</div>
+   209→                            <div class="text-sm text-dark-muted font-medium">Control de calidad</div>
+   210→                        </div>
+   211→                        <div class="bg-[#c81009]/10 p-5 rounded-xl border border-[#c81009]/20">
+   212→                            <div class="text-3xl font-extrabold text-[#e0332a] mb-1">Sin</div>
+   213→                            <div class="text-sm text-dark-muted font-medium">Intermediarios</div>
+   214→                        </div>
+   215→                    </div>
+   216→                </div>
+   217→                
+   218→                <div class="fade-in relative">
+   219→                    <div class="absolute -inset-4 bg-gradient-to-r from-[#c81009] to-[#e0332a] rounded-3xl blur-2xl opacity-10"></div>
+   220→                    <div class="relative bg-gradient-to-br from-[#1e1e1e] to-[#1a1a1a] rounded-3xl p-8 border border-[#c81009]/20">
+   221→                        <div class="space-y-6">
+   222→                            <div class="flex items-start gap-4">
+   223→                                <div class="w-12 h-12 bg-[#161616] rounded-xl shadow-md flex items-center justify-center flex-shrink-0 border border-[#2a2a2a]">
+   224→                                    <svg class="w-6 h-6 text-[#c81009]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+   225→                                </div>
+   226→                                <div>
+   227→                                    <h4 class="font-bold text-white text-lg">Curaduría de sabores</h4>
+   228→                                    <p class="text-dark-muted">No encontrarás estas recetas en supermercados. Ingredientes seleccionados y combinaciones únicas.</p>
+   229→                                </div>
+   230→                            </div>
+   231→                            <div class="flex items-start gap-4">
+   232→                                <div class="w-12 h-12 bg-[#161616] rounded-xl shadow-md flex items-center justify-center flex-shrink-0 border border-[#2a2a2a]">
+   233→                                    <svg class="w-6 h-6 text-[#e0332a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+   234→                                </div>
+   235→                                <div>
+   236→                                    <h4 class="font-bold text-white text-lg">Empaque inteligente</h4>
+   237→                                    <p class="text-dark-muted">Diseñado para tu freezer hogareño. Incluye instructivos de cocción para un resultado perfecto.</p>
+   238→                                </div>
+   239→                            </div>
+   240→                            <div class="flex items-start gap-4">
+   241→                                <div class="w-12 h-12 bg-[#161616] rounded-xl shadow-md flex items-center justify-center flex-shrink-0 border border-[#2a2a2a]">
+   242→                                    <svg class="w-6 h-6 text-[#c81009]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+   243→                                </div>
+   244→                                <div>
+   245→                                    <h4 class="font-bold text-white text-lg">Relación directa</h4>
+   246→                                    <p class="text-dark-muted">Te conocemos, sabemos qué te gusta y te ofrecemos justo lo que necesitás, sin vueltas.</p>
+   247→                                </div>
+   248→                            </div>
+   249→                        </div>
+   250→                    </div>
+   251→                </div>
+   252→            </div>
+   253→        </div>
+   254→    </section>
+   255→
+   256→    <!-- Features Section (con cambio en texto de ingredientes premium) -->
+   257→    <section class="py-24 bg-[#111111]">
+   258→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   259→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   260→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Por qué elegirnos</span>
+   261→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">La mejor pizza congelada del mercado</h2>
+   262→                <p class="text-lg text-dark-muted">No somos una pizza congelada común. Usamos técnicas artesanales y los mejores ingredientes para que cada bocado sea una experiencia italiana auténtica.</p>
+   263→            </div>
+   264→
+   265→            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+   266→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+   267→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   268→                        <svg class="w-7 h-7 text-[#c81009]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+   269→                    </div>
+   270→                    <h3 class="text-xl font-bold text-white mb-3">Lista en 15 minutos</h3>
+   271→                    <p class="text-dark-muted leading-relaxed">Del congelador al horno. Sin descongelar, sin esperar. Pizza perfecta en menos de 15 minutos.</p>
+   272→                </div>
+   273→
+   274→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group" style="transition-delay: 100ms;">
+   275→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   276→                        <svg class="w-7 h-7 text-[#e0332a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+   277→                    </div>
+   278→                    <h3 class="text-xl font-bold text-white mb-3">Ingredientes premium</h3>
+   279→                    <p class="text-dark-muted leading-relaxed">Mozzarella fresca, tomates naturales, fiambres de calidad e ingredientes 100% naturales.</p>
+   280→                </div>
+   281→
+   282→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group" style="transition-delay: 200ms;">
+   283→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   284→                        <svg class="w-7 h-7 text-[#c81009]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+   285→                    </div>
+   286→                    <h3 class="text-xl font-bold text-white mb-3">Congelación flash</h3>
+   287→                    <p class="text-dark-muted leading-relaxed">Tecnología IQF que preserva el sabor, textura y nutrientes como si recién saliera del horno.</p>
+   288→                </div>
+   289→
+   290→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+   291→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   292→                        <svg class="w-7 h-7 text-[#e0332a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+   293→                    </div>
+   294→                    <h3 class="text-xl font-bold text-white mb-3">Envío refrigerado</h3>
+   295→                    <p class="text-dark-muted leading-relaxed">Cadena de frío garantizada hasta tu puerta. Embalaje ecológico y sostenible.</p>
+   296→                </div>
+   297→
+   298→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group" style="transition-delay: 100ms;">
+   299→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   300→                        <svg class="w-7 h-7 text-[#c81009]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+   301→                    </div>
+   302→                    <h3 class="text-xl font-bold text-white mb-3">Sin conservantes</h3>
+   303→                    <p class="text-dark-muted leading-relaxed">Libre de conservantes artificiales, colorantes y aditivos. Solo ingredientes reales.</p>
+   304→                </div>
+   305→
+   306→                <div class="fade-in glass-card p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group" style="transition-delay: 200ms;">
+   307→                    <div class="w-14 h-14 bg-[#c81009]/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+   308→                        <svg class="w-7 h-7 text-[#e0332a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+   309→                    </div>
+   310→                    <h3 class="text-xl font-bold text-white mb-3">Precios accesibles</h3>
+   311→                    <p class="text-dark-muted leading-relaxed">Calidad de restaurante italiano a precio justo. Suscripciones con beneficios exclusivos.</p>
+   312→                </div>
+   313→            </div>
+   314→        </div>
+   315→    </section>
+   316→
+   317→    <!-- Products Section -->
+   318→    <section id="productos" class="py-24 bg-[#161616] overflow-hidden">
+   319→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   320→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   321→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Nuestro Menú</span>
+   322→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">Sabores irresistibles</h2>
+   323→                <p class="text-lg text-dark-muted">Todas nuestras pizzas están hechas a mano y congeladas al instante para máxima frescura. Conocé nuestras variedades.</p>
+   324→            </div>
+   325→
+   326→            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+   327→                <!-- Muzza -->
+   328→                <div class="fade-in pizza-card bg-[#1e1e1e] rounded-2xl shadow-lg border border-[#2a2a2a] overflow-hidden hover:shadow-2xl transition-all duration-300 group">
+   329→                    <div class="relative overflow-hidden">
+   330→                        <img src="https://i.postimg.cc/xq7y32vY/muzza.png" alt="Pizza Muzza con abundante mozzarella premium derretida y orégano fresco" class="w-full h-64 object-cover" loading="lazy">
+   331→                        <div class="absolute top-4 right-4 bg-[#c81009] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">Clásica</div>
+   332→                    </div>
+   333→                    <div class="p-6">
+   334→                        <h3 class="text-2xl font-bold text-white mb-2">Muzza</h3>
+   335→                        <p class="text-dark-muted">Mucha mozzarella premium, salsa de tomate natural y orégano fresco. La favorita de todos.</p>
+   336→                    </div>
+   337→                </div>
+   338→
+   339→                <!-- Especial Salame -->
+   340→                <div class="fade-in pizza-card bg-[#1e1e1e] rounded-2xl shadow-lg border border-[#2a2a2a] overflow-hidden hover:shadow-2xl transition-all duration-300 group" style="transition-delay: 100ms;">
+   341→                    <div class="relative overflow-hidden">
+   342→                        <img src="https://i.postimg.cc/8s3BmSRP/salame.png" alt="Pizza Especial Salame con salame artesanal en rodajas y mozzarella cremosa" class="w-full h-64 object-cover" loading="lazy">
+   343→                        <div class="absolute top-4 right-4 bg-[#e0332a] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">Salame</div>
+   344→                    </div>
+   345→                    <div class="p-6">
+   346→                        <h3 class="text-2xl font-bold text-white mb-2">Especial Salame</h3>
+   347→                        <p class="text-dark-muted">Salame artesanal en rodajas, mozzarella cremosa y un toque de ají molido.</p>
+   348→                    </div>
+   349→                </div>
+   350→
+   351→                <!-- Especial Jamón -->
+   352→                <div class="fade-in pizza-card bg-[#1e1e1e] rounded-2xl shadow-lg border border-[#2a2a2a] overflow-hidden hover:shadow-2xl transition-all duration-300 group" style="transition-delay: 200ms;">
+   353→                    <div class="relative overflow-hidden">
+   354→                        <img src="https://i.postimg.cc/hhwb1BLt/jamon.png" alt="Pizza Especial Jamón con jamón cocido natural y mozzarella fundida" class="w-full h-64 object-cover" loading="lazy">
+   355→                        <div class="absolute top-4 right-4 bg-[#c81009] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">Jamón</div>
+   356→                    </div>
+   357→                    <div class="p-6">
+   358→                        <h3 class="text-2xl font-bold text-white mb-2">Especial Jamón</h3>
+   359→                        <p class="text-dark-muted">Jamón natural seleccionado y queso mozzarella.</p>
+   360→                    </div>
+   361→                </div>
+   362→
+   363→                <!-- Especial Queso Azul -->
+   364→                <div class="fade-in pizza-card bg-[#1e1e1e] rounded-2xl shadow-lg border border-[#2a2a2a] overflow-hidden hover:shadow-2xl transition-all duration-300 group" style="transition-delay: 300ms;">
+   365→                    <div class="relative overflow-hidden">
+   366→                        <img src="https://i.postimg.cc/PNczQjWq/azul.png" alt="Pizza Especial Queso Azul con queso azul desmenuzado y mozzarella" class="w-full h-64 object-cover" loading="lazy">
+   367→                        <div class="absolute top-4 right-4 bg-[#e0332a] text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">Queso Azul</div>
+   368→                    </div>
+   369→                    <div class="p-6">
+   370→                        <h3 class="text-2xl font-bold text-white mb-2">Especial Queso Azul</h3>
+   371→                        <p class="text-dark-muted">Queso azul desmenuzado y mozzarella.</p>
+   372→                    </div>
+   373→                </div>
+   374→            </div>
+   375→        </div>
+   376→    </section>
+   377→
+   378→    <!-- Suscripción Semanal -->
+   379→    <section id="suscripcion" class="py-24 bg-[#111111] relative overflow-hidden">
+   380→        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, #c81009 1px, transparent 0); background-size: 40px 40px;"></div>
+   381→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   382→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   383→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Suscripción Semanal</span>
+   384→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">Tu <span class="gradient-text">kit gourmet</span> sin preocupaciones</h2>
+   385→                <p class="text-lg text-dark-muted">Recibí tus pizzas favoritas todas las semanas, sin tener que volver a pedir. Flexibilidad, ahorro y la garantía de tener siempre una cena premium lista en 15 minutos.</p>
+   386→            </div>
+   387→            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+   388→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl border border-[#c81009]/20 text-center hover:border-[#c81009]/50 transition-all">
+   389→                    <div class="text-4xl mb-4">📦</div>
+   390→                    <h3 class="text-xl font-bold text-white mb-3">Kit Semanal</h3>
+   391→                    <p class="text-dark-muted mb-4">4 pizzas a elección entregadas cada semana. Ideal para familias o amantes de la pizza.</p>
+   392→                    <p class="text-2xl font-extrabold text-[#c81009]">$25.000</p>
+   393→                    <p class="text-dark-muted text-sm">/semana</p>
+   394→                </div>
+   395→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl border border-[#c81009]/20 text-center hover:border-[#c81009]/50 transition-all" style="transition-delay: 100ms;">
+   396→                    <div class="text-4xl mb-4">🏆</div>
+   397→                    <h3 class="text-xl font-bold text-white mb-3">Kit Premium</h3>
+   398→                    <p class="text-dark-muted mb-4">6 pizzas de sabores exclusivos, incluye instructivo de cocción y bolsa térmica de regalo.</p>
+   399→                    <p class="text-2xl font-extrabold text-[#c81009]">$50.000</p>
+   400→                    <p class="text-dark-muted text-sm">/semana</p>
+   401→                </div>
+   402→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl border border-[#c81009]/20 text-center hover:border-[#c81009]/50 transition-all" style="transition-delay: 200ms;">
+   403→                    <div class="text-4xl mb-4">🎉</div>
+   404→                    <h3 class="text-xl font-bold text-white mb-3">Evento Especial</h3>
+   405→                    <p class="text-dark-muted mb-4">¿Tenés invitados? Armamos un kit personalizado con la cantidad y sabores que necesites.</p>
+   406→                    <p class="text-2xl font-extrabold text-[#c81009]">A consultar</p>
+   407→                    <p class="text-dark-muted text-sm">/pedido único</p>
+   408→                </div>
+   409→            </div>
+   410→            <div class="text-center mt-10 fade-in">
+   411→                <a href="#pedidos" class="bg-[#c81009] hover:bg-[#e0332a] text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-[#c81009]/30 transition-all hover:scale-105 inline-flex items-center gap-2">
+   412→                    Quiero suscribirme
+   413→                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+   414→                </a>
+   415→            </div>
+   416→        </div>
+   417→    </section>
+   418→
+   419→    <!-- How it works (actualizado con logística D2C) -->
+   420→    <section id="como-funciona" class="py-24 bg-[#111111]">
+   421→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   422→            <div class="text-center max-w-3xl mx-auto mb-20 fade-in">
+   423→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Cómo funciona</span>
+   424→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">Del freezer a tu mesa en 3 pasos</h2>
+   425→                <p class="text-lg text-dark-muted">Simple, rápido y con la garantía de calidad que solo una marca directa al consumidor puede dar.</p>
+   426→            </div>
+   427→
+   428→            <div class="grid md:grid-cols-3 gap-12 relative">
+   429→                <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-1 bg-gradient-to-r from-[#c81009]/30 via-[#c81009] to-[#c81009]/30 rounded-full"></div>
+   430→
+   431→                <div class="fade-in text-center relative">
+   432→                    <div class="w-24 h-24 bg-gradient-to-br from-[#c81009] to-[#e0332a] rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-xl shadow-[#c81009]/30 relative z-10 border-4 border-[#161616]">1</div>
+   433→                    <h3 class="text-xl font-bold text-white mb-3">Elegí tu plan</h3>
+   434→                    <p class="text-dark-muted">Suscribite al kit semanal o pedí por WhatsApp. Nos adaptamos a tu ritmo de consumo.</p>
+   435→                </div>
+   436→
+   437→                <div class="fade-in text-center relative" style="transition-delay: 150ms;">
+   438→                    <div class="w-24 h-24 bg-gradient-to-br from-[#c81009] to-[#e0332a] rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-xl shadow-[#c81009]/30 relative z-10 border-4 border-[#161616]">2</div>
+   439→                    <h3 class="text-xl font-bold text-white mb-3">Recibí en tu zona</h3>
+   440→                    <p class="text-dark-muted">Entregas programadas por barrio. Packaging térmico que mantiene la cadena de frío.</p>
+   441→                </div>
+   442→
+   443→                <div class="fade-in text-center relative" style="transition-delay: 300ms;">
+   444→                    <div class="w-24 h-24 bg-gradient-to-br from-[#c81009] to-[#e0332a] rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-xl shadow-[#c81009]/30 relative z-10 border-4 border-[#161616]">3</div>
+   445→                    <h3 class="text-xl font-bold text-white mb-3">Horneá y disfrutá</h3>
+   446→                    <p class="text-dark-muted">Instructivo incluido. En 15 minutos tenés una pizza de restaurante en tu mesa.</p>
+   447→                </div>
+   448→            </div>
+   449→            <div class="text-center mt-16 fade-in">
+   450→                <p class="text-dark-muted text-sm">📍 Entregas programadas: consultá tu zona por WhatsApp. Horarios: martes a viernes de 18 a 21 hs.</p>
+   451→            </div>
+   452→        </div>
+   453→    </section>
+   454→
+   455→    <!-- Sección de Pedidos (QR grande de WhatsApp) -->
+   456→    <section id="pedidos" class="py-24 bg-[#161616] relative overflow-hidden">
+   457→        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, #c81009 1px, transparent 0); background-size: 40px 40px;"></div>
+   458→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   459→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   460→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Pedidos</span>
+   461→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">¡Hacé tu pedido por <span class="gradient-text">WhatsApp</span>!</h2>
+   462→                <p class="text-lg text-dark-muted">¿Listo para vivir la experiencia gourmet? Escaneá el código o escribinos para armar tu suscripción o pedido puntual.</p>
+   463→            </div>
+   464→            <div class="flex flex-col items-center gap-10 fade-in">
+   465→                <img src="https://i.postimg.cc/N5x2nk1P/qr-code.png" alt="Código QR de WhatsApp para pedidos" class="qr-code-large">
+   466→                <a href="https://wa.me/542612545724" target="_blank" rel="noopener noreferrer" class="bg-[#25D366] hover:bg-[#1ebe5c] text-white px-10 py-5 rounded-full font-bold text-xl shadow-xl shadow-[#25D366]/30 transition-all hover:scale-105 inline-flex items-center gap-3">
+   467→                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   468→                    Contactar por WhatsApp
+   469→                </a>
+   470→            </div>
+   471→        </div>
+   472→    </section>
+   473→
+   474→    <!-- Stats Section -->
+   475→    <section class="py-24 bg-[#161616] text-white relative overflow-hidden">
+   476→        <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(200, 16, 9, 0.3) 1px, transparent 0); background-size: 40px 40px;"></div>
+   477→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+   478→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   479→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Números que hablan</span>
+   480→                <h2 class="text-4xl font-extrabold mt-3 mb-4">Miles de hogares felices</h2>
+   481→            </div>
+   482→
+   483→            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+   484→                <div class="fade-in text-center p-8 rounded-2xl bg-white/5 border border-[#2a2a2a] backdrop-blur-sm hover:bg-white/10 transition-all">
+   485→                    <div class="text-5xl font-extrabold text-[#c81009] mb-2">50K+</div>
+   486→                    <div class="text-dark-muted font-medium">Pizzas producidas</div>
+   487→                </div>
+   488→                <div class="fade-in text-center p-8 rounded-2xl bg-white/5 border border-[#2a2a2a] backdrop-blur-sm hover:bg-white/10 transition-all" style="transition-delay: 100ms;">
+   489→                    <div class="text-5xl font-extrabold text-[#c81009] mb-2">4.9★</div>
+   490→                    <div class="text-dark-muted font-medium">Calificación promedio</div>
+   491→                </div>
+   492→                <div class="fade-in text-center p-8 rounded-2xl bg-white/5 border border-[#2a2a2a] backdrop-blur-sm hover:bg-white/10 transition-all" style="transition-delay: 200ms;">
+   493→                    <div class="text-5xl font-extrabold text-[#c81009] mb-2">15min</div>
+   494→                    <div class="text-dark-muted font-medium">Tiempo de cocción</div>
+   495→                </div>
+   496→                <div class="fade-in text-center p-8 rounded-2xl bg-white/5 border border-[#2a2a2a] backdrop-blur-sm hover:bg-white/10 transition-all" style="transition-delay: 300ms;">
+   497→                    <div class="text-5xl font-extrabold text-[#c81009] mb-2">100%</div>
+   498→                    <div class="text-dark-muted font-medium">Ingredientes naturales</div>
+   499→                </div>
+   500→            </div>
+   501→        </div>
+   502→    </section>
+   503→
+   504→    <!-- Testimonials -->
+   505→    <section id="testimonios" class="py-24 bg-[#111111]">
+   506→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   507→            <div class="text-center max-w-3xl mx-auto mb-16 fade-in">
+   508→                <span class="text-[#c81009] font-bold text-sm uppercase tracking-wider">Testimonios</span>
+   509→                <h2 class="text-4xl font-extrabold text-white mt-3 mb-4">Lo que dicen nuestros clientes</h2>
+   510→            </div>
+   511→
+   512→            <div class="grid md:grid-cols-3 gap-8">
+   513→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl shadow-sm border border-[#2a2a2a] hover:shadow-lg transition-all">
+   514→                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+   515→                    <p class="text-dark-muted mb-6 italic">"Nunca pensé que una pizza congelada pudiera saber tan bien. La masa es increíble y el queso se derrite perfecto. Mis hijos la aman."</p>
+   516→                    <div class="flex items-center gap-4">
+   517→                        <div class="w-12 h-12 bg-[#c81009]/10 rounded-full flex items-center justify-center text-[#c81009] font-bold">LM</div>
+   518→                        <div>
+   519→                            <div class="font-bold text-white">Laura Martínez</div>
+   520→                            <div class="text-sm text-dark-muted">Mamá de 3 hijos</div>
+   521→                        </div>
+   522→                    </div>
+   523→                </div>
+   524→
+   525→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl shadow-sm border border-[#2a2a2a] hover:shadow-lg transition-all" style="transition-delay: 100ms;">
+   526→                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+   527→                    <p class="text-dark-muted mb-6 italic">"La calidad es comparable a una pizzería italiana. El envío llegó perfecto, bien refrigerado. Ahora tengo suscripción mensual."</p>
+   528→                    <div class="flex items-center gap-4">
+   529→                        <div class="w-12 h-12 bg-[#c81009]/10 rounded-full flex items-center justify-center text-[#c81009] font-bold">CR</div>
+   530→                        <div>
+   531→                            <div class="font-bold text-white">Carlos Ramírez</div>
+   532→                            <div class="text-sm text-dark-muted">Foodie & Chef amateur</div>
+   533→                        </div>
+   534→                    </div>
+   535→                </div>
+   536→
+   537→                <div class="fade-in bg-[#1e1e1e] p-8 rounded-2xl shadow-sm border border-[#2a2a2a] hover:shadow-lg transition-all" style="transition-delay: 200ms;">
+   538→                    <div class="flex text-yellow-400 mb-4 text-lg">★★★★★</div>
+   539→                    <p class="text-dark-muted mb-6 italic">"Perfecta para cenas rápidas entre semana. En 15 minutos tengo una pizza de restaurante. La de cuatro quesos es espectacular."</p>
+   540→                    <div class="flex items-center gap-4">
+   541→                        <div class="w-12 h-12 bg-[#c81009]/10 rounded-full flex items-center justify-center text-[#c81009] font-bold">AG</div>
+   542→                        <div>
+   543→                            <div class="font-bold text-white">Andrea Gómez</div>
+   544→                            <div class="text-sm text-dark-muted">Ejecutiva ocupada</div>
+   545→                        </div>
+   546→                    </div>
+   547→                </div>
+   548→            </div>
+   549→        </div>
+   550→    </section>
+   551→
+   552→    <!-- Footer -->
+   553→    <footer class="bg-[#0a0a0a] text-dark-muted pt-16 pb-8">
+   554→        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   555→            <div class="grid md:grid-cols-4 gap-12 mb-12">
+   556→                <div class="md:col-span-1">
+   557→                    <div class="flex items-center gap-2 mb-4">
+   558→                        <img src="https://i.postimg.cc/QFxKZKbn/logo-click.png" alt="Logo Click & Pizza" class="logo-footer">
+   559→                    </div>
+   560→                    <p class="text-dark-muted mb-6">Experiencia gourmet congelada, directa del horno a tu freezer. Calidad premium sin salir de casa.</p>
+   561→                    <div class="flex gap-4">
+   562→                        <a href="#" class="w-10 h-10 bg-[#161616] rounded-full flex items-center justify-center hover:bg-[#c81009] transition-colors" aria-label="Facebook">
+   563→                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+   564→                        </a>
+   565→                        <a href="https://instagram.com/cklic_y_pizza" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-[#161616] rounded-full flex items-center justify-center hover:bg-[#c81009] transition-colors" aria-label="Instagram @cklic_y_pizza">
+   566→                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+   567→                        </a>
+   568→                    </div>
+   569→                </div>
+   570→
+   571→                <div>
+   572→                    <h4 class="text-white font-bold mb-4">Menú</h4>
+   573→                    <ul class="space-y-3">
+   574→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Muzza</a></li>
+   575→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Especial Salame</a></li>
+   576→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Especial Jamón</a></li>
+   577→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Especial Queso Azul</a></li>
+   578→                    </ul>
+   579→                </div>
+   580→
+   581→                <div>
+   582→                    <h4 class="text-white font-bold mb-4">Empresa</h4>
+   583→                    <ul class="space-y-3">
+   584→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Sobre nosotros</a></li>
+   585→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Blog</a></li>
+   586→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Recetas</a></li>
+   587→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Contacto</a></li>
+   588→                    </ul>
+   589→                </div>
+   590→
+   591→                <div>
+   592→                    <h4 class="text-white font-bold mb-4">Soporte</h4>
+   593→                    <ul class="space-y-3">
+   594→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Centro de ayuda</a></li>
+   595→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Envíos y entregas</a></li>
+   596→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Devoluciones</a></li>
+   597→                        <li><a href="#" class="hover:text-[#c81009] transition-colors">Términos y condiciones</a></li>
+   598→                    </ul>
+   599→                </div>
+   600→            </div>
+   601→
+   602→            <!-- Sección QR WhatsApp Business (pequeño en footer) -->
+   603→            <div class="border-t border-[#1e1e1e] pt-8 mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+   604→                <div class="flex items-center gap-4">
+   605→                    <img src="https://i.postimg.cc/N5x2nk1P/qr-code.png" alt="Código QR de WhatsApp Business" class="qr-code">
+   606→                    <div>
+   607→                        <p class="text-white font-bold text-sm mb-1">¡Contactanos por WhatsApp!</p>
+   608→                        <p class="text-dark-muted text-xs">Escaneá el código o hacé clic en el ícono</p>
+   609→                        <a href="https://wa.me/542612545724" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[#25D366] hover:text-[#1ebe5c] transition-colors text-sm mt-1">
+   610→                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+   611→                            WhatsApp Business
+   612→                        </a>
+   613→                    </div>
+   614→                </div>
+   615→                <p class="text-dark-muted text-sm">© 2026 Click & Pizza. Todos los derechos reservados.</p>
+   616→            </div>
+   617→        </div>
+   618→    </footer>
+   619→
+   620→    <script>
+   621→        // Mobile menu toggle
+   622→        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+   623→        const mobileMenu = document.getElementById('mobile-menu');
+   624→        
+   625→        mobileMenuBtn.addEventListener('click', () => {
+   626→            mobileMenu.classList.toggle('hidden');
+   627→        });
+   628→
+   629→        mobileMenu.querySelectorAll('a').forEach(link => {
+   630→            link.addEventListener('click', () => {
+   631→                mobileMenu.classList.add('hidden');
+   632→            });
+   633→        });
+   634→
+   635→        // Intersection Observer for fade-in animations
+   636→        const fadeObserverOptions = {
+   637→            root: null,
+   638→            rootMargin: '0px 0px -50px 0px',
+   639→            threshold: 0.1
+   640→        };
+   641→
+   642→        const fadeObserver = new IntersectionObserver((entries) => {
+   643→            entries.forEach(entry => {
+   644→                if (entry.isIntersecting) {
+   645→                    entry.target.classList.add('visible');
+   646→                    fadeObserver.unobserve(entry.target);
+   647→                }
+   648→            });
+   649→        }, fadeObserverOptions);
+   650→
+   651→        document.querySelectorAll('.fade-in').forEach(el => {
+   652→            fadeObserver.observe(el);
+   653→        });
+   654→
+   655→        // Navbar background on scroll
+   656→        const navbar = document.getElementById('navbar');
+   657→        window.addEventListener('scroll', () => {
+   658→            if (window.scrollY > 20) {
+   659→                navbar.classList.add('shadow-md');
+   660→            } else {
+   661→                navbar.classList.remove('shadow-md');
+   662→            }
+   663→        });
+   664→    </script>
+   665→</body>
+   666→</html>
+   667→
