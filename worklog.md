@@ -20,3 +20,25 @@ Stage Summary:
 - 13 sections, fully componentized, brand-locked to dark theme.
 - Key improvements over original: removed Tailwind CDN, added scrollspy, accessible mobile Sheet menu, per-plan & per-pizza WhatsApp CTAs with prefilled messages, new FAQ + Coverage sections, JSON-LD + OG metadata, count-up stats, testimonials carousel, floating WhatsApp FAB + back-to-top, sticky footer, reduced-motion support, dynamic copyright year.
 - Lint clean, dev server clean, browser-verified interactivity.
+
+---
+Task ID: 2
+Agent: main (orchestrator)
+Task: Expand the menu to 17 categorized pizzas (Clásicas/Especiales/Gourmet) and add a "Freezer Champions" section.
+
+Work Log:
+- Rewrote `PIZZAS` in site-data.ts: replaced the old 4-photo pizzas with 17 categorized entries (6 Clásicas, 6 Especiales, 5 Gourmet), each with name + Spanish description.
+- Added `PIZZA_CATEGORIES` metadata (label, emoji, warm accent hue per category — red/amber/copper, no blue/indigo).
+- Added `FREEZER_CHAMPIONS` array: 6 pizzas with stability notes and rank 1–6.
+- Rebuilt `MenuSection` with shadcn Tabs: 3 category tabs (Clásicas/Especiales/Gourmet) with live counts; each pizza card uses a large 🍕 emoji on a category-tinted gradient hero (no photo dependency → consistent look across 17 items), a colored category badge, name, description, and per-pizza WhatsApp "Consultar" CTA.
+- Created `FreezerChampionsSection` (new): 6 cards in a 3×2 grid, each with a gold medal (Award icon + gradient), numbered rank badge (1–6), pizza name with 🥇, and stability note. Includes "Armar mi kit con las campeonas" WhatsApp CTA.
+- Inserted FreezerChampionsSection into page.tsx between Menu and Plans (logical flow: menu → what freezes best → subscribe).
+- Added "Freezer" entry to NAV_LINKS and updated footer MENU_LINKS to reference the 3 categories + campeonas.
+- Lint clean. Agent Browser verified: 3 tabs switch correctly (6/6/5 pizzas = 17 total), all pizza names render, Gourmet tab shows the 5 correct gourmet pizzas, freezer section shows all 6 champions with correct names/notes, "Freezer" nav link smooth-scrolls to the section with proper navbar offset (113px), 12 total sections, sticky footer still at bottom, no console/runtime errors.
+
+Stage Summary:
+- Menu expanded from 4 → 17 pizzas across 3 filterable category tabs.
+- New "Las que más aguantan en freezer" section highlights the 6 most freezer-stable varieties.
+- Visual approach: emoji + category-tinted gradient cards (consistent, no broken images, premium look).
+- All CTAs carry pre-filled WhatsApp messages per pizza.
+- Page total height grew ~9.4k → ~10.8k px; sticky-footer layout intact.

@@ -5,10 +5,10 @@ import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const MENU_LINKS = [
-  { href: "#menu", label: "Muzza" },
-  { href: "#menu", label: "Especial Salame" },
-  { href: "#menu", label: "Especial Jamón" },
-  { href: "#menu", label: "Especial Queso Azul" },
+  { href: "#menu", label: "Clásicas" },
+  { href: "#menu", label: "Especiales" },
+  { href: "#menu", label: "Gourmet" },
+  { href: "#freezer", label: "Campeonas del freezer" },
 ];
 
 const COMPANY_LINKS = [
