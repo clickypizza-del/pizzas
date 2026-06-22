@@ -141,7 +141,7 @@
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem; /* offset for fixed navbar when jumping to #anchors */
+    scroll-padding-top: 8rem; /* offset for taller fixed navbar when jumping to #anchors */
   }
   body {
     @apply bg-background text-foreground;

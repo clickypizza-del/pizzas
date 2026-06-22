@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  // Allow the Z.ai preview gateway to request /_next/* resources without
+  // triggering the cross-origin dev warning.
+  allowedDevOrigins: ["*.space-z.ai"],
   images: {
     remotePatterns: [
       {

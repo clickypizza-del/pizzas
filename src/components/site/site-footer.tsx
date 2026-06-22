@@ -32,15 +32,21 @@ export function SiteFooter() {
         <div className="grid md:grid-cols-12 gap-10 mb-10">
           {/* Brand */}
           <div className="md:col-span-5">
-            <div className="flex items-center gap-2 mb-4">
-              <Image
-                src={SITE.logoUrl}
-                alt={`${SITE.name} logo`}
-                width={48}
-                height={48}
-                className="h-12 w-12 object-contain"
-              />
-              <span className="font-brand text-2xl text-foreground">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="relative">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 bg-primary/20 rounded-full blur-lg"
+                />
+                <Image
+                  src={SITE.logoUrl}
+                  alt={`${SITE.name} logo`}
+                  width={64}
+                  height={64}
+                  className="relative h-16 w-16 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                />
+              </div>
+              <span className="font-brand text-3xl text-foreground">
                 Click<span className="text-primary">&</span>Pizza
               </span>
             </div>

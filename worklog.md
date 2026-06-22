@@ -122,3 +122,39 @@ Stage Summary:
 - Root cause of "no anda": flaky i.postimg.cc host causing intermittent image load failures through next/image optimizer.
 - Fix: migrated all 4 Clásicas photos to sfile.chatglm.cn (VLM-verified), moved QR + logo to local /public folder.
 - All 9 images now load consistently (9/9 loaded, 0 broken) on every reload.
+
+---
+Task ID: 7
+Agent: main (orchestrator)
+Task: Fix errors + improve design + make logo bigger.
+
+Work Log:
+- Diagnosed errors: found cross-origin dev warning in dev.log ("Cross origin request detected from preview-chat-*.space-z.ai to /_next/* resource"). Fixed by adding `allowedDevOrigins: ["*.space-z.ai"]` to next.config.ts. Warning is now gone.
+- Made logo much bigger:
+  - Navbar logo: from h-10 w-10 lg:h-12 lg:w-12 (40-48px) → h-16 w-16 lg:h-20 lg:w-20 (64-80px), a 66% increase.
+  - Added a glow ring (bg-primary/30 blurred circle) behind the navbar logo that intensifies on hover.
+  - Navbar height increased from h-16 lg:h-20 (64-80px) → h-24 lg:h-28 (96-112px) to accommodate the bigger logo.
+  - Brand wordmark scaled up from text-2xl lg:text-3xl → text-3xl lg:text-4xl.
+  - Footer logo: from h-12 w-12 (48px) → h-16 w-16 (64px) with glow ring.
+  - Mobile menu sheet logo: added h-14 w-14 (56px) logo next to brand text.
+- Improved navbar design:
+  - Backdrop blur increased (backdrop-blur-md → backdrop-blur-xl).
+  - Nav links: added animated underline that grows from 0 → w-4/w-5 on hover/active.
+  - CTA button: upgraded from size="sm" px-5 → size="lg" px-6, added WhatsApp icon, shadow-lg with hover scale-105.
+  - Mobile hamburger: bigger touch target (size-12, icon size-7).
+- Improved hero design:
+  - Top padding increased for taller navbar (pt-28 → pt-36 lg:pt-52).
+  - Headline scaled up from text-4xl lg:text-6xl → text-5xl lg:text-7xl.
+  - Trust strip: added Lucide icons (Clock, Star, Leaf) next to each stat.
+  - CTA buttons: bigger padding (py-6), hover scale + shadow effects.
+  - Image: taller (h-[500px] → h-[560px]), rounded-[2rem], stronger shadow.
+  - Ambient glows: bigger and more diffuse (blur-[120px] → blur-[140px]).
+  - Background gradient: warmer radial (added #1f1212 tint at 70% 20%).
+- Updated globals.css scroll-padding-top from 5rem → 8rem to match the taller navbar for anchor links.
+- Lint clean. Agent Browser verified: no console errors, no cross-origin warnings, logo is 80px on desktop (66% bigger), VLM rated design 8/10 (up from 7/10), mobile view looks good, footer logo visible at 64px.
+
+Stage Summary:
+- Fixed: cross-origin dev warning via allowedDevOrigins config.
+- Logo: 66% bigger in navbar (80px), 33% bigger in footer (64px), with glow effects.
+- Design: taller navbar with animated underline nav links, bigger hero headline (7xl), icon-enhanced trust strip, refined CTAs with WhatsApp icon, warmer ambient gradients.
+- VLM rating: 7/10 → 8/10.
