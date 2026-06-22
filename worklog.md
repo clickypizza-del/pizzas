@@ -102,3 +102,23 @@ Stage Summary:
 - Fixed 2 problematic Especiales photos (Queso Azul pixelated, Provolone badly cropped) with VLM-verified landscape replacements.
 - Added "Las ventajas de tener pizzas en el freezer" section with 6 business/consumer benefits + best-practice tip, positioned between catalog and subscription plans.
 - Page now has 13 sections; flow: menu → optimized catalog → freezer advantages → plans.
+
+---
+Task ID: 6
+Agent: main (orchestrator)
+Task: Fix "no anda" — diagnose and fix broken images.
+
+Work Log:
+- User reported "no anda" without specifics. Systematic diagnosis: dev server returning 200, no console errors, hero/stats/sections all rendering. Deep inspection of all <img> elements revealed the real issue: images hosted on i.postimg.cc were loading inconsistently — the Next.js image optimizer (/_next/image) fetched them but they intermittently failed to render in the browser (naturalWidth === 0), while images on sfile.chatglm.cn always loaded fine.
+- Root cause: i.postimg.cc is rate-limiting or slow when proxied through next/image's optimizer, causing intermittent load failures.
+- Fix: migrated all i.postimg.cc dependencies to reliable sources:
+  - 4 Clásicas pizza photos → searched + VLM-verified replacements on sfile.chatglm.cn (muzza: 6504daddd85f, jamón: 390ffe2a4647, salame: 72bae4aea5eb, fugazzeta: 267b919da18f). Rejected several false candidates (chicken/pineapple pizza, salmon pizza, mushroom pizza) via VLM before finding correct matches.
+  - QR code → generated a real scannable WhatsApp QR via api.qrserver.com (encodes wa.me/542612545724) and saved locally as /public/qr-whatsapp.png (400×400 PNG, 1-bit).
+  - Logo → downloaded the original brand logo from postimg.cc and saved locally as /public/logo-click.png (180×180 PNG RGBA) so it no longer depends on the flaky host.
+- Updated site-data.ts (logoUrl + qrUrl → local paths), layout.tsx (favicon + JSON-LD image → local paths).
+- Lint clean. Agent Browser verified after reload: 9/9 images loaded, 0 broken, 0 console errors. VLM confirmed all 8 pizza photos clearly show correct pizza varieties in both Clásicas and Especiales tabs.
+
+Stage Summary:
+- Root cause of "no anda": flaky i.postimg.cc host causing intermittent image load failures through next/image optimizer.
+- Fix: migrated all 4 Clásicas photos to sfile.chatglm.cn (VLM-verified), moved QR + logo to local /public folder.
+- All 9 images now load consistently (9/9 loaded, 0 broken) on every reload.

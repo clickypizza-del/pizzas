@@ -58,7 +58,7 @@ export const metadata: Metadata = {
       "Tu pizza premium, directa a tu freezer, lista en 15 minutos. Suscripción semanal de pizzas artesanales.",
   },
   icons: {
-    icon: "https://i.postimg.cc/QFxKZKbn/logo-click.png",
+    icon: "/logo-click.png",
   },
 };
 
@@ -71,7 +71,7 @@ const jsonLd = {
   servesCuisine: ["Pizza", "Italiana"],
   priceRange: "$$",
   telephone: "+54 261 254-5724",
-  image: "https://i.postimg.cc/QFxKZKbn/logo-click.png",
+  image: "/logo-click.png",
   address: {
     "@type": "PostalAddress",
     addressCountry: "AR",

@@ -12,8 +12,8 @@ export const SITE = {
   instagramUrl: "https://instagram.com/cklic_y_pizza",
   whatsappText:
     "¡Hola Click & Pizza! Quería hacer una consulta sobre las pizzas.",
-  qrUrl: "https://i.postimg.cc/N5x2nk1P/qr-code.png",
-  logoUrl: "https://i.postimg.cc/QFxKZKbn/logo-click.png",
+  qrUrl: "/qr-whatsapp.png",
+  logoUrl: "/logo-click.png",
 } as const;
 
 export type NavLink = { href: string; label: string };
@@ -134,7 +134,7 @@ export const PIZZAS: Pizza[] = [
       "Mozzarella premium, salsa de tomate natural, orégano y aceitunas verdes y negras fileteadas. La que nunca falla.",
     category: "clasica",
     freezerNote: "Muy estable. Excelente calidad varios meses.",
-    image: "https://i.postimg.cc/xq7y32vY/muzza.png",
+    image: "https://sfile.chatglm.cn/images-ppt/6504daddd85f.jpg",
   },
   {
     id: "especial-jamon",
@@ -143,7 +143,7 @@ export const PIZZAS: Pizza[] = [
       "Jamón natural seleccionado y mozzarella cremosa. El clásico de toda la vida, sin trucos.",
     category: "clasica",
     freezerNote: "El jamón cocido congela bien si está bien sellado.",
-    image: "https://i.postimg.cc/hhwb1BLt/jamon.png",
+    image: "https://sfile.chatglm.cn/images-ppt/390ffe2a4647.jpg",
   },
   {
     id: "especial-salame",
@@ -152,7 +152,7 @@ export const PIZZAS: Pizza[] = [
       "Salame artesanal en rodajas, mozzarella y un toque de ají molido. Carácter y crocancia.",
     category: "clasica",
     freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
-    image: "https://i.postimg.cc/8s3BmSRP/salame.png",
+    image: "https://sfile.chatglm.cn/images-ppt/72bae4aea5eb.jpg",
   },
   {
     id: "fugazzeta",
@@ -161,7 +161,7 @@ export const PIZZAS: Pizza[] = [
       "Masa rellena de mozzarella cubierta con cebolla previamente cocida. Un ícono argentino.",
     category: "clasica",
     freezerNote: "La cebolla cocida mantiene textura y sabor al descongelar.",
-    image: "https://sfile.chatglm.cn/images-ppt/cd39c1c3d1f3.jpg",
+    image: "https://sfile.chatglm.cn/images-ppt/267b919da18f.jpg",
   },
   // ── Especiales ────────────────────────────────────────────
   {
