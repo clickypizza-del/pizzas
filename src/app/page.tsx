@@ -4,6 +4,7 @@ import { HeroSection } from "@/components/site/hero-section";
 import { PhilosophySection } from "@/components/site/philosophy-section";
 import { FeaturesSection } from "@/components/site/features-section";
 import { MenuSection } from "@/components/site/menu-section";
+import { PanificadosSection } from "@/components/site/panificados-section";
 import { OptimizedCatalogSection } from "@/components/site/optimized-catalog-section";
 import { FreezerAdvantagesSection } from "@/components/site/freezer-advantages-section";
 import { PlansSection } from "@/components/site/plans-section";
@@ -25,6 +26,7 @@ export default function Home() {
         <PhilosophySection />
         <FeaturesSection />
         <MenuSection />
+        <PanificadosSection />
         <OptimizedCatalogSection />
         <FreezerAdvantagesSection />
         <PlansSection />

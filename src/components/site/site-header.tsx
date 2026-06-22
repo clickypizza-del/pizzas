@@ -82,6 +82,7 @@ export function SiteHeader() {
                 alt={`${SITE.name} logo`}
                 width={80}
                 height={80}
+                style={{ width: "auto", height: "auto" }}
                 className={cn(
                   "relative object-contain transition-all duration-300",
                   "h-16 w-16 lg:h-20 lg:w-20",
@@ -167,6 +168,7 @@ export function SiteHeader() {
                       alt={`${SITE.name} logo`}
                       width={56}
                       height={56}
+                      style={{ width: "auto", height: "auto" }}
                       className="h-14 w-14 object-contain"
                     />
                     <span className="font-brand text-3xl text-foreground">

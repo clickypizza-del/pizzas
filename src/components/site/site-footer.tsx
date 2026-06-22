@@ -7,6 +7,7 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 const MENU_LINKS = [
   { href: "#menu", label: "Clásicas" },
   { href: "#menu", label: "Especiales" },
+  { href: "#panificados", label: "Panificados" },
   { href: "#freezer", label: "Catálogo optimizado" },
   { href: "#suscripcion", label: "Suscripción" },
 ];
@@ -43,6 +44,7 @@ export function SiteFooter() {
                   alt={`${SITE.name} logo`}
                   width={64}
                   height={64}
+                  style={{ width: "auto", height: "auto" }}
                   className="relative h-16 w-16 object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]"
                 />
               </div>

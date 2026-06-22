@@ -158,3 +158,23 @@ Stage Summary:
 - Logo: 66% bigger in navbar (80px), 33% bigger in footer (64px), with glow effects.
 - Design: taller navbar with animated underline nav links, bigger hero headline (7xl), icon-enhanced trust strip, refined CTAs with WhatsApp icon, warmer ambient gradients.
 - VLM rating: 7/10 → 8/10.
+
+---
+Task ID: 8
+Agent: main (orchestrator)
+Task: Add Panificados (baked goods) section with pan de salvado photo + fix image warnings.
+
+Work Log:
+- Found user-uploaded photo at upload/pan.jpeg. Verified with VLM: it's a seed bread (pan de semillas) on a dark wooden board with decorative bowls. User requested it be labeled as "pan de salvado" — respected user's labeling choice.
+- Copied photo to public/pan-salvado.jpeg (1048×1382 JPEG, local hosting for reliability).
+- Added `Panificado` type + `PANIFICADOS` array to site-data.ts with pan de salvado as first item: name, description (fibra, freezer 3+ meses), note, image path, price $3.500, isNew=true.
+- Created `PanificadosSection` component: grid of panificado cards, each with real photo, "NUEVO" badge (red) for new items, "Freezer" badge, name, price, description, freezer note, and WhatsApp "Consultar" CTA. Includes "Próximamente más variedades" note with consultation link.
+- Added "Panificados" to NAV_LINKS (between Menú and Catálogo) and to footer MENU_LINKS.
+- Inserted PanificadosSection into page.tsx between MenuSection and OptimizedCatalogSection — logical flow: pizzas → baked goods → why frozen.
+- Fixed Next.js image warning ("Image has either width or height modified, but not the other"): added `style={{ width: "auto", height: "auto" }}` to all 3 logo Image instances (navbar, mobile sheet, footer) so CSS classes control sizing without aspect-ratio warnings.
+- Lint clean. Agent Browser verified: 0 console errors/warnings after fix, panificados section renders with bread photo loaded (640px), "NUEVO" badge visible, $3.500 price correct, nav link "Panificados" smooth-scrolls to section with 153px offset, 14 total sections in correct order.
+
+Stage Summary:
+- New "Panificados" section added between Menu and Catálogo with Pan de Salvado as first product (using user's uploaded photo, locally hosted).
+- Fixed next/image aspect-ratio warnings on all 3 logo instances via style={{ width: "auto", height: "auto" }}.
+- 14 sections total; 0 console errors/warnings; dev log clean.

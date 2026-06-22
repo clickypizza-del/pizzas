@@ -21,6 +21,7 @@ export type NavLink = { href: string; label: string };
 export const NAV_LINKS: NavLink[] = [
   { href: "#filosofia", label: "Filosofía" },
   { href: "#menu", label: "Menú" },
+  { href: "#panificados", label: "Panificados" },
   { href: "#freezer", label: "Catálogo" },
   { href: "#suscripcion", label: "Suscripción" },
   { href: "#como-funciona", label: "Cómo funciona" },
@@ -309,6 +310,37 @@ export const FREEZER_ADVANTAGES: FreezerAdvantage[] = [
 /** Best-practice tip shown as a highlighted note in the advantages section. */
 export const FREEZER_TIP =
   "Para obtener los mejores resultados, conviene congelar las pizzas apenas se enfrían después de la elaboración y usar envases bien sellados para evitar quemaduras por congelación.";
+
+/**
+ * Panificados (baked goods) — an expanding line of freezer-friendly breads
+ * and pastries beyond pizzas. Each item has a real product photo.
+ */
+export type Panificado = {
+  id: string;
+  name: string;
+  description: string;
+  /** Short stability / usage note shown as a badge on the card. */
+  note: string;
+  /** Real product photo URL. */
+  image: string;
+  /** Price label, optional. */
+  price?: string;
+  /** Whether this item is new on the menu. */
+  isNew?: boolean;
+};
+
+export const PANIFICADOS: Panificado[] = [
+  {
+    id: "pan-salvado",
+    name: "Pan de Salvado",
+    description:
+      "Pan artesanal de salvado de trigo, rico en fibra. Ideal para tostadas al desayuno o como acompañamiento. Congela excelente y se mantiene tierno por semanas.",
+    note: "Rico en fibra · Freezer 3+ meses",
+    image: "/pan-salvado.jpeg",
+    price: "$3.500",
+    isNew: true,
+  },
+];
 
 export type Plan = {
   id: string;
