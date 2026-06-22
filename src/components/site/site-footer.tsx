@@ -7,8 +7,8 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 const MENU_LINKS = [
   { href: "#menu", label: "Clásicas" },
   { href: "#menu", label: "Especiales" },
-  { href: "#menu", label: "Gourmet" },
-  { href: "#freezer", label: "Campeonas del freezer" },
+  { href: "#freezer", label: "Catálogo optimizado" },
+  { href: "#suscripcion", label: "Suscripción" },
 ];
 
 const COMPANY_LINKS = [

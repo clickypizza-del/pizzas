@@ -1,3 +1,4 @@
+import { Snowflake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -27,8 +28,8 @@ export function MenuSection() {
         <Reveal>
           <SectionHeading
             eyebrow="Nuestro menú"
-            title="Sabores irresistibles"
-            description="17 variedades hechas a mano y congeladas al instante para máxima frescura. Elegí por categoría y armá tu combinación favorita."
+            title="Catálogo curado de 8 variedades"
+            description="Ocho pizzas seleccionadas para producción: ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear en 15 minutos."
           />
         </Reveal>
 
@@ -38,7 +39,7 @@ export function MenuSection() {
             <div className="flex justify-center mb-10">
               <TabsList
                 aria-label="Filtrar pizzas por categoría"
-                className="h-auto bg-muted/60 p-1.5 rounded-full gap-1 flex-wrap"
+                className="h-auto bg-muted/60 p-1.5 rounded-full gap-1"
               >
                 {PIZZA_CATEGORIES.map((cat) => {
                   const count = pizzasByCategory(cat.id).length;
@@ -46,7 +47,7 @@ export function MenuSection() {
                     <TabsTrigger
                       key={cat.id}
                       value={cat.id}
-                      className="rounded-full px-4 sm:px-5 py-2 text-sm font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+                      className="rounded-full px-5 sm:px-6 py-2 text-sm font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
                     >
                       <span aria-hidden className="text-base mr-1.5">
                         {cat.emoji}
@@ -66,11 +67,11 @@ export function MenuSection() {
                 <TabsContent key={cat.id} value={cat.id} className="mt-0">
                   <ul
                     role="list"
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                    className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
                   >
                     {items.map((pizza, i) => (
                       <li key={pizza.id}>
-                        <Reveal as="div" delay={i * 0.05}>
+                        <Reveal as="div" delay={i * 0.06}>
                           <PizzaCard pizza={pizza} category={cat} />
                         </Reveal>
                       </li>
@@ -95,7 +96,7 @@ function PizzaCard({
 }) {
   return (
     <article className="group h-full flex flex-col bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
-      {/* Emoji hero on a subtle category-tinted gradient (no photo dependency) */}
+      {/* Emoji hero on a subtle category-tinted gradient */}
       <div
         className="relative aspect-[4/3] flex items-center justify-center overflow-hidden"
         style={{
@@ -115,6 +116,11 @@ function PizzaCard({
           </span>
           {category.label}
         </Badge>
+        {/* Freezer-stable badge */}
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2.5 py-1 text-[11px] font-semibold text-foreground">
+          <Snowflake className="size-3 text-primary" aria-hidden />
+          <span className="text-primary">3+ meses</span>
+        </div>
         {/* Decorative ring */}
         <div
           className="absolute inset-0 opacity-20"
@@ -124,12 +130,20 @@ function PizzaCard({
         />
       </div>
 
-      <div className="p-5 sm:p-6 flex flex-col flex-1">
-        <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1.5">
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="text-base sm:text-lg font-bold text-foreground mb-1.5 leading-tight">
           {pizza.name}
         </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-1">
+        <p className="text-sm text-muted-foreground leading-relaxed mb-3 flex-1">
           {pizza.description}
+        </p>
+        {/* Freezer stability note */}
+        <p className="text-xs text-muted-foreground/90 italic mb-4 flex items-start gap-1.5">
+          <Snowflake
+            className="size-3.5 text-primary flex-shrink-0 mt-0.5"
+            aria-hidden
+          />
+          <span>{pizza.freezerNote}</span>
         </p>
         <Button
           asChild

@@ -42,3 +42,25 @@ Stage Summary:
 - Visual approach: emoji + category-tinted gradient cards (consistent, no broken images, premium look).
 - All CTAs carry pre-filled WhatsApp messages per pizza.
 - Page total height grew ~9.4k → ~10.8k px; sticky-footer layout intact.
+
+---
+Task ID: 3
+Agent: main (orchestrator)
+Task: Reduce the catalog to 8 production-optimized pizzas (shared ingredients + freezer stability) and reframe the freezer section to communicate the curation logic.
+
+Work Log:
+- Rewrote `PIZZAS` in site-data.ts: replaced the 17-pizza / 3-category menu with a curated 8-pizza / 2-category catalog (4 Clásicas, 4 Especiales) — Muzzarella + Aceitunas, Especial Jamón, Especial Salame, Fugazzeta, Queso Azul, Panceta Ahumada, Provolone y Orégano, Cuatro Quesos.
+- Added `freezerNote` field to each Pizza with the specific stability note (3+ months, vacuum-sealed longer).
+- Reduced `PIZZA_CATEGORIES` from 3 → 2 (removed Gourmet; clean 4/4 split).
+- Removed `FREEZER_CHAMPIONS` (now redundant since every catalog pizza is freezer-optimized). Added `CATALOG_FAMILIES` (3 ingredient families: Quesos, Proteínas, Base aromática) + `CATALOG_STATS` (8 / 3+ / 1 / ∞).
+- Rebuilt `MenuSection`: 2 tabs, grid of 4 cards per tab. Each card now shows a "3+ meses" snowflake badge on the image, the pizza's specific freezer note as italic text, and keeps the per-pizza WhatsApp "Consultar" CTA.
+- Created `OptimizedCatalogSection` (replaces FreezerChampionsSection): explains WHY this catalog exists — 4 headline stats, 3 feature rows (Ingredientes compartidos, Estabilidad en freezer, Envasado al vacío), and an ingredient-families card showing how the 8 pizzas share 3 families of insumos with "en X/8" usage counts. CTA: "Armar mi kit con el catálogo curado".
+- Deleted `freezer-champions-section.tsx`; updated `page.tsx` to import OptimizedCatalogSection.
+- Renamed nav link "Freezer" → "Catálogo" (still anchors to #freezer). Updated footer MENU_LINKS to reflect the 2 categories + "Catálogo optimizado".
+- Lint clean. Agent Browser verified: 2 tabs (Clásicas 4 / Especiales 4), all 8 correct pizza names render, 8 freezer badges present, tab switching works, "Catálogo optimizado" section renders with all stats + families + CTA, nav "Catálogo" smooth-scrolls with 131px offset, sticky footer at exact viewport bottom (footerRectBottom=900=viewportH), no console/runtime errors.
+
+Stage Summary:
+- Catalog reduced 17 → 8 production-optimized varieties (4 Clásicas + 4 Especiales).
+- Each pizza card surfaces its freezer stability note + a "3+ meses" badge.
+- Freezer section reframed from "list 6 champions" → "explain the curation logic" (shared ingredients + freezer stability + vacuum sealing), with a visual ingredient-families breakdown.
+- Page height ~10.8k → ~10.6k px; sticky-footer layout intact; 12 sections total.

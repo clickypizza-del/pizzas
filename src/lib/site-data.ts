@@ -21,7 +21,7 @@ export type NavLink = { href: string; label: string };
 export const NAV_LINKS: NavLink[] = [
   { href: "#filosofia", label: "Filosofía" },
   { href: "#menu", label: "Menú" },
-  { href: "#freezer", label: "Freezer" },
+  { href: "#freezer", label: "Catálogo" },
   { href: "#suscripcion", label: "Suscripción" },
   { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#zonas", label: "Zonas" },
@@ -80,13 +80,15 @@ export const FEATURES: Feature[] = [
   },
 ];
 
-export type PizzaCategory = "clasica" | "especial" | "gourmet";
+export type PizzaCategory = "clasica" | "especial";
 
 export type Pizza = {
   id: string;
   name: string;
   description: string;
   category: PizzaCategory;
+  /** Short stability note shown as a freezer badge on the card. */
+  freezerNote: string;
 };
 
 export type PizzaCategoryMeta = {
@@ -114,186 +116,128 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     accent: "#f59e0b", // amber
     textClass: "text-[#f59e0b]",
   },
-  {
-    id: "gourmet",
-    label: "Gourmet",
-    emoji: "👨‍🍳",
-    accent: "#b45309", // amber-700 / copper
-    textClass: "text-[#b45309]",
-  },
 ];
 
+/**
+ * Production-optimized catalog: 8 curated varieties that share ingredients
+ * (simplified purchasing + consistent stock) and all withstand long-term
+ * freezing. Curated for a subscription D2C operation.
+ */
 export const PIZZAS: Pizza[] = [
   // ── Clásicas ──────────────────────────────────────────────
   {
-    id: "muzzarella",
-    name: "Muzzarella",
-    description:
-      "Mozzarella premium, salsa de tomate natural y orégano fresco. La favorita de siempre.",
-    category: "clasica",
-  },
-  {
     id: "muzzarella-aceitunas",
-    name: "Muzzarella y aceitunas",
+    name: "Muzzarella + Aceitunas",
     description:
-      "La clásica muzza con aceitunas verdes y negras fileteadas sobre mozzarella fundida.",
+      "Mozzarella premium, salsa de tomate natural, orégano y aceitunas verdes y negras fileteadas. La que nunca falla.",
     category: "clasica",
+    freezerNote: "Muy estable. Excelente calidad varios meses.",
   },
   {
-    id: "jamon-muzzarella",
-    name: "Jamón y muzzarella",
-    description: "Jamón natural seleccionado y mozzarella cremosa. Sabor de toda la vida.",
+    id: "especial-jamon",
+    name: "Especial Jamón",
+    description:
+      "Jamón natural seleccionado y mozzarella cremosa. El clásico de toda la vida, sin trucos.",
     category: "clasica",
+    freezerNote: "El jamón cocido congela bien si está bien sellado.",
   },
   {
-    id: "salame-muzzarella",
-    name: "Salame y muzzarella",
+    id: "especial-salame",
+    name: "Especial Salame",
     description:
-      "Salame artesanal en rodajas, mozzarella y un toque de ají molido.",
+      "Salame artesanal en rodajas, mozzarella y un toque de ají molido. Carácter y crocancia.",
     category: "clasica",
-  },
-  {
-    id: "napolitana",
-    name: "Napolitana",
-    description:
-      "Mozzarella, rodajas de tomate fresco, ajo y orégano. Homenaje a la original.",
-    category: "clasica",
+    freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
   },
   {
     id: "fugazzeta",
     name: "Fugazzeta",
     description:
-      "Masa rellena de mozzarella cubierta con cebolla caramelizada previamente cocida.",
+      "Masa rellena de mozzarella cubierta con cebolla previamente cocida. Un ícono argentino.",
     category: "clasica",
+    freezerNote: "La cebolla cocida mantiene textura y sabor al descongelar.",
   },
   // ── Especiales ────────────────────────────────────────────
   {
-    id: "panceta-muzzarella",
-    name: "Panceta y muzzarella",
-    description: "Panceta crocante y mozzarella fundida. El crujiente que enamora.",
+    id: "queso-azul",
+    name: "Queso Azul",
+    description:
+      "Queso azul (Roquefort) desmenuzado sobre mozzarella. Sabor intenso e inconfundible.",
     category: "especial",
+    freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
   },
   {
-    id: "panceta-choclo",
-    name: "Panceta y choclo",
-    description: "Panceta ahumada y granos de choclo dulce sobre mozzarella.",
+    id: "panceta-ahumada",
+    name: "Panceta Ahumada",
+    description:
+      "Panceta ahumada en cubos sobre mozzarella fundida. Ahumado intenso y crocante.",
     category: "especial",
+    freezerNote: "La panceta congelada conserva muy bien el sabor.",
   },
   {
     id: "provolone-oregano",
-    name: "Provolone y orégano",
+    name: "Provolone y Orégano",
     description:
       "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte.",
     category: "especial",
-  },
-  {
-    id: "queso-azul-roquefort",
-    name: "Queso azul (Roquefort)",
-    description:
-      "Queso azul desmenuzado y mozzarella. Sabor intenso e inconfundible.",
-    category: "especial",
+    freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
   },
   {
     id: "cuatro-quesos",
-    name: "Cuatro quesos",
+    name: "Cuatro Quesos",
     description:
-      "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos.",
+      "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos semiduros.",
     category: "especial",
-  },
-  {
-    id: "jamon-morrones-asados",
-    name: "Jamón y morrones asados",
-    description: "Jamón natural y morrones asados al horno sobre mozzarella.",
-    category: "especial",
-  },
-  // ── Gourmet ───────────────────────────────────────────────
-  {
-    id: "cebolla-caramelizada-provolone",
-    name: "Cebolla caramelizada y provolone",
-    description:
-      "Cebolla caramelizada lentamente y provolone fundido. Dulzura y carácter.",
-    category: "gourmet",
-  },
-  {
-    id: "panceta-ahumada-provolone",
-    name: "Panceta ahumada y provolone",
-    description: "Panceta ahumada en cubos y provolone. Ahumado intenso.",
-    category: "gourmet",
-  },
-  {
-    id: "champignones-muzzarella",
-    name: "Champiñones salteados y muzzarella",
-    description:
-      "Champiñones salteados con ajo y perejil sobre mozzarella fundida.",
-    category: "gourmet",
-  },
-  {
-    id: "morrones-asados-queso-azul",
-    name: "Morrones asados y queso azul",
-    description:
-      "Morrones asados y queso azul. Dulzor y potencia en cada bocado.",
-    category: "gourmet",
-  },
-  {
-    id: "criolla",
-    name: "Criolla",
-    description:
-      "Chorizo colorado en rodajas y morrones asados. Sabor bien argentino.",
-    category: "gourmet",
+    freezerNote: "Excelente comportamiento con quesos semiduros.",
   },
 ];
 
 /**
- * The 6 pizzas that best survive long-term freezing, with their stability
- * notes. Surfaced in a dedicated "freezer champions" section to reassure
- * subscription customers about stockpiling.
+ * Ingredient families shared across the 8-pizza catalog. Surfaced in the
+ * "Catálogo optimizado" section to communicate the production logic:
+ * fewer SKUs at the supplier level → fresher stock, less waste, consistent
+ * quality for the subscriber.
  */
-export type FreezerChampion = {
+export type IngredientFamily = {
   id: string;
+  emoji: string;
   name: string;
-  note: string;
-  /** Medal label shown next to the champion. */
-  rank: 1 | 2 | 3 | 4 | 5 | 6;
+  ingredients: string[];
+  /** How many of the 8 pizzas use at least one item from this family. */
+  usedIn: number;
 };
 
-export const FREEZER_CHAMPIONS: FreezerChampion[] = [
+export const CATALOG_FAMILIES: IngredientFamily[] = [
   {
-    id: "fc-muzza-aceitunas",
-    name: "Muzzarella + Aceitunas",
-    note: "Muy estable. Puede conservar excelente calidad varios meses.",
-    rank: 1,
+    id: "quesos",
+    emoji: "🧀",
+    name: "Familia de quesos",
+    ingredients: ["Mozzarella", "Provolone", "Parmesano", "Queso azul"],
+    usedIn: 8,
   },
   {
-    id: "fc-salame",
-    name: "Especial Salame",
-    note: "El salame soporta muy bien el congelado. Prácticamente no pierde textura.",
-    rank: 2,
+    id: "proteinas",
+    emoji: "🥩",
+    name: "Familia de proteínas",
+    ingredients: ["Jamón natural", "Salame artesanal", "Panceta ahumada"],
+    usedIn: 3,
   },
   {
-    id: "fc-queso-azul",
-    name: "Queso Azul",
-    note: "El queso azul congela muy bien. Mantiene su sabor intenso.",
-    rank: 3,
-  },
-  {
-    id: "fc-provolone-oregano",
-    name: "Provolone y Orégano",
-    note: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
-    rank: 4,
-  },
-  {
-    id: "fc-cuatro-quesos",
-    name: "Cuatro Quesos",
-    note: "Excelente comportamiento si usás quesos semiduros.",
-    rank: 5,
-  },
-  {
-    id: "fc-panceta-ahumada",
-    name: "Panceta Ahumada",
-    note: "La panceta congelada conserva muy bien el sabor.",
-    rank: 6,
+    id: "aromaticos",
+    emoji: "🌿",
+    name: "Base aromática",
+    ingredients: ["Salsa de tomate", "Orégano", "Cebolla cocida", "Aceitunas"],
+    usedIn: 8,
   },
 ];
+
+/** Headline stats for the optimized-catalog section. */
+export const CATALOG_STATS = [
+  { value: "8", label: "Variedades curadas" },
+  { value: "3+", label: "Meses en freezer" },
+  { value: "1", label: "Base compartida" },
+  { value: "∞", label: "Al vacío, más tiempo" },
+] as const;
 
 export type Plan = {
   id: string;
