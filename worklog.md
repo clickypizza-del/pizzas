@@ -83,3 +83,22 @@ Stage Summary:
 - Stats bug fixed: `useEffect` dependency on a recreated object reference caused infinite rAF cancellation. Fixed by depending on the primitive `value` string instead.
 - All 8 pizzas now have real corresponding photos (4 brand photos from postimg.cc + 4 from image-search, all VLM-verified).
 - MenuSection cards use next/image with proper alt text, lazy loading, and hover zoom.
+
+---
+Task ID: 5
+Agent: main (orchestrator)
+Task: Fix missing photos in Especiales tab + add "Freezer Advantages" section with 6 benefits.
+
+Work Log:
+- Diagnosed Especiales photo issues: Queso Azul was 180×98px (tiny postimg.cc image, looked pixelated) and Provolone y Orégano was 640×960px (portrait orientation, badly cropped in 4:3 landscape card).
+- Searched replacement photos via z-ai image-search with multiple queries ("blue cheese roquefort pizza", "gorgonzola pizza", "white pizza no tomato"). Verified each candidate with VLM — rejected 5 results that were cheese wedges, pepperoni pizzas, or bread rings instead of the target pizza.
+- Found verified replacements: Queso Azul → 1600×1210 landscape pizza with visible blue cheese spots; Provolone y Orégano → 2500×1667 landscape white cheese pizza with herbs. Updated site-data.ts image URLs.
+- Created `FreezerAdvantagesSection` with 6 benefit cards (Mantiene la calidad, Mayor duración, Reduce pérdidas, Entrega más rápida, Mejor organización, Practicidad para el cliente), each with emoji + title + description. Added a highlighted "Tip para los mejores resultados" box with lightbulb icon containing the best-practice note about freezing after cooling and using sealed packaging. CTA: "Quiero aprovechar estas ventajas".
+- Added `FREEZER_ADVANTAGES` (6 items) + `FREEZER_TIP` constant to site-data.ts.
+- Inserted FreezerAdvantagesSection into page.tsx between OptimizedCatalogSection and PlansSection — logical flow: catalog → why frozen → subscribe.
+- Lint clean. Agent Browser verified: all 4 Especiales photos now load with correct landscape ratios (1.32, 1.47, 1.50, 1.50) and are VLM-confirmed as clear pizza photos; new Ventajas section renders with all 6 benefit cards + tip box + CTA; 13 total sections in correct order; no console errors.
+
+Stage Summary:
+- Fixed 2 problematic Especiales photos (Queso Azul pixelated, Provolone badly cropped) with VLM-verified landscape replacements.
+- Added "Las ventajas de tener pizzas en el freezer" section with 6 business/consumer benefits + best-practice tip, positioned between catalog and subscription plans.
+- Page now has 13 sections; flow: menu → optimized catalog → freezer advantages → plans.

@@ -171,7 +171,7 @@ export const PIZZAS: Pizza[] = [
       "Queso azul (Roquefort) desmenuzado sobre mozzarella. Sabor intenso e inconfundible.",
     category: "especial",
     freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
-    image: "https://i.postimg.cc/PNczQjWq/azul.png",
+    image: "https://sfile.chatglm.cn/images-ppt/66605f728adc.jpg",
   },
   {
     id: "panceta-ahumada",
@@ -189,7 +189,7 @@ export const PIZZAS: Pizza[] = [
       "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte.",
     category: "especial",
     freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
-    image: "https://sfile.chatglm.cn/images-ppt/58c9f51106d9.jpg",
+    image: "https://sfile.chatglm.cn/images-ppt/864692c88058.jpg",
   },
   {
     id: "cuatro-quesos",
@@ -248,6 +248,67 @@ export const CATALOG_STATS = [
   { value: "1", label: "Base compartida" },
   { value: "∞", label: "Al vacío, más tiempo" },
 ] as const;
+
+/**
+ * Six business advantages of keeping pizzas frozen, for the D2C brand
+ * and its subscribers. Each benefit pairs an emoji + Lucide icon with a
+ * short title and a one-line explanation.
+ */
+export type FreezerAdvantage = {
+  id: string;
+  emoji: string;
+  title: string;
+  description: string;
+};
+
+export const FREEZER_ADVANTAGES: FreezerAdvantage[] = [
+  {
+    id: "calidad",
+    emoji: "🍕",
+    title: "Mantiene la calidad",
+    description:
+      "El frío detiene el crecimiento de bacterias y hongos. Conserva el sabor, la textura y los ingredientes durante más tiempo.",
+  },
+  {
+    id: "duracion",
+    emoji: "❄️",
+    title: "Mayor duración",
+    description:
+      "Una pizza congelada correctamente puede mantenerse en buen estado entre 2 y 3 meses, e incluso más si está bien envasada.",
+  },
+  {
+    id: "perdidas",
+    emoji: "💰",
+    title: "Reduce pérdidas",
+    description:
+      "Podés producir en cantidad cuando tenés tiempo y vender después. Evitás tirar mercadería por vencimiento rápido.",
+  },
+  {
+    id: "entrega",
+    emoji: "⚡",
+    title: "Entrega más rápida",
+    description:
+      "Ya tenés stock listo para hornear. El cliente recibe una pizza recién hecha en pocos minutos.",
+  },
+  {
+    id: "organizacion",
+    emoji: "📦",
+    title: "Mejor organización",
+    description:
+      "Permite controlar mejor el inventario. Facilita tener varios sabores disponibles sin preparar todo en el momento.",
+  },
+  {
+    id: "practicidad",
+    emoji: "🔥",
+    title: "Practicidad para el cliente",
+    description:
+      "El cliente puede guardar la pizza en su freezer y hornearla cuando quiera. Solución ideal para cenas rápidas o imprevistos.",
+  },
+];
+
+/** Best-practice tip shown as a highlighted note in the advantages section. */
+export const FREEZER_TIP =
+  "Para obtener los mejores resultados, conviene congelar las pizzas apenas se enfrían después de la elaboración y usar envases bien sellados para evitar quemaduras por congelación.";
 
 export type Plan = {
   id: string;
