@@ -64,3 +64,22 @@ Stage Summary:
 - Each pizza card surfaces its freezer stability note + a "3+ meses" badge.
 - Freezer section reframed from "list 6 champions" → "explain the curation logic" (shared ingredients + freezer stability + vacuum sealing), with a visual ingredient-families breakdown.
 - Page height ~10.8k → ~10.6k px; sticky-footer layout intact; 12 sections total.
+
+---
+Task ID: 4
+Agent: main (orchestrator)
+Task: Fix broken "Miles de hogares felices" stats animation + add real photos to all 8 pizzas.
+
+Work Log:
+- Diagnosed stats bug: `CountUp` component's `useEffect` depended on `parsed` (a new object created every render via `parseValue(value)`), causing the rAF loop to be cancelled and restarted on every re-render. The animation never completed — stats stayed stuck at "0K+", "0★", "0min", "0%".
+- Fix: changed the effect dependency from `[inView, parsed]` to `[inView, value]` (primitive string), and moved `parseValue` call inside the effect body. The rAF loop now runs uninterrupted to completion.
+- Searched real pizza photos via `z-ai image-search` for the 4 varieties without images: Fugazzeta, Panceta Ahumada, Provolone y Orégano, Cuatro Quesos. Verified each with VLM (vision model) to confirm the photo matches the pizza variety — rejected 1st provolone result (had pepperoni), used 2nd result (verified as white cheese pizza with herbs).
+- Added `image` field to each of the 8 pizzas in site-data.ts: 4 from existing postimg.cc URLs (muzza, jamón, salame, azul) + 4 from image-search (fugazzeta, panceta, provolone, cuatro quesos) hosted on sfile.chatglm.cn.
+- Added `sfile.chatglm.cn` to next.config.ts `images.remotePatterns`.
+- Rebuilt `MenuSection` `PizzaCard` to use `next/image` with real photos instead of emoji placeholders. Kept the category badge, freezer badge, freezer note, and WhatsApp CTA.
+- Lint clean. Agent Browser verified: stats now animate correctly (50K+, 4.9★, 15min, 100% — not 0s), all 8 pizza photos load (naturalWidth > 0) across both tabs, VLM confirmed photos show actual pizzas with no broken images.
+
+Stage Summary:
+- Stats bug fixed: `useEffect` dependency on a recreated object reference caused infinite rAF cancellation. Fixed by depending on the primitive `value` string instead.
+- All 8 pizzas now have real corresponding photos (4 brand photos from postimg.cc + 4 from image-search, all VLM-verified).
+- MenuSection cards use next/image with proper alt text, lazy loading, and hover zoom.

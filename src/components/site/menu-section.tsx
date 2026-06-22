@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Snowflake } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -96,17 +97,16 @@ function PizzaCard({
 }) {
   return (
     <article className="group h-full flex flex-col bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
-      {/* Emoji hero on a subtle category-tinted gradient */}
-      <div
-        className="relative aspect-[4/3] flex items-center justify-center overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${category.accent}22 0%, ${category.accent}08 45%, transparent 100%)`,
-        }}
-        aria-hidden
-      >
-        <span className="text-7xl sm:text-8xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
-          🍕
-        </span>
+      {/* Real product photo */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+        <Image
+          src={pizza.image}
+          alt={`Pizza ${pizza.name}`}
+          width={600}
+          height={450}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
         <Badge
           className="absolute top-3 right-3 border-transparent shadow-lg text-white"
           style={{ backgroundColor: category.accent }}
@@ -121,13 +121,6 @@ function PizzaCard({
           <Snowflake className="size-3 text-primary" aria-hidden />
           <span className="text-primary">3+ meses</span>
         </div>
-        {/* Decorative ring */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `radial-gradient(circle at 50% 50%, ${category.accent}40 0%, transparent 60%)`,
-          }}
-        />
       </div>
 
       <div className="p-5 flex flex-col flex-1">

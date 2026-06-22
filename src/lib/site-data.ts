@@ -89,6 +89,8 @@ export type Pizza = {
   category: PizzaCategory;
   /** Short stability note shown as a freezer badge on the card. */
   freezerNote: string;
+  /** Real product photo URL. */
+  image: string;
 };
 
 export type PizzaCategoryMeta = {
@@ -132,6 +134,7 @@ export const PIZZAS: Pizza[] = [
       "Mozzarella premium, salsa de tomate natural, orégano y aceitunas verdes y negras fileteadas. La que nunca falla.",
     category: "clasica",
     freezerNote: "Muy estable. Excelente calidad varios meses.",
+    image: "https://i.postimg.cc/xq7y32vY/muzza.png",
   },
   {
     id: "especial-jamon",
@@ -140,6 +143,7 @@ export const PIZZAS: Pizza[] = [
       "Jamón natural seleccionado y mozzarella cremosa. El clásico de toda la vida, sin trucos.",
     category: "clasica",
     freezerNote: "El jamón cocido congela bien si está bien sellado.",
+    image: "https://i.postimg.cc/hhwb1BLt/jamon.png",
   },
   {
     id: "especial-salame",
@@ -148,6 +152,7 @@ export const PIZZAS: Pizza[] = [
       "Salame artesanal en rodajas, mozzarella y un toque de ají molido. Carácter y crocancia.",
     category: "clasica",
     freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
+    image: "https://i.postimg.cc/8s3BmSRP/salame.png",
   },
   {
     id: "fugazzeta",
@@ -156,6 +161,7 @@ export const PIZZAS: Pizza[] = [
       "Masa rellena de mozzarella cubierta con cebolla previamente cocida. Un ícono argentino.",
     category: "clasica",
     freezerNote: "La cebolla cocida mantiene textura y sabor al descongelar.",
+    image: "https://sfile.chatglm.cn/images-ppt/cd39c1c3d1f3.jpg",
   },
   // ── Especiales ────────────────────────────────────────────
   {
@@ -165,6 +171,7 @@ export const PIZZAS: Pizza[] = [
       "Queso azul (Roquefort) desmenuzado sobre mozzarella. Sabor intenso e inconfundible.",
     category: "especial",
     freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
+    image: "https://i.postimg.cc/PNczQjWq/azul.png",
   },
   {
     id: "panceta-ahumada",
@@ -173,6 +180,7 @@ export const PIZZAS: Pizza[] = [
       "Panceta ahumada en cubos sobre mozzarella fundida. Ahumado intenso y crocante.",
     category: "especial",
     freezerNote: "La panceta congelada conserva muy bien el sabor.",
+    image: "https://sfile.chatglm.cn/images-ppt/e10d51acede9.jpg",
   },
   {
     id: "provolone-oregano",
@@ -181,6 +189,7 @@ export const PIZZAS: Pizza[] = [
       "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte.",
     category: "especial",
     freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
+    image: "https://sfile.chatglm.cn/images-ppt/58c9f51106d9.jpg",
   },
   {
     id: "cuatro-quesos",
@@ -189,6 +198,7 @@ export const PIZZAS: Pizza[] = [
       "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos semiduros.",
     category: "especial",
     freezerNote: "Excelente comportamiento con quesos semiduros.",
+    image: "https://sfile.chatglm.cn/images-ppt/dcbd98408d59.jpg",
   },
 ];
 

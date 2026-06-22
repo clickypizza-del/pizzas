@@ -5,51 +5,52 @@ import { useInView } from "framer-motion";
 import { Reveal } from "@/components/site/reveal";
 import { STATS, type Stat } from "@/lib/site-data";
 
-/** Parse a stat value like "50K+" or "4.9★" into { number, suffix }. */
-function parseValue(value: string): { number: number; suffix: string } | null {
+/** Parse a stat value like "50K+" or "4.9★" into [number, suffix]. */
+function parseValue(value: string): [number, string] | null {
   const match = value.match(/^([\d.]+)(.*)$/);
   if (!match) return null;
-  return { number: parseFloat(match[1]), suffix: match[2] };
+  return [parseFloat(match[1]), match[2]];
 }
 
 /**
  * Animates a stat value from 0 → target when it scrolls into view.
- * The initial state is derived from props (not set inside the effect),
- * so we never call setState synchronously during the effect body.
+ *
+ * The effect depends only on primitive values (`inView`, `value`) so the
+ * rAF loop isn't cancelled/restarted on unrelated parent re-renders —
+ * which previously left the animation stuck mid-count.
  */
 function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
-  const parsed = parseValue(value);
 
-  // Start from "0"+suffix so the count-up is visible; fall back to raw value.
-  const [display, setDisplay] = useState(
-    parsed ? `0${parsed.suffix}` : value,
+  // Derive the initial display from props (no setState in effect body).
+  const parsed = parseValue(value);
+  const [display, setDisplay] = useState(() =>
+    parsed ? `0${parsed[1]}` : value,
   );
 
   useEffect(() => {
-    if (!inView || !parsed) return;
-    const { number: target, suffix } = parsed;
+    if (!inView) return;
+    const p = parseValue(value);
+    if (!p) return;
+    const [target, suffix] = p;
     const duration = 1400;
     const start = performance.now();
     let raf = 0;
+    const isInt = Number.isInteger(target);
 
     const tick = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min((now - start) / duration, 1);
       // easeOutCubic
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = target * eased;
-      const isInt = Number.isInteger(target);
-      // setState is called inside the rAF callback (async), not in the effect body
-      setDisplay(
-        (isInt ? Math.round(current) : current.toFixed(1)) + suffix,
-      );
+      setDisplay((isInt ? Math.round(current) : current.toFixed(1)) + suffix);
       if (progress < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, parsed]);
+    // Only re-run when inView flips or the value string changes.
+  }, [inView, value]);
 
   return <span ref={ref}>{display}</span>;
 }
