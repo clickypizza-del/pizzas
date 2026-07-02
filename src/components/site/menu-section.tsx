@@ -595,7 +595,7 @@ function MiniPizzetaCombosSection() {
               Elegí tu combinación
             </h3>
             <p className="text-sm text-muted-foreground">
-              4 sabores (Mozzarella, Salame, Jamón y Queso Azul) en distintas proporciones. Cada combinación suma 12 mini pizzetas.
+              4 sabores (Mozzarella, Salame, Jamón y Queso Azul) en distintas proporciones. Cada combinación suma 6 mini pizzetas.
             </p>
           </div>
         </div>
