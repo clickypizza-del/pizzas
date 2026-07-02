@@ -122,7 +122,7 @@ export function HeroSection() {
                 </div>
                 <div>
                 <p className="text-foreground font-bold text-sm">
-                  20 variedades · Desde $7.700
+                  17+ variedades · Desde $7.700
                 </p>
                 <p className="text-muted-foreground text-xs">
                   Precio individual · Entrega en Mendoza

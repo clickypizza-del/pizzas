@@ -1,45 +1,53 @@
-import { SiteHeader } from "@/components/site/site-header";
-import { SiteFooter } from "@/components/site/site-footer";
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/site/hero-section";
 import { PhilosophySection } from "@/components/site/philosophy-section";
-import { MenuSection } from "@/components/site/menu-section";
-import { PlansSection } from "@/components/site/plans-section";
 import { SocialProofSection } from "@/components/site/social-proof-section";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
-import { FreezerSection } from "@/components/site/freezer-section";
-import { ClubClickySection } from "@/components/site/club-clicky-section";
-import { RevendedorSection } from "@/components/site/revendedor-section";
-import { OrderSection } from "@/components/site/order-section";
 import { FaqSection } from "@/components/site/faq-section";
-import { BackToTop, WhatsAppFab } from "@/components/site/floating-actions";
-import { CartFab } from "@/components/site/cart-fab";
-import { CartDrawer } from "@/components/site/cart-drawer";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Click & Pizza — Pizza Gourmet Congelada en Mendoza",
+  description:
+    "Pizza artesanal gourmet, congelada al instante. Masa artesanal, ingredientes premium. Directo de tu freezer en 15 minutos. Delivery en Mendoza.",
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <SiteHeader />
+    <>
+      <HeroSection />
+      <PhilosophySection />
 
-      <main id="main" className="flex-1">
-        <HeroSection />
-        <PhilosophySection />
-        <MenuSection />
-        <PlansSection />
-        <SocialProofSection />
-        <HowItWorksSection />
-        <FreezerSection />
-        <ClubClickySection />
-        <RevendedorSection />
-        <OrderSection />
-        <FaqSection />
-      </main>
+      <section className="py-12 sm:py-20 lg:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-brand text-3xl sm:text-4xl text-foreground mb-4">
+            17+ variedades gourmet
+          </h2>
+          <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+            Clásicas, premium, individuales y mini pizzetas. Elegí tus favoritas y armá tu caja.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/menu">
+                Ver menú completo
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-full px-8 border-border">
+              <Link href="/suscripcion">
+                Ver planes
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
 
-      <SiteFooter />
-
-      <WhatsAppFab />
-      <BackToTop />
-      <CartFab />
-      <CartDrawer />
-    </div>
+      <SocialProofSection />
+      <HowItWorksSection />
+      <FaqSection />
+    </>
   );
 }

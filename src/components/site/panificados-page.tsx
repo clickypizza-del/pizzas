@@ -15,7 +15,7 @@ import { WhatsAppIcon } from "@/components/site/icons";
 
 export function PanificadosPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-background pt-28">
+    <div className="py-12 sm:py-20 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <Link
           href="/"
@@ -176,14 +176,6 @@ export function PanificadosPage() {
           </div>
         </Reveal>
       </div>
-
-      <footer className="mt-auto py-12 border-t border-border mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} {SITE.name}. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

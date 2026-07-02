@@ -32,37 +32,16 @@ function isNavGroup(item: NavItem): item is NavGroup {
 
 export { isNavGroup };
 
-export const NAV_ITEMS: NavItem[] = [
-  { href: "#filosofia", label: "Filosofía" },
-  {
-    label: "Productos",
-    items: [
-      { href: "#menu", label: "Menú" },
-      { href: "/panificados", label: "Panificados" },
-    ],
-  },
-  {
-    label: "Catálogo",
-    items: [
-      { href: "#freezer", label: "Catálogo optimizado" },
-      { href: "#ciencia-freezer", label: "Ciencia del Freezer" },
-    ],
-  },
-  {
-    label: "Suscripción",
-    items: [
-      { href: "#suscripcion", label: "Planes" },
-      { href: "#club-clicky", label: "Club Clicky" },
-    ],
-  },
-  { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#pedidos", label: "Pedidos" },
-  { href: "#faq", label: "FAQ" },
+export const NAV_ITEMS: NavLink[] = [
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/menu", label: "Menú" },
+  { href: "/suscripcion", label: "Suscripción" },
+  { href: "/revendedores", label: "Revendedores" },
+  { href: "/panificados", label: "Panificados" },
+  { href: "/faq", label: "FAQ" },
 ];
 
-export const NAV_LINKS: NavLink[] = NAV_ITEMS.flatMap((item) =>
-  isNavGroup(item) ? item.items : [item],
-);
+export const NAV_LINKS: NavLink[] = NAV_ITEMS;
 
 export type Feature = {
   title: string;
@@ -428,52 +407,16 @@ export const PIZZAS: Pizza[] = [
   },
   // ── Mini Pizzetas ─────────────────────────────────────────
   {
-    id: "mini-muzzarella",
-    name: "Mini Muzzarella",
+    id: "mini-pizzetas",
+    name: "Mini Pizzetas (4 sabores)",
     description:
-      "Mini pizza de mozzarella premium con salsa de tomate natural y orégano. Perfecta para picar o como entrada.",
+      "Bandeja de 6 mini pizzas en 4 sabores: Mozzarella, Salame, Jamón y Queso Azul. Elegí la combinación que más te guste con nuestras 8 opciones de bandeja.",
     category: "mini-pizzeta",
-    freezerNote: "Ideal para freezer. Se hornean directo del congelado.",
+    freezerNote: "Ideales para freezer. Se hornean directo del congelado en 10 minutos.",
     image: "/pizzas/mini-pizzetas.png",
     cookTime: "10 min",
     portions: "6 unidades",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Orégano"],
-  },
-  {
-    id: "mini-jamon-morron",
-    name: "Mini Jamón y Morrón",
-    description:
-      "Mini pizza con jamón natural, morrón asado y mozzarella. Clásica en formato bite.",
-    category: "mini-pizzeta",
-    freezerNote: "El morrón asado congela muy bien. Sabor intacto.",
-    image: "/pizzas/mini-pizzetas.png",
-    cookTime: "10 min",
-    portions: "6 unidades",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón natural", "Morrón asado"],
-  },
-  {
-    id: "mini-salame",
-    name: "Mini Salame",
-    description:
-      "Mini pizza de salame artesanal con mozzarella y un toque de ají molido. Intensa y crocante.",
-    category: "mini-pizzeta",
-    freezerNote: "El salame soporta muy bien el congelado en formato mini.",
-    image: "/pizzas/mini-pizzetas.png",
-    cookTime: "10 min",
-    portions: "6 unidades",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame artesanal", "Ají molido"],
-  },
-  {
-    id: "mini-queso-azul",
-    name: "Mini Queso Azul",
-    description:
-      "Mini pizza de queso azul desmenuzado sobre mozzarella. Para los que buscan sabor fuerte en formato chico.",
-    category: "mini-pizzeta",
-    freezerNote: "El queso azul mantiene su intensidad al congelar.",
-    image: "/pizzas/mini-pizzetas.png",
-    cookTime: "10 min",
-    portions: "6 unidades",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame", "Jamón natural", "Queso azul"],
   },
 ];
 

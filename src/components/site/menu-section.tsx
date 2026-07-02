@@ -52,7 +52,7 @@ export function MenuSection() {
         <Reveal>
           <SectionHeading
             eyebrow="Nuestro menú"
-            title="Catálogo elegido de 20 variedades"
+            title="Catálogo elegido de variedades gourmet"
             description="Veinte pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet & Selección de Quesos, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
           />
         </Reveal>

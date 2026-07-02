@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { Menu, ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,23 +14,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  NAV_ITEMS,
-  NAV_LINKS,
-  isNavGroup,
-  SITE,
-} from "@/lib/site-data";
+import { NAV_ITEMS, SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/site/icons";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeId, setActiveId] = useState<string>("");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const dropdownTimeout = useRef<ReturnType<typeof setTimeout>>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -38,47 +31,9 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const ids = NAV_LINKS.map((l) => l.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActiveId(entry.target.id);
-        }
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  const handleDropdownEnter = useCallback((label: string) => {
-    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
-    setOpenDropdown(label);
-  }, []);
-
-  const handleDropdownLeave = useCallback(() => {
-    dropdownTimeout.current = setTimeout(() => setOpenDropdown(null), 200);
-  }, []);
-
-  useEffect(() => {
-    if (openDropdown) {
-      const handleClickOutside = (e: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-          setOpenDropdown(null);
-        }
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [openDropdown]);
-
-  const isActiveLink = (href: string) => {
-    const id = href.startsWith("#") ? href.slice(1) : null;
-    return id === activeId;
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
   };
 
   return (
@@ -99,7 +54,7 @@ export function SiteHeader() {
         <div className="flex justify-between items-center h-16 sm:h-20 lg:h-28">
           {/* Brand */}
           <Link
-            href="#top"
+            href="/"
             className="flex items-center gap-3 group"
             aria-label={`${SITE.name} — inicio`}
           >
@@ -128,83 +83,13 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* Desktop nav with dropdowns */}
+          {/* Desktop nav */}
           <nav
-            ref={dropdownRef}
             className="hidden lg:flex items-center gap-0.5"
             aria-label="Navegación principal"
           >
             {NAV_ITEMS.map((item) => {
-              if (isNavGroup(item)) {
-                const isOpen = openDropdown === item.label;
-                const hasActive = item.items.some((i) => isActiveLink(i.href));
-                return (
-                  <div
-                    key={item.label}
-                    className="relative"
-                    onMouseEnter={() => handleDropdownEnter(item.label)}
-                    onMouseLeave={handleDropdownLeave}
-                  >
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setOpenDropdown(isOpen ? null : item.label)
-                      }
-                      className={cn(
-                        "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-1",
-                        "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2",
-                        "after:h-0.5 after:bg-primary after:rounded-full after:transition-all after:duration-300",
-                        hasActive
-                          ? "text-primary after:w-5"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40 after:w-0 hover:after:w-4",
-                      )}
-                      aria-expanded={isOpen}
-                      aria-haspopup="true"
-                    >
-                      {item.label}
-                      <ChevronDown
-                        className={cn(
-                          "size-3.5 transition-transform duration-200",
-                          isOpen ? "rotate-180" : "",
-                        )}
-                        aria-hidden
-                      />
-                    </button>
-
-                    <div
-                      className={cn(
-                        "absolute top-full left-0 mt-2 min-w-[200px] bg-card border border-border rounded-xl shadow-xl shadow-black/30 p-2 transition-all duration-200 origin-top-left",
-                        isOpen
-                          ? "opacity-100 scale-100 pointer-events-auto"
-                          : "opacity-0 scale-95 pointer-events-none",
-                      )}
-                      role="menu"
-                    >
-                      {item.items.map((sub) => {
-                        const active = isActiveLink(sub.href);
-                        return (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            role="menuitem"
-                            onClick={() => setOpenDropdown(null)}
-                            className={cn(
-                              "block px-4 py-2.5 text-sm rounded-lg transition-colors duration-150",
-                              active
-                                ? "text-primary bg-primary/10 font-medium"
-                                : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
-                            )}
-                          >
-                            {sub.label}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              }
-
-              const isActive = isActiveLink(item.href);
+              const active = isActive(item.href);
               return (
                 <Link
                   key={item.href}
@@ -213,11 +98,11 @@ export function SiteHeader() {
                     "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                     "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2",
                     "after:h-0.5 after:bg-primary after:rounded-full after:transition-all after:duration-300",
-                    isActive
+                    active
                       ? "text-primary after:w-5"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary/40 after:w-0 hover:after:w-4",
                   )}
-                  aria-current={isActive ? "page" : undefined}
+                  aria-current={active ? "page" : undefined}
                 >
                   {item.label}
                 </Link>
@@ -309,62 +194,23 @@ export function SiteHeader() {
 }
 
 function MobileNavItems({ onClose }: { onClose: () => void }) {
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const pathname = usePathname();
 
   return (
     <>
       {NAV_ITEMS.map((item) => {
-        if (isNavGroup(item)) {
-          const isExpanded = expanded === item.label;
-          return (
-            <div key={item.label}>
-              <button
-                type="button"
-                onClick={() =>
-                  setExpanded(isExpanded ? null : item.label)
-                }
-                className="w-full flex items-center justify-between px-4 py-3.5 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
-                aria-expanded={isExpanded}
-              >
-                {item.label}
-                <ChevronDown
-                  className={cn(
-                    "size-4 transition-transform duration-200",
-                    isExpanded ? "rotate-180" : "",
-                  )}
-                  aria-hidden
-                />
-              </button>
-              <div
-                className={cn(
-                  "overflow-hidden transition-all duration-300 ease-in-out",
-                  isExpanded ? "max-h-48 opacity-100" : "max-h-0 opacity-0",
-                )}
-              >
-                <div className="pl-4 pb-1 space-y-0.5">
-                  {item.items.map((sub) => (
-                    <SheetClose asChild key={sub.href}>
-                      <Link
-                        href={sub.href}
-                        onClick={onClose}
-                        className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
-                      >
-                        {sub.label}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        }
-
+        const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href + "/"));
         return (
           <SheetClose asChild key={item.href}>
             <Link
               href={item.href}
               onClick={onClose}
-              className="px-4 py-3.5 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
+              className={cn(
+                "px-4 py-3.5 text-base font-medium rounded-lg transition-colors",
+                active
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
+              )}
             >
               {item.label}
             </Link>
