@@ -19,9 +19,9 @@ import {
   PIZZA_CATEGORIES,
   PIZZA_PRICES,
   SITE,
-  MINI_PIZZETA_TRAYS,
-  MINI_PIZZETA_TRAY_INTRO,
-  TRAY_FLAVORS,
+  MINI_PIZZETA_COMBOS,
+  type MiniPizzetaCombo,
+  type MiniPizzetaComboLabel,
   type Pizza,
   type PizzaCategoryMeta,
 } from "@/lib/site-data";
@@ -133,7 +133,7 @@ export function MenuSection() {
           </ul>
 
           {activeCat === "mini-pizzeta" || activeCat === "all" ? (
-            <MiniPizzetaTraySection />
+            <MiniPizzetaCombosSection />
           ) : null}
         </Reveal>
       </div>
@@ -350,6 +350,24 @@ function PizzaDialog({
   category: PizzaCategoryMeta | null;
   onClose: () => void;
 }) {
+  const addItem = useCartStore((s) => s.addItem);
+  const [addedId, setAddedId] = useState<string | null>(null);
+
+  const handleAddCombo = (combo: MiniPizzetaCombo) => {
+    addItem({
+      id: combo.id,
+      name: `Mini Pizzetas — ${combo.nombre}`,
+      price: combo.precio,
+      image: "/pizzas/mini-pizzetas.png",
+      category: "mini-pizzeta",
+      flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
+    });
+    setAddedId(combo.id);
+    setTimeout(() => setAddedId(null), 1500);
+  };
+
+  const isMiniPizzeta = pizza?.category === "mini-pizzeta";
+
   return (
     <Dialog open={!!pizza} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-3xl w-[calc(100%-1.5rem)] h-[calc(100dvh-2rem)] max-h-[calc(100dvh-2rem)] p-0 overflow-hidden bg-card border-border flex flex-col">
@@ -388,92 +406,153 @@ function PizzaDialog({
                     )
                   )}
                 </DialogTitle>
-                <span className="text-xl sm:text-2xl font-extrabold text-price whitespace-nowrap">
-                  {pizza.price ?? PIZZA_PRICES[pizza.category]}
-                </span>
+                {!isMiniPizzeta && (
+                  <span className="text-xl sm:text-2xl font-extrabold text-price whitespace-nowrap">
+                    {pizza.price ?? PIZZA_PRICES[pizza.category]}
+                  </span>
+                )}
               </div>
               <DialogDescription className="text-base text-muted-foreground leading-relaxed mb-4">
                 {pizza.description}
               </DialogDescription>
-              {pizza.ingredients?.length ? (
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="text-sm" aria-hidden>🧅</span>
+
+              {isMiniPizzeta ? (
+                <div className="space-y-3 mt-2">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-sm" aria-hidden>🫓</span>
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Ingredientes
+                      Elegí tu combinación
                     </p>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {pizza.ingredients.map((ing, i) => (
-                      <span
-                        key={ing}
-                        className="inline-flex items-center text-xs bg-secondary/80 text-foreground rounded-full px-2.5 py-1 border border-border"
-                      >
-                        {ing}
-                        {i < pizza.ingredients!.length - 1 ? (
-                          <span className="sr-only">,</span>
-                        ) : null}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              {pizza.detail ? (
-                <div className="mb-6 space-y-3">
-                  {pizza.detail.split("\n\n").map((block, i) => {
-                    const boldMatch = block.match(/^\*\*(.+?)\*\*[:\s]*(.*)/);
-                    if (boldMatch) {
-                      return (
-                        <div key={i} className="flex items-start gap-2">
-                          <span className="mt-1.5 size-1.5 rounded-full bg-primary flex-shrink-0" aria-hidden />
-                          <p className="text-sm text-muted-foreground leading-relaxed">
-                            <strong className="text-foreground font-semibold">{boldMatch[1]}</strong>{" "}
-                            {boldMatch[2]}
-                          </p>
-                        </div>
-                      );
-                    }
+                  {MINI_PIZZETA_COMBOS.map((combo) => {
+                    const labelConf = combo.etiqueta ? COMBO_LABEL_CONFIG[combo.etiqueta] : null;
+                    const isAdded = addedId === combo.id;
                     return (
-                      <p key={i} className="text-sm text-muted-foreground leading-relaxed">
-                        {block}
-                      </p>
+                      <div
+                        key={combo.id}
+                        className="bg-secondary/60 border border-border rounded-xl p-4 hover:border-brand-purple/50 transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <h4 className="text-sm font-bold text-foreground">{combo.nombre}</h4>
+                          {labelConf ? (
+                            <Badge className={`border-transparent shadow-lg text-[9px] font-bold px-1.5 py-0.5 ${labelConf.className}`}>
+                              {labelConf.label}
+                            </Badge>
+                          ) : null}
+                        </div>
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mb-3">
+                          {combo.sabores.map((s) => (
+                            <span key={s.name} className="text-xs text-muted-foreground">
+                              <span className="font-bold text-foreground">{s.qty}</span> {s.name}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-base font-extrabold text-price">
+                            ${combo.precio.toLocaleString("es-AR")}
+                          </span>
+                          <Button
+                            type="button"
+                            size="sm"
+                            onClick={() => handleAddCombo(combo)}
+                            className={`text-xs transition-all duration-300 ${
+                              isAdded ? "bg-brand-green hover:bg-brand-green text-white" : "cta-section"
+                            }`}
+                          >
+                            {isAdded ? (
+                              <><Check className="size-3.5" /> Agregado</>
+                            ) : (
+                              <><ShoppingCart className="size-3.5" /> Agregar</>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
                     );
                   })}
                 </div>
-              ) : null}
-              <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
-                <Snowflake className="size-5 text-primary flex-shrink-0 mt-0.5" aria-hidden />
-                <div>
-                  <p className="text-sm font-semibold text-foreground mb-0.5">Estabilidad en freezer</p>
-                  <p className="text-sm text-muted-foreground">{pizza.freezerNote}</p>
-                </div>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="flex-1 min-w-0 cta-section"
-                >
-                  <a
-                    href={buildWhatsAppUrl(WA_MESSAGES.pizza(pizza.name))}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="truncate"
-                  >
-                    Consultar por {pizza.name}
-                    <ArrowRight className="size-4 shrink-0" />
-                  </a>
-                </Button>
-                <ShareButton
-                  title={`${pizza.name} — Click & Pizza`}
-                  text={`Mirá esta pizza: ${pizza.name} de Click & Pizza. 🍕`}
-                  url={`${SITE.shareUrl}/#menu`}
-                  variant="outline"
-                  size="lg"
-                  label="Compartir"
-                  className="cta-inline border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary sm:flex-none"
-                />
-              </div>
+              ) : (
+                <>
+                  {pizza.ingredients?.length ? (
+                    <div className="mb-5">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="text-sm" aria-hidden>🧅</span>
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                          Ingredientes
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {pizza.ingredients.map((ing, i) => (
+                          <span
+                            key={ing}
+                            className="inline-flex items-center text-xs bg-secondary/80 text-foreground rounded-full px-2.5 py-1 border border-border"
+                          >
+                            {ing}
+                            {i < pizza.ingredients!.length - 1 ? (
+                              <span className="sr-only">,</span>
+                            ) : null}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                  {pizza.detail ? (
+                    <div className="mb-6 space-y-3">
+                      {pizza.detail.split("\n\n").map((block, i) => {
+                        const boldMatch = block.match(/^\*\*(.+?)\*\*[:\s]*(.*)/);
+                        if (boldMatch) {
+                          return (
+                            <div key={i} className="flex items-start gap-2">
+                              <span className="mt-1.5 size-1.5 rounded-full bg-primary flex-shrink-0" aria-hidden />
+                              <p className="text-sm text-muted-foreground leading-relaxed">
+                                <strong className="text-foreground font-semibold">{boldMatch[1]}</strong>{" "}
+                                {boldMatch[2]}
+                              </p>
+                            </div>
+                          );
+                        }
+                        return (
+                          <p key={i} className="text-sm text-muted-foreground leading-relaxed">
+                            {block}
+                          </p>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                  <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
+                    <Snowflake className="size-5 text-primary flex-shrink-0 mt-0.5" aria-hidden />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground mb-0.5">Estabilidad en freezer</p>
+                      <p className="text-sm text-muted-foreground">{pizza.freezerNote}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button
+                      asChild
+                      size="lg"
+                      className="flex-1 min-w-0 cta-section"
+                    >
+                      <a
+                        href={buildWhatsAppUrl(WA_MESSAGES.pizza(pizza.name))}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="truncate"
+                      >
+                        Consultar por {pizza.name}
+                        <ArrowRight className="size-4 shrink-0" />
+                      </a>
+                    </Button>
+                    <ShareButton
+                      title={`${pizza.name} — Click & Pizza`}
+                      text={`Mirá esta pizza: ${pizza.name} de Click & Pizza. 🍕`}
+                      url={`${SITE.shareUrl}/menu`}
+                      variant="outline"
+                      size="lg"
+                      label="Compartir"
+                      className="cta-inline border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary sm:flex-none"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </>
         ) : null}
@@ -482,70 +561,108 @@ function PizzaDialog({
    );
  }
 
-function MiniPizzetaTraySection() {
+const COMBO_LABEL_CONFIG: Record<MiniPizzetaComboLabel, { label: string; className: string }> = {
+  "mas-vendida": { label: "Más vendida", className: "bg-brand-amber text-black" },
+  "recomendada": { label: "Recomendada", className: "bg-brand-green text-white" },
+  "familiar": { label: "Familiar", className: "bg-blue-600 text-white" },
+  "premium": { label: "Premium", className: "bg-purple-600 text-white" },
+};
+
+function MiniPizzetaCombosSection() {
+  const addItem = useCartStore((s) => s.addItem);
+  const [addedId, setAddedId] = useState<string | null>(null);
+
+  const handleAddCombo = (combo: MiniPizzetaCombo) => {
+    addItem({
+      id: combo.id,
+      name: `Mini Pizzetas — ${combo.nombre}`,
+      price: combo.precio,
+      image: "/pizzas/mini-pizzetas.png",
+      category: "mini-pizzeta",
+      flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
+    });
+    setAddedId(combo.id);
+    setTimeout(() => setAddedId(null), 1500);
+  };
+
   return (
     <Reveal delay={0.1}>
       <div className="mt-14">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-6">
           <div className="size-10 rounded-xl bg-brand-purple/15 flex items-center justify-center flex-shrink-0">
             <span className="text-xl" aria-hidden>🫓</span>
           </div>
           <div>
             <h3 className="text-xl sm:text-2xl font-extrabold text-foreground">
-              Armá tu bandeja
+              Elegí tu combinación
             </h3>
             <p className="text-sm text-muted-foreground">
-              {MINI_PIZZETA_TRAY_INTRO}
+              4 sabores (Mozzarella, Salame, Jamón y Queso Azul) en distintas proporciones. Cada combinación suma 12 mini pizzetas.
             </p>
           </div>
         </div>
 
-        <div className="overflow-x-auto cp-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 min-w-[480px] sm:min-w-0">
-            {MINI_PIZZETA_TRAYS.map((tray) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {MINI_PIZZETA_COMBOS.map((combo) => {
+            const labelConf = combo.etiqueta ? COMBO_LABEL_CONFIG[combo.etiqueta] : null;
+            const isAdded = addedId === combo.id;
+            return (
               <article
-                key={tray.id}
-                className="bg-card border border-border rounded-2xl p-4 hover:border-brand-purple/50 transition-colors"
+                key={combo.id}
+                className="bg-card border border-border rounded-2xl p-5 hover:border-brand-purple/50 hover:shadow-lg hover:shadow-brand-purple/5 transition-all duration-300 flex flex-col"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                    Bandeja
-                  </span>
-                  <span className="size-7 rounded-full bg-brand-purple/15 text-brand-purple flex items-center justify-center text-sm font-extrabold">
-                    {tray.number}
-                  </span>
+                  <h4 className="text-base font-bold text-foreground leading-tight">
+                    {combo.nombre}
+                  </h4>
+                  {labelConf ? (
+                    <Badge className={`border-transparent shadow-lg text-[10px] font-bold px-2 py-0.5 ${labelConf.className}`}>
+                      {labelConf.label}
+                    </Badge>
+                  ) : null}
                 </div>
-                <div className="grid grid-cols-4 gap-1 mb-3">
-                  {TRAY_FLAVORS.map((flavor) => {
-                    const count = tray[flavor.key as keyof typeof tray] as number;
-                    return (
-                      <div key={flavor.key} className="flex flex-col items-center gap-0.5">
-                        <span className="text-xs" aria-hidden>{flavor.emoji}</span>
-                        <span
-                          className="text-sm font-extrabold"
-                          style={{ color: flavor.color }}
-                        >
-                          {count}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <p className="text-[11px] text-muted-foreground leading-tight">
-                  {tray.proportion}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
 
-        <div className="flex items-center justify-center gap-4 mt-4 flex-wrap">
-          {TRAY_FLAVORS.map((flavor) => (
-            <span key={flavor.key} className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-              <span aria-hidden>{flavor.emoji}</span>
-              {flavor.label}
-            </span>
-          ))}
+                <ul className="space-y-1.5 mb-4 flex-1">
+                  {combo.sabores.map((s) => (
+                    <li key={s.name} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <span className="size-5 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold text-foreground flex-shrink-0">
+                        {s.qty}
+                      </span>
+                      <span>{s.name}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex items-center justify-between gap-3 pt-3 border-t border-border">
+                  <span className="text-lg font-extrabold text-price">
+                    ${combo.precio.toLocaleString("es-AR")}
+                  </span>
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={() => handleAddCombo(combo)}
+                    className={`text-xs sm:text-sm transition-all duration-300 ${
+                      isAdded
+                        ? "bg-brand-green hover:bg-brand-green text-white"
+                        : "cta-section"
+                    }`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="size-3.5" />
+                        Agregado
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingCart className="size-3.5" />
+                        Agregar
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </Reveal>

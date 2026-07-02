@@ -9,6 +9,7 @@ export type CartItem = {
   category: string;
   qty: number;
   stock?: number;
+  flavors?: string[];
 };
 
 type CartState = {

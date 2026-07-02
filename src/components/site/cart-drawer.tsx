@@ -44,6 +44,11 @@ function CartItemRow({ item }: { item: CartItem }) {
         <p className="text-xs sm:text-sm font-extrabold text-price mt-0.5">
           {formatPrice(item.price)}
         </p>
+        {item.flavors?.length ? (
+          <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 leading-tight">
+            {item.flavors.join(" · ")}
+          </p>
+        ) : null}
         <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5">
           <button
             type="button"
@@ -85,8 +90,12 @@ export function CartDrawer() {
   const count = cartTotalItems(items);
 
   const whatsappItems = items
-    .map((i) => `${i.qty}x ${i.name}`)
-    .join(", ");
+    .map((i) => {
+      let line = `${i.qty}x ${i.name}`;
+      if (i.flavors?.length) line += ` (${i.flavors.join(", ")})`;
+      return line;
+    })
+    .join("\n");
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>

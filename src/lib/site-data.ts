@@ -420,36 +420,98 @@ export const PIZZAS: Pizza[] = [
   },
 ];
 
-export type MiniPizzetaTray = {
-  id: string;
-  number: number;
-  mozzarella: number;
-  salame: number;
-  jamon: number;
-  quesoAzul: number;
-  proportion: string;
+export type MiniPizzetaComboFlavor = {
+  name: string;
+  qty: number;
 };
 
-export const MINI_PIZZETA_TRAYS: MiniPizzetaTray[] = [
-  { id: "bandeja-1", number: 1, mozzarella: 3, salame: 1, jamon: 1, quesoAzul: 1, proportion: "Mitad mozzarella, el resto variado" },
-  { id: "bandeja-2", number: 2, mozzarella: 1, salame: 3, jamon: 1, quesoAzul: 1, proportion: "Protagonista el salame" },
-  { id: "bandeja-3", number: 3, mozzarella: 1, salame: 1, jamon: 3, quesoAzul: 1, proportion: "Protagonista el jamón" },
-  { id: "bandeja-4", number: 4, mozzarella: 1, salame: 1, jamon: 1, quesoAzul: 3, proportion: "Protagonista el queso azul" },
-  { id: "bandeja-5", number: 5, mozzarella: 2, salame: 2, jamon: 1, quesoAzul: 1, proportion: "Equilibrio entre mozzarella y salame" },
-  { id: "bandeja-6", number: 6, mozzarella: 2, salame: 1, jamon: 2, quesoAzul: 1, proportion: "Equilibrio entre mozzarella y jamón" },
-  { id: "bandeja-7", number: 7, mozzarella: 2, salame: 1, jamon: 1, quesoAzul: 2, proportion: "Equilibrio entre mozzarella y queso azul" },
-  { id: "bandeja-8", number: 8, mozzarella: 1, salame: 2, jamon: 2, quesoAzul: 1, proportion: "Equilibrio entre salame y jamón" },
+export type MiniPizzetaComboLabel = "mas-vendida" | "recomendada" | "familiar" | "premium";
+
+export type MiniPizzetaCombo = {
+  id: string;
+  nombre: string;
+  cantidad: number;
+  sabores: MiniPizzetaComboFlavor[];
+  precio: number;
+  etiqueta?: MiniPizzetaComboLabel;
+};
+
+export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
+  {
+    id: "combo-clasica",
+    nombre: "Combinación Clásica",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 6 },
+      { name: "Jamón", qty: 6 },
+    ],
+    precio: 18000,
+    etiqueta: "mas-vendida",
+  },
+  {
+    id: "combo-familiar",
+    nombre: "Combinación Familiar",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 3 },
+      { name: "Jamón", qty: 3 },
+      { name: "Salame", qty: 3 },
+      { name: "Queso Azul", qty: 3 },
+    ],
+    precio: 19500,
+    etiqueta: "familiar",
+  },
+  {
+    id: "combo-salame",
+    nombre: "Combinación Salame",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 3 },
+      { name: "Salame", qty: 6 },
+      { name: "Jamón", qty: 2 },
+      { name: "Queso Azul", qty: 1 },
+    ],
+    precio: 19000,
+  },
+  {
+    id: "combo-azul",
+    nombre: "Combinación Queso Azul",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 3 },
+      { name: "Salame", qty: 2 },
+      { name: "Jamón", qty: 2 },
+      { name: "Queso Azul", qty: 5 },
+    ],
+    precio: 21000,
+    etiqueta: "premium",
+  },
+  {
+    id: "combo-recomendada",
+    nombre: "Combinación Recomendada",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 4 },
+      { name: "Salame", qty: 4 },
+      { name: "Jamón", qty: 2 },
+      { name: "Queso Azul", qty: 2 },
+    ],
+    precio: 19500,
+    etiqueta: "recomendada",
+  },
+  {
+    id: "combo-mix",
+    nombre: "Combinación Mix",
+    cantidad: 12,
+    sabores: [
+      { name: "Muzzarella", qty: 2 },
+      { name: "Salame", qty: 2 },
+      { name: "Jamón", qty: 4 },
+      { name: "Queso Azul", qty: 4 },
+    ],
+    precio: 20500,
+  },
 ];
-
-export const MINI_PIZZETA_TRAY_INTRO =
-  "8 combinaciones diferentes para tus bandejas, repartiendo los 4 sabores (Mozzarella, Salame, Jamón y Queso Azul) en distintas proporciones para que no sean todas iguales. Cada bandeja suma 6 piezas.";
-
-export const TRAY_FLAVORS = [
-  { key: "mozzarella", label: "Mozzarella", emoji: "🧀", color: "#f59e0b" },
-  { key: "salame", label: "Salame", emoji: "🔴", color: "#c81009" },
-  { key: "jamon", label: "Jamón", emoji: "🟡", color: "#f97316" },
-  { key: "quesoAzul", label: "Queso Azul", emoji: "🔵", color: "#8b5cf6" },
-] as const;
 
 /**
  * Ingredient families shared across the 20-pizza catalog. Surfaced in the
