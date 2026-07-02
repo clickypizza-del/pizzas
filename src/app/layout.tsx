@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -16,7 +16,7 @@ const bebasNeue = Bebas_Neue({
   display: "swap",
 });
 
-const siteUrl = "https://clickpizza.example";
+const siteUrl = "https://clickypizza.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,16 +25,18 @@ export const metadata: Metadata = {
     template: "%s · Click & Pizza",
   },
   description:
-    "Suscripción semanal de pizzas artesanales premium congeladas, entregadas en casa. Muzza, Especial Salame, Especial Jamón y Especial Queso Azul. Listas en 15 minutos.",
+    "Suscripción semanal de pizzas artesanales premium congeladas, entregadas en casa. Muzzarella, Jamón con Aceitunas, Especial Salame, Roquefort y más. Listas en 15 minutos.",
   keywords: [
     "pizza congelada",
     "pizza premium",
     "suscripción pizza",
     "pizza artesanal",
-    "Muzza",
-    "Especial Salame",
-    "Especial Jamón",
-    "Especial Queso Azul",
+    "mini pizzetas",
+    "pizza individual",
+    "Muzzarella Clásica",
+    "Provolone",
+    "Queso Azul",
+    "Salame Tandil",
     "Click & Pizza",
     "delivery pizza",
   ],
@@ -47,19 +49,27 @@ export const metadata: Metadata = {
     locale: "es_AR",
     url: siteUrl,
     siteName: "Click & Pizza",
-    title: "Click & Pizza — Experiencia Gourmet a un Click",
+    title: "Click & Pizza — Pizza Gourmet Congelada en Mendoza",
     description:
-      "Tu pizza premium, directa a tu freezer, lista en 15 minutos. Suscripción semanal de pizzas artesanales.",
+      "Pizza artesanal gourmet, congelada al instante. Masa artesanal, ingredientes premium. Directo de tu freezer en 15 minutos. Delivery en Mendoza.",
+    images: [{ url: "/pizzas/muzza.png", width: 1200, height: 630, alt: "Pizza gourmet de Click & Pizza" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Click & Pizza — Experiencia Gourmet a un Click",
+    title: "Click & Pizza — Pizza Gourmet Congelada en Mendoza",
     description:
-      "Tu pizza premium, directa a tu freezer, lista en 15 minutos. Suscripción semanal de pizzas artesanales.",
+      "Pizza artesanal gourmet, congelada al instante. Masa artesanal, ingredientes premium. Directo de tu freezer en 15 minutos. Delivery en Mendoza.",
+    images: ["/pizzas/muzza.png"],
   },
   icons: {
     icon: "/logo-click.png",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 const jsonLd = {

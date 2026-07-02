@@ -9,7 +9,7 @@ export function HeroSection() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="relative overflow-hidden pt-36 pb-20 sm:pt-44 lg:pt-52 lg:pb-32"
+      className="relative overflow-hidden pt-24 pb-20 sm:pt-32 lg:pt-52 lg:pb-32"
     >
       {/* Ambient red glows */}
       <div
@@ -30,39 +30,36 @@ export function HeroSection() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Copy */}
           <Reveal>
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/25 rounded-full px-4 py-1.5 mb-8">
+            <div className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-4 py-1.5 mb-8">
               <span
                 aria-hidden
-                className="w-2 h-2 bg-primary rounded-full animate-pulse"
+                className="w-2 h-2 bg-brand-amber rounded-full animate-pulse"
               />
-              <span className="text-primary text-xs sm:text-sm font-semibold tracking-wide uppercase">
-                Experiencia Gourmet sin Esfuerzo
+              <span className="text-brand-amber text-xs sm:text-sm font-semibold tracking-wide">
+                🗓 Próxima entrega: martes — pedidos hasta lunes 20 hs
               </span>
             </div>
             <h1
               id="hero-title"
-              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-foreground leading-[1.05] tracking-tight"
+              className="font-brand text-4xl sm:text-5xl lg:text-7xl text-foreground leading-[1.05] tracking-tight"
             >
-              Tu pizza premium,{" "}
-              <span className="block sm:inline">directa a tu freezer,</span>{" "}
-              <span className="text-gradient-brand">lista en 15 minutos</span>
+              Pizza Gourmet.{" "}
+              <span className="text-gradient-brand">Lista en 15 minutos.</span>
             </h1>
-            <p className="mt-7 text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-xl">
-              Somos la marca de conveniencia premium que te garantiza una cena
-              de restaurante en casa, sin moverte. Suscribite a nuestro kit
-              semanal y olvidate de cocinar.
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl">
+              Del freezer a tu mesa. Sin pasar por el supermercado. Masa artesanal, ingredientes premium, sabor que conquista.
             </p>
             <div className="mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Button
                 asChild
                 size="lg"
-                className="rounded-full px-8 py-6 text-base shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 hover:scale-105 transition-all"
+                className="cta-hero px-8 py-5 sm:py-6 text-base font-semibold"
               >
-                <a href="#suscripcion">
-                  Quiero mi suscripción
+                <a href="#planes">
+                  Ver planes y armar mi caja
                   <ArrowRight className="size-4" />
                 </a>
               </Button>
@@ -70,14 +67,14 @@ export function HeroSection() {
                 asChild
                 size="lg"
                 variant="secondary"
-                className="rounded-full px-8 py-6 text-base border-border hover:border-primary/40 transition-all"
+                className="cta-inline px-8 py-5 sm:py-6 text-base border-border hover:border-primary/40"
               >
-                <a href="#menu">Ver menú</a>
+                <a href="#menu">Ver pizza del día</a>
               </Button>
             </div>
 
             {/* Trust strip with icons */}
-            <dl className="mt-12 grid grid-cols-3 gap-4 max-w-lg">
+            <dl className="mt-8 grid grid-cols-3 gap-4 max-w-lg">
               {[
                 { v: "15 min", l: "Al horno", icon: Clock },
                 { v: "4.9★", l: "Valoración", icon: Star },
@@ -106,7 +103,7 @@ export function HeroSection() {
           <Reveal delay={0.15} className="relative">
             <div
               aria-hidden
-              className="absolute -inset-4 bg-gradient-to-r from-primary to-[#e0332a] rounded-[2rem] blur-3xl opacity-20"
+              className="absolute -inset-4 bg-gradient-to-r from-primary to-brand-red-bright rounded-[2rem] blur-3xl opacity-20"
             />
             <div className="relative rounded-[2rem] overflow-hidden border border-border shadow-2xl shadow-black/50">
               <Image
@@ -115,7 +112,7 @@ export function HeroSection() {
                 width={900}
                 height={600}
                 priority
-                className="w-full h-[380px] sm:h-[480px] lg:h-[560px] object-cover"
+                className="w-full h-[240px] sm:h-[480px] lg:h-[560px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
               {/* Floating badge */}
@@ -124,12 +121,12 @@ export function HeroSection() {
                   🍕
                 </div>
                 <div>
-                  <p className="text-foreground font-bold text-sm">
-                    Suscripción semanal
-                  </p>
-                  <p className="text-muted-foreground text-xs">
-                    Sin compromiso · Cancelás cuando quieras
-                  </p>
+                <p className="text-foreground font-bold text-sm">
+                  20 variedades · Desde $7.700
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  Precio individual · Entrega en Mendoza
+                </p>
                 </div>
               </div>
             </div>

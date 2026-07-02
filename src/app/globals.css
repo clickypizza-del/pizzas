@@ -37,6 +37,25 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-dark: var(--surface-dark);
+  --color-price: var(--price);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-hover: var(--brand-green-hover);
+  --color-brand-red-bright: var(--brand-red-bright);
+  --color-brand-amber: var(--brand-amber);
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-pink: var(--brand-pink);
+  --color-cat-clasica: var(--cat-clasica);
+  --color-cat-gourmet: var(--cat-gourmet);
+  --color-cat-premium: var(--cat-premium);
+  --color-cat-mini: var(--cat-mini);
+  --color-cat-individual: var(--cat-individual);
+  --color-wa-dark: var(--wa-dark);
+  --color-wa-bubble: var(--wa-bubble);
+  --color-wa-text: var(--wa-text);
+  --color-wa-meta: var(--wa-meta);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -55,7 +74,12 @@
   /* Brand palette */
   --brand-red: #c81009;
   --brand-red-bright: #e0332a;
-  --brand-green: #25d366; /* WhatsApp */
+  --brand-green: #25d366;
+  --brand-green-hover: #1ebe5c;
+  --brand-amber: #f59e0b;
+  --brand-purple: #8b5cf6;
+  --brand-cyan: #06b6d4;
+  --brand-pink: #ec4899;
 
   /* Surfaces — premium dark */
   --background: #0f0f0f;
@@ -75,14 +99,14 @@
   --secondary-foreground: #e5e5e5;
 
   --muted: #161616;
-  --muted-foreground: #a3a3a3;
+  --muted-foreground: #b0b0b0;
 
   --accent: #2a1010;
   --accent-foreground: #e5e5e5;
 
   --destructive: #ef4444;
-  --border: #2a2a2a;
-  --input: #2a2a2a;
+  --border: #333333;
+  --input: #333333;
   --ring: #c81009;
 
   --chart-1: #c81009;
@@ -91,40 +115,26 @@
   --chart-4: #22c55e;
   --chart-5: #a3a3a3;
 
-  --sidebar: #161616;
-  --sidebar-foreground: #e5e5e5;
-  --sidebar-primary: #c81009;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1e1e1e;
-  --sidebar-accent-foreground: #e5e5e5;
-  --sidebar-border: #2a2a2a;
-  --sidebar-ring: #c81009;
-}
+  /* Surface levels for section alternation */
+  --surface-sunken: #080808;
+  --surface-dark: #0b0b0b;
 
-.dark {
-  --background: #0f0f0f;
-  --foreground: #e5e5e5;
-  --card: #1a1a1a;
-  --card-foreground: #e5e5e5;
-  --popover: #1a1a1a;
-  --popover-foreground: #e5e5e5;
-  --primary: #c81009;
-  --primary-foreground: #ffffff;
-  --secondary: #1e1e1e;
-  --secondary-foreground: #e5e5e5;
-  --muted: #161616;
-  --muted-foreground: #a3a3a3;
-  --accent: #2a1010;
-  --accent-foreground: #e5e5e5;
-  --destructive: #ef4444;
-  --border: #2a2a2a;
-  --input: #2a2a2a;
-  --ring: #c81009;
-  --chart-1: #c81009;
-  --chart-2: #e0332a;
-  --chart-3: #f59e0b;
-  --chart-4: #22c55e;
-  --chart-5: #a3a3a3;
+  /* Category accent colors */
+  --cat-clasica: #c81009;
+  --cat-gourmet: #f59e0b;
+  --cat-premium: #8b5cf6;
+  --cat-mini: #06b6d4;
+  --cat-individual: #ec4899;
+
+  /* Price color */
+  --price: #f59e0b;
+
+  /* WhatsApp chat panel */
+  --wa-dark: #0b141a;
+  --wa-bubble: #1f2c34;
+  --wa-text: #e9edef;
+  --wa-meta: #8696a0;
+
   --sidebar: #161616;
   --sidebar-foreground: #e5e5e5;
   --sidebar-primary: #c81009;
@@ -142,6 +152,9 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 8rem; /* offset for taller fixed navbar when jumping to #anchors */
+  }
+  html, body {
+    overflow-x: hidden;
   }
   body {
     @apply bg-background text-foreground;
@@ -179,7 +192,7 @@
   }
   /* Tomato-red gradient text used for highlight words */
   .text-gradient-brand {
-    background: linear-gradient(90deg, #c81009, #e0332a);
+    background: linear-gradient(90deg, var(--brand-red), var(--brand-red-bright));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -199,6 +212,18 @@
       transparent 0
     );
     background-size: 40px 40px;
+  }
+  /* CTA tier: Hero — prominent with shadow + scale */
+  .cta-hero {
+    @apply rounded-full shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all;
+  }
+  /* CTA tier: Section — subtle shadow */
+  .cta-section {
+    @apply rounded-full shadow-md shadow-primary/10 hover:shadow-lg hover:shadow-primary/20 active:scale-95 transition-all;
+  }
+  /* CTA tier: Inline — no shadow */
+  .cta-inline {
+    @apply rounded-full active:scale-95 transition-all;
   }
   /* Reduced motion: respect user preference */
   @media (prefers-reduced-motion: reduce) {

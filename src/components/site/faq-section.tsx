@@ -15,7 +15,7 @@ export function FaqSection() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="py-20 sm:py-24 lg:py-28 bg-[#0b0b0b] border-y border-border"
+      className="py-12 sm:py-24 lg:py-28 bg-surface-dark border-y border-border"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
@@ -50,7 +50,7 @@ export function FaqSection() {
             <p className="text-muted-foreground mb-4">
               ¿No encontraste tu respuesta?
             </p>
-            <Button asChild className="rounded-full">
+            <Button asChild className="cta-section">
               <a
                 href={buildWhatsAppUrl(WA_MESSAGES.general)}
                 target="_blank"

@@ -59,7 +59,7 @@ export function StatsSection() {
   return (
     <section
       aria-labelledby="stats-title"
-      className="py-20 sm:py-24 relative overflow-hidden border-y border-border bg-[#0b0b0b]"
+      className="py-20 sm:py-24 relative overflow-hidden border-y border-border bg-surface-dark"
     >
       <div aria-hidden className="absolute inset-0 cp-dotgrid opacity-30" />
       <h2 id="stats-title" className="sr-only">
@@ -70,7 +70,7 @@ export function StatsSection() {
           <p className="text-center text-primary font-bold text-xs sm:text-sm uppercase tracking-[0.18em] mb-3">
             Números que hablan
           </p>
-          <p className="text-center text-3xl sm:text-4xl font-extrabold text-foreground mb-12">
+          <p className="text-center font-brand text-3xl sm:text-4xl text-foreground mb-12">
             Miles de hogares felices
           </p>
         </Reveal>

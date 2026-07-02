@@ -11,7 +11,7 @@ export function OrderSection() {
     <section
       id="pedidos"
       aria-labelledby="pedidos-title"
-      className="relative py-20 sm:py-24 lg:py-28 overflow-hidden"
+      className="relative py-12 sm:py-24 lg:py-28 overflow-hidden"
     >
       <div aria-hidden className="absolute inset-0 cp-dotgrid opacity-30" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -52,7 +52,7 @@ export function OrderSection() {
             <Button
               asChild
               size="lg"
-              className="rounded-full px-8 text-base sm:text-lg shadow-xl shadow-[#25D366]/30 bg-[#25D366] hover:bg-[#1ebe5c] text-white"
+              className="rounded-full px-8 text-base sm:text-lg cta-hero bg-brand-green hover:bg-brand-green-hover text-white shadow-brand-green/30"
             >
               <a
                 href={buildWhatsAppUrl()}

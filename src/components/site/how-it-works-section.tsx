@@ -7,7 +7,7 @@ export function HowItWorksSection() {
     <section
       id="como-funciona"
       aria-labelledby="como-funciona-title"
-      className="py-20 sm:py-24 lg:py-28"
+      className="py-12 sm:py-24 lg:py-28"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
@@ -20,7 +20,7 @@ export function HowItWorksSection() {
 
         <ol
           role="list"
-          className="relative grid md:grid-cols-3 gap-10 md:gap-8"
+          className="relative grid md:grid-cols-3 gap-6 md:gap-8"
         >
           {/* Decorative connector line between steps (desktop) */}
           <li
@@ -31,7 +31,7 @@ export function HowItWorksSection() {
           {STEPS.map((step, i) => (
             <Reveal as="li" key={step.number} delay={i * 0.12}>
               <div className="relative text-center">
-                <div className="size-24 mx-auto mb-6 relative z-10 rounded-full bg-gradient-to-br from-primary to-[#e0332a] flex items-center justify-center text-white text-3xl font-extrabold shadow-xl shadow-primary/30 border-4 border-background">
+                <div className="size-16 sm:size-24 mx-auto mb-4 sm:mb-6 relative z-10 rounded-full bg-gradient-to-br from-primary to-brand-red-bright flex items-center justify-center text-white text-2xl sm:text-3xl font-extrabold shadow-xl shadow-primary/30 border-4 border-background">
                   {step.number}
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">
@@ -46,10 +46,10 @@ export function HowItWorksSection() {
         </ol>
 
         <Reveal>
-          <p className="text-center text-sm text-muted-foreground mt-14">
+          <p className="text-center text-sm text-muted-foreground mt-8 sm:mt-14">
             <span aria-hidden>📍 </span>
-            Entregas programadas: consultá tu zona por WhatsApp. Horarios: martes
-            a viernes de 18 a 21 hs.
+            Entregas programadas en Mendoza. Consultá tu zona por WhatsApp.
+            Horarios de entrega: martes a viernes de 18 a 21 hs.
           </p>
         </Reveal>
       </div>

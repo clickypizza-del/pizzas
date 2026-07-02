@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Facebook } from "lucide-react";
 import { WhatsAppIcon } from "@/components/site/icons";
 import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -7,23 +6,23 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 const MENU_LINKS = [
   { href: "#menu", label: "Clásicas" },
   { href: "#menu", label: "Especiales" },
-  { href: "#panificados", label: "Panificados" },
+  { href: "/panificados", label: "Panificados" },
   { href: "#freezer", label: "Catálogo optimizado" },
   { href: "#suscripcion", label: "Suscripción" },
-];
+]
 
 const COMPANY_LINKS = [
   { href: "#filosofia", label: "Nuestra filosofía" },
   { href: "#suscripcion", label: "Suscripción" },
   { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#zonas", label: "Zonas de entrega" },
+  { href: "#pedidos", label: "Pedidos" },
   { href: "#faq", label: "Preguntas frecuentes" },
-];
+]
 
 export function SiteFooter() {
   return (
     <footer
-      className="bg-[#080808] border-t border-border text-muted-foreground"
+      className="bg-surface-sunken border-t border-border text-muted-foreground"
       aria-labelledby="footer-heading"
     >
       <h2 id="footer-heading" className="sr-only">
@@ -58,13 +57,6 @@ export function SiteFooter() {
             </p>
             <div className="flex gap-3">
               <a
-                href="#"
-                className="size-10 bg-card border border-border rounded-full flex items-center justify-center hover:bg-primary hover:border-primary hover:text-primary-foreground transition-colors"
-                aria-label="Facebook de Click & Pizza"
-              >
-                <Facebook className="size-4" aria-hidden />
-              </a>
-              <a
                 href={SITE.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -84,7 +76,7 @@ export function SiteFooter() {
                 href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="size-10 bg-card border border-border rounded-full flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] hover:text-white transition-colors"
+                className="size-10 bg-card border border-border rounded-full flex items-center justify-center hover:bg-brand-green hover:border-brand-green hover:text-white transition-colors"
                 aria-label="WhatsApp de Click & Pizza"
               >
                 <WhatsAppIcon className="size-4" />
@@ -147,7 +139,7 @@ export function SiteFooter() {
                   href={buildWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[#25D366] hover:text-[#1ebe5c] transition-colors text-sm mt-1 font-medium"
+                  className="inline-flex items-center gap-1.5 text-brand-green hover:text-brand-green-hover transition-colors text-sm mt-1 font-medium"
                 >
                   <WhatsAppIcon className="size-3.5" />
                   WhatsApp
@@ -156,9 +148,12 @@ export function SiteFooter() {
             </div>
             <p className="text-xs">
               <span className="block text-foreground font-medium mb-0.5">
-                Horarios
+                Horarios de atención
               </span>
               Lun–Vie 9–21 hs · Sáb 10–14 hs
+            </p>
+            <p className="text-xs mt-1.5 text-muted-foreground">
+              Entregas: Mar–Vie 18–21 hs
             </p>
           </div>
         </div>
@@ -166,15 +161,13 @@ export function SiteFooter() {
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
           <p>© {new Date().getFullYear()} Click &amp; Pizza. Todos los derechos reservados.</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-primary transition-colors">
-              Términos
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
-              Privacidad
-            </a>
             <a href="#faq" className="hover:text-primary transition-colors">
               Ayuda
             </a>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">Pagá en efectivo o transferencia</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">Envío en 15 min</span>
           </div>
         </div>
       </div>

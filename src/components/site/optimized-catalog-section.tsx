@@ -20,7 +20,7 @@ export function OptimizedCatalogSection() {
     <section
       id="freezer"
       aria-labelledby="freezer-title"
-      className="py-20 sm:py-24 lg:py-28 bg-[#0b0b0b] border-y border-border relative overflow-hidden"
+      className="py-20 sm:py-24 lg:py-28 bg-surface-dark border-y border-border relative overflow-hidden"
     >
       <div aria-hidden className="absolute inset-0 cp-dotgrid opacity-30" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -34,7 +34,7 @@ export function OptimizedCatalogSection() {
                 freezer
               </>
             }
-            description="No son pizzas al azar. Elegimos 8 variedades que comparten ingredientes —simplifican compras y stock— y que soportan estar congeladas largos períodos sin perder calidad. Hasta 3 meses con excelente resultado, y más tiempo si están bien envasadas al vacío."
+            description="No son pizzas al azar. Elegimos 20 variedades en 5 líneas que comparten ingredientes —simplifican compras y stock— y que soportan estar congeladas largos períodos sin perder calidad. Hasta 3 meses con excelente resultado, y más tiempo si están bien envasadas al vacío."
           />
         </Reveal>
 
@@ -65,12 +65,12 @@ export function OptimizedCatalogSection() {
           <Reveal delay={0.12}>
             <div className="space-y-5">
               <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                Por qué estas 8 variedades
+                Por qué estas 20 variedades
               </h3>
               <FeatureRow
                 icon={Layers}
                 title="Ingredientes compartidos"
-                description="Las 8 pizzas se arman con 3 familias de insumos. Menos SKUs, stock más fresco y menos desperdicio — eficiencia que trasladamos a tu precio."
+                description="Las 20 pizzas se arman con 3 familias de insumos. Menos SKUs, stock más fresco y menos desperdicio — eficiencia que trasladamos a tu precio."
               />
               <FeatureRow
                 icon={Snowflake}
@@ -92,7 +92,7 @@ export function OptimizedCatalogSection() {
                 Familias de ingredientes
               </h3>
               <p className="text-sm text-muted-foreground mb-6">
-                Cómo se reparten los insumos entre las 8 variedades
+                Cómo se reparten los insumos entre las 20 variedades
               </p>
               <ul role="list" className="space-y-5">
                 {CATALOG_FAMILIES.map((family) => (
@@ -107,13 +107,13 @@ export function OptimizedCatalogSection() {
 
         <Reveal delay={0.22}>
           <div className="mt-12 text-center">
-            <Button asChild size="lg" className="rounded-full">
+            <Button asChild size="lg" className="cta-section">
               <a
                 href={buildWhatsAppUrl(WA_MESSAGES.general)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Armar mi kit con el catálogo curado
+                    Armar mi kit con el catálogo elegido
                 <ArrowRight className="size-4" />
               </a>
             </Button>
@@ -160,7 +160,7 @@ function FamilyRow({ family }: { family: IngredientFamily }) {
             {family.name}
           </h4>
           <span className="text-xs font-medium text-primary whitespace-nowrap">
-            en {family.usedIn}/8
+            en {family.usedIn}/20
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5">

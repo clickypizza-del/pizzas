@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { Menu, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,7 +13,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { NAV_LINKS, SITE } from "@/lib/site-data";
+import {
+  NAV_ITEMS,
+  NAV_LINKS,
+  isNavGroup,
+  SITE,
+} from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/site/icons";
 import { cn } from "@/lib/utils";
@@ -22,8 +27,10 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownTimeout = useRef<ReturnType<typeof setTimeout>>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Sticky navbar: add shadow + shrink slightly on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
@@ -31,7 +38,6 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scrollspy: highlight the nav link for the section currently in view
   useEffect(() => {
     const ids = NAV_LINKS.map((l) => l.href.slice(1));
     const observer = new IntersectionObserver(
@@ -49,6 +55,32 @@ export function SiteHeader() {
     return () => observer.disconnect();
   }, []);
 
+  const handleDropdownEnter = useCallback((label: string) => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
+    setOpenDropdown(label);
+  }, []);
+
+  const handleDropdownLeave = useCallback(() => {
+    dropdownTimeout.current = setTimeout(() => setOpenDropdown(null), 200);
+  }, []);
+
+  useEffect(() => {
+    if (openDropdown) {
+      const handleClickOutside = (e: MouseEvent) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+          setOpenDropdown(null);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [openDropdown]);
+
+  const isActiveLink = (href: string) => {
+    const id = href.startsWith("#") ? href.slice(1) : null;
+    return id === activeId;
+  };
+
   return (
     <header
       className={cn(
@@ -64,15 +96,14 @@ export function SiteHeader() {
         Saltar al contenido
       </a>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24 lg:h-28">
-          {/* Brand — big logo + wordmark */}
+        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-28">
+          {/* Brand */}
           <Link
             href="#top"
             className="flex items-center gap-3 group"
             aria-label={`${SITE.name} — inicio`}
           >
             <div className="relative">
-              {/* Glow ring behind logo */}
               <div
                 aria-hidden
                 className="absolute inset-0 bg-primary/30 rounded-full blur-xl group-hover:bg-primary/50 transition-colors duration-500"
@@ -82,10 +113,9 @@ export function SiteHeader() {
                 alt={`${SITE.name} logo`}
                 width={80}
                 height={80}
-                style={{ width: "auto", height: "auto" }}
                 className={cn(
                   "relative object-contain transition-all duration-300",
-                  "h-16 w-16 lg:h-20 lg:w-20",
+                  "h-12 w-12 sm:h-14 sm:w-14 lg:h-20 lg:w-20",
                   "drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]",
                   "group-hover:drop-shadow-[0_0_24px_rgba(255,255,255,0.8)]",
                   "group-hover:scale-105",
@@ -98,17 +128,87 @@ export function SiteHeader() {
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Desktop nav with dropdowns */}
           <nav
+            ref={dropdownRef}
             className="hidden lg:flex items-center gap-0.5"
             aria-label="Navegación principal"
           >
-            {NAV_LINKS.map((link) => {
-              const isActive = activeId === link.href.slice(1);
+            {NAV_ITEMS.map((item) => {
+              if (isNavGroup(item)) {
+                const isOpen = openDropdown === item.label;
+                const hasActive = item.items.some((i) => isActiveLink(i.href));
+                return (
+                  <div
+                    key={item.label}
+                    className="relative"
+                    onMouseEnter={() => handleDropdownEnter(item.label)}
+                    onMouseLeave={handleDropdownLeave}
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenDropdown(isOpen ? null : item.label)
+                      }
+                      className={cn(
+                        "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 flex items-center gap-1",
+                        "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2",
+                        "after:h-0.5 after:bg-primary after:rounded-full after:transition-all after:duration-300",
+                        hasActive
+                          ? "text-primary after:w-5"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/40 after:w-0 hover:after:w-4",
+                      )}
+                      aria-expanded={isOpen}
+                      aria-haspopup="true"
+                    >
+                      {item.label}
+                      <ChevronDown
+                        className={cn(
+                          "size-3.5 transition-transform duration-200",
+                          isOpen ? "rotate-180" : "",
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+
+                    <div
+                      className={cn(
+                        "absolute top-full left-0 mt-2 min-w-[200px] bg-card border border-border rounded-xl shadow-xl shadow-black/30 p-2 transition-all duration-200 origin-top-left",
+                        isOpen
+                          ? "opacity-100 scale-100 pointer-events-auto"
+                          : "opacity-0 scale-95 pointer-events-none",
+                      )}
+                      role="menu"
+                    >
+                      {item.items.map((sub) => {
+                        const active = isActiveLink(sub.href);
+                        return (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            role="menuitem"
+                            onClick={() => setOpenDropdown(null)}
+                            className={cn(
+                              "block px-4 py-2.5 text-sm rounded-lg transition-colors duration-150",
+                              active
+                                ? "text-primary bg-primary/10 font-medium"
+                                : "text-muted-foreground hover:text-foreground hover:bg-secondary/60",
+                            )}
+                          >
+                            {sub.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+
+              const isActive = isActiveLink(item.href);
               return (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={item.href}
+                  href={item.href}
                   className={cn(
                     "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                     "after:absolute after:bottom-0.5 after:left-1/2 after:-translate-x-1/2",
@@ -119,7 +219,7 @@ export function SiteHeader() {
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
-                  {link.label}
+                  {item.label}
                 </Link>
               );
             })}
@@ -150,7 +250,7 @@ export function SiteHeader() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-foreground size-12"
+                  className="text-foreground size-12 bg-secondary/50 hover:bg-secondary"
                   aria-label="Abrir menú de navegación"
                   aria-expanded={mobileOpen}
                 >
@@ -159,7 +259,7 @@ export function SiteHeader() {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[82%] max-w-sm bg-background border-l-border"
+                className="w-[82%] max-w-sm bg-background border-l-border overflow-y-auto"
               >
                 <SheetHeader className="px-6 pt-6">
                   <SheetTitle className="flex items-center gap-3">
@@ -168,8 +268,7 @@ export function SiteHeader() {
                       alt={`${SITE.name} logo`}
                       width={56}
                       height={56}
-                      style={{ width: "auto", height: "auto" }}
-                      className="h-14 w-14 object-contain"
+                      className="h-12 w-12 object-contain"
                     />
                     <span className="font-brand text-3xl text-foreground">
                       Click<span className="text-primary">&</span>Pizza
@@ -177,19 +276,10 @@ export function SiteHeader() {
                   </SheetTitle>
                 </SheetHeader>
                 <nav
-                  className="flex flex-col gap-1 px-4 mt-2"
+                  className="flex flex-col gap-0.5 px-4 mt-2"
                   aria-label="Navegación móvil"
                 >
-                  {NAV_LINKS.map((link) => (
-                    <SheetClose asChild key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="px-4 py-3.5 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </SheetClose>
-                  ))}
+                  <MobileNavItems onClose={() => setMobileOpen(false)} />
                 </nav>
                 <div className="mt-auto p-6">
                   <SheetClose asChild>
@@ -215,5 +305,72 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+  );
+}
+
+function MobileNavItems({ onClose }: { onClose: () => void }) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  return (
+    <>
+      {NAV_ITEMS.map((item) => {
+        if (isNavGroup(item)) {
+          const isExpanded = expanded === item.label;
+          return (
+            <div key={item.label}>
+              <button
+                type="button"
+                onClick={() =>
+                  setExpanded(isExpanded ? null : item.label)
+                }
+                className="w-full flex items-center justify-between px-4 py-3.5 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
+                aria-expanded={isExpanded}
+              >
+                {item.label}
+                <ChevronDown
+                  className={cn(
+                    "size-4 transition-transform duration-200",
+                    isExpanded ? "rotate-180" : "",
+                  )}
+                  aria-hidden
+                />
+              </button>
+              <div
+                className={cn(
+                  "overflow-hidden transition-all duration-300 ease-in-out",
+                  isExpanded ? "max-h-48 opacity-100" : "max-h-0 opacity-0",
+                )}
+              >
+                <div className="pl-4 pb-1 space-y-0.5">
+                  {item.items.map((sub) => (
+                    <SheetClose asChild key={sub.href}>
+                      <Link
+                        href={sub.href}
+                        onClick={onClose}
+                        className="block px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
+                      >
+                        {sub.label}
+                      </Link>
+                    </SheetClose>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <SheetClose asChild key={item.href}>
+            <Link
+              href={item.href}
+              onClick={onClose}
+              className="px-4 py-3.5 text-base font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/60 rounded-lg transition-colors"
+            >
+              {item.label}
+            </Link>
+          </SheetClose>
+        );
+      })}
+    </>
   );
 }

@@ -1,6 +1,7 @@
-import { Compass, Package, HeartHandshake } from "lucide-react";
+import { Compass, Package, HeartHandshake, Clock, Sparkles, Snowflake, Truck, Leaf, Wallet, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { FEATURES, type Feature } from "@/lib/site-data";
 
 const PILLARS = [
   {
@@ -23,43 +24,43 @@ const PILLARS = [
   },
 ];
 
+const ICONS: Record<Feature["icon"], LucideIcon> = {
+  clock: Clock,
+  sparkles: Sparkles,
+  snowflake: Snowflake,
+  truck: Truck,
+  leaf: Leaf,
+  wallet: Wallet,
+};
+
 export function PhilosophySection() {
   return (
     <section
       id="filosofia"
       aria-labelledby="filosofia-title"
-      className="py-20 sm:py-24 lg:py-28"
+      className="py-12 sm:py-24 lg:py-28"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-8 sm:mb-16">
           <Reveal>
             <SectionHeading
               align="left"
               eyebrow="Nuestra filosofía"
               title={
                 <>
-                  La <span className="text-gradient-brand">experiencia gourmet</span>{" "}
-                  que merecés
+                  La <span className="text-gradient-brand">diferencia</span> está en cada detalle
                 </>
               }
               description={
                 <>
-                  No vendemos pizzas congeladas comunes. Somos una{" "}
+                  En Click & Pizza creemos que disfrutar una excelente pizza no debería depender del tiempo que tengas. Por eso elaboramos pizzas artesanales con{" "}
                   <strong className="text-foreground font-semibold">
-                    marca de conveniencia premium
+                    ingredientes cuidadosamente seleccionados
                   </strong>
-                  : productos curados, empaque diseñado para tu freezer y la
-                  garantía de una cena perfecta en 15 minutos.
+                  , las congelamos en su punto justo de frescura y las presentamos en un empaque diseñado para conservar intacto su sabor, textura y calidad.
                 </>
               }
             />
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
-              <strong className="text-foreground font-semibold">“Click”</strong>{" "}
-              es la facilidad de pedir desde casa.{" "}
-              <strong className="text-foreground font-semibold">“Pizza”</strong>{" "}
-              es nuestra pasión artesanal. Directo a tu puerta, sin
-              intermediarios.
-            </p>
             <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md">
               <div className="bg-primary/10 border border-primary/20 rounded-xl p-5">
                 <div className="text-3xl font-extrabold text-primary mb-1">
@@ -70,7 +71,7 @@ export function PhilosophySection() {
                 </div>
               </div>
               <div className="bg-primary/10 border border-primary/20 rounded-xl p-5">
-                <div className="text-3xl font-extrabold text-[#e0332a] mb-1">
+                <div className="text-3xl font-extrabold text-brand-red-bright mb-1">
                   Sin
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">
@@ -80,12 +81,11 @@ export function PhilosophySection() {
             </div>
           </Reveal>
 
-          {/* Pillars card */}
           <Reveal delay={0.12}>
             <div className="relative">
               <div
                 aria-hidden
-                className="absolute -inset-4 bg-gradient-to-r from-primary to-[#e0332a] rounded-3xl blur-2xl opacity-10"
+                className="absolute -inset-4 bg-gradient-to-r from-primary to-brand-red-bright rounded-3xl blur-2xl opacity-10"
               />
               <div className="relative bg-card rounded-3xl p-6 sm:p-8 border border-primary/20 shadow-xl">
                 <ul className="space-y-6">
@@ -109,6 +109,38 @@ export function PhilosophySection() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal>
+          <SectionHeading
+            eyebrow="Por qué elegirnos"
+            title="La mejor pizza congelada del mercado"
+            description="No somos una pizza congelada común. Usamos técnicas artesanales y los mejores ingredientes para que cada bocado sea una experiencia italiana auténtica."
+          />
+        </Reveal>
+
+        <ul
+          role="list"
+          className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8"
+        >
+          {FEATURES.map((feature, i) => {
+            const Icon = ICONS[feature.icon];
+            return (
+              <Reveal as="li" key={feature.title} delay={i * 0.08}>
+                <article className="group h-full cp-glass border border-border rounded-2xl p-4 sm:p-8 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300">
+                  <div className="size-10 sm:size-14 rounded-xl bg-primary/10 flex items-center justify-center mb-3 sm:mb-6 group-hover:scale-110 transition-transform">
+                    <Icon className="size-5 sm:size-7 text-primary" aria-hidden />
+                  </div>
+                  <h3 className="text-sm sm:text-xl font-bold text-foreground mb-1 sm:mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                </article>
+              </Reveal>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

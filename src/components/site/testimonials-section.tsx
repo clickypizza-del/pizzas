@@ -46,7 +46,7 @@ export function TestimonialsSection() {
                       aria-hidden
                     />
                     <div
-                      className="flex gap-0.5 text-yellow-400 mb-4"
+                      className="flex gap-0.5 text-price mb-4"
                       role="img"
                       aria-label="5 de 5 estrellas"
                     >
@@ -69,6 +69,11 @@ export function TestimonialsSection() {
                         <div className="text-xs text-muted-foreground">
                           {t.role}
                         </div>
+                        {t.since ? (
+                          <div className="text-[10px] text-primary font-medium mt-0.5">
+                            {t.since}
+                          </div>
+                        ) : null}
                       </div>
                     </figcaption>
                   </figure>

@@ -8,27 +8,61 @@ export const SITE = {
   name: "Click & Pizza",
   phone: "542612545724", // E.164 without "+"
   phoneDisplay: "+54 9 261 254-5724",
-  instagram: "cklic_y_pizza",
-  instagramUrl: "https://instagram.com/cklic_y_pizza",
+  instagram: "click_y_pizza",
+  instagramUrl: "https://instagram.com/click_y_pizza",
   whatsappText:
     "¡Hola Click & Pizza! Quería hacer una consulta sobre las pizzas.",
   qrUrl: "/qr-whatsapp.png",
   logoUrl: "/logo-click.png",
+  shareUrl: "https://clickypizza.com.ar",
 } as const;
 
 export type NavLink = { href: string; label: string };
 
-export const NAV_LINKS: NavLink[] = [
+export type NavGroup = {
+  label: string;
+  items: NavLink[];
+};
+
+export type NavItem = NavLink | NavGroup;
+
+function isNavGroup(item: NavItem): item is NavGroup {
+  return "items" in item;
+}
+
+export { isNavGroup };
+
+export const NAV_ITEMS: NavItem[] = [
   { href: "#filosofia", label: "Filosofía" },
-  { href: "#menu", label: "Menú" },
-  { href: "#panificados", label: "Panificados" },
-  { href: "#freezer", label: "Catálogo" },
-  { href: "#suscripcion", label: "Suscripción" },
+  {
+    label: "Productos",
+    items: [
+      { href: "#menu", label: "Menú" },
+      { href: "/panificados", label: "Panificados" },
+    ],
+  },
+  {
+    label: "Catálogo",
+    items: [
+      { href: "#freezer", label: "Catálogo optimizado" },
+      { href: "#ciencia-freezer", label: "Ciencia del Freezer" },
+    ],
+  },
+  {
+    label: "Suscripción",
+    items: [
+      { href: "#suscripcion", label: "Planes" },
+      { href: "#club-clicky", label: "Club Clicky" },
+    ],
+  },
   { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#zonas", label: "Zonas" },
   { href: "#pedidos", label: "Pedidos" },
   { href: "#faq", label: "FAQ" },
 ];
+
+export const NAV_LINKS: NavLink[] = NAV_ITEMS.flatMap((item) =>
+  isNavGroup(item) ? item.items : [item],
+);
 
 export type Feature = {
   title: string;
@@ -81,130 +115,401 @@ export const FEATURES: Feature[] = [
   },
 ];
 
-export type PizzaCategory = "clasica" | "especial";
+export type PizzaCategory = "clasica" | "gourmet" | "premium" | "mini-pizzeta" | "individual";
 
 export type Pizza = {
   id: string;
   name: string;
   description: string;
   category: PizzaCategory;
-  /** Short stability note shown as a freezer badge on the card. */
   freezerNote: string;
-  /** Real product photo URL. */
   image: string;
+  detail?: string;
+  price?: string;
+  badge?: "mas-vendida" | "nueva" | "premium";
+  cookTime?: string;
+  portions?: string;
+  ingredients?: string[];
+};
+
+export const PIZZA_PRICES: Record<PizzaCategory, string> = {
+  clasica: "$8.000",
+  gourmet: "$9.000",
+  premium: "$10.300",
+  "mini-pizzeta": "$10.000",
+  individual: "$10.000",
 };
 
 export type PizzaCategoryMeta = {
   id: PizzaCategory;
   label: string;
+  shortLabel?: string;
+  subtitle: string;
   emoji: string;
-  /** Warm accent hue used for the card gradient + badge. */
   accent: string;
-  /** Tailwind text color class for the accent. */
   textClass: string;
 };
 
 export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
   {
     id: "clasica",
-    label: "Clásicas",
+    label: "Clásica & Tradicional",
+    shortLabel: "Clásica",
+    subtitle: "Alta rotación y sabores familiares",
     emoji: "🍕",
-    accent: "#c81009", // brand red
+    accent: "#c81009",
     textClass: "text-[#c81009]",
   },
   {
-    id: "especial",
-    label: "Especiales",
+    id: "gourmet",
+    label: "Gourmet & Selección de Quesos",
+    shortLabel: "Gourmet",
+    subtitle: "Sabores intensos y quesos premium",
     emoji: "⭐",
-    accent: "#f59e0b", // amber
+    accent: "#f59e0b",
     textClass: "text-[#f59e0b]",
+  },
+  {
+    id: "premium",
+    label: "Premium & Especialidades de Autor",
+    shortLabel: "Premium",
+    subtitle: "Máxima complejidad y cocción lenta",
+    emoji: "🏆",
+    accent: "#8b5cf6",
+    textClass: "text-[#8b5cf6]",
+  },
+  {
+    id: "individual",
+    label: "Pizza Individual",
+    shortLabel: "Individual",
+    subtitle: "Una porción perfecta para uno",
+    emoji: "🍽️",
+    accent: "#ec4899",
+    textClass: "text-[#ec4899]",
+  },
+  {
+    id: "mini-pizzeta",
+    label: "Mini Pizzetas",
+    shortLabel: "Mini",
+    subtitle: "Bocados perfectos para picar",
+    emoji: "🫓",
+    accent: "#06b6d4",
+    textClass: "text-[#06b6d4]",
   },
 ];
 
 /**
- * Production-optimized catalog: 8 curated varieties that share ingredients
- * (simplified purchasing + consistent stock) and all withstand long-term
- * freezing. Curated for a subscription D2C operation.
+ * Production-optimized catalog: 20 varieties across 5 lines that share
+ * ingredients (simplified purchasing + consistent stock) and all withstand
+ * long-term freezing. Optimized for a subscription D2C operation.
  */
 export const PIZZAS: Pizza[] = [
-  // ── Clásicas ──────────────────────────────────────────────
+  // ── Clásica & Tradicional ──────────────────────────────────
   {
-    id: "muzzarella-aceitunas",
-    name: "Muzzarella + Aceitunas",
+    id: "musa-suprema",
+    name: "Muzzarella Clásica",
     description:
-      "Mozzarella premium, salsa de tomate natural, orégano y aceitunas verdes y negras fileteadas. La que nunca falla.",
+      "Masa artesanal, salsa de tomate, abundante muzzarella, aderezo especial y aceitunas verdes descarozadas.",
     category: "clasica",
     freezerNote: "Muy estable. Excelente calidad varios meses.",
-    image: "https://sfile.chatglm.cn/images-ppt/6504daddd85f.jpg",
+    image: "/pizzas/muzza.png",
+    price: "$7.700",
+    badge: "mas-vendida",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Aderezo especial", "Aceitunas verdes"],
+    detail:
+      "El equilibrio perfecto entre tradición y sabor. Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una abundante capa de muzzarella de excelente calidad, nuestro aderezo especial y aceitunas verdes descarozadas. Cada pizza se gratina hasta alcanzar una textura irresistible y un sabor auténtico, convirtiéndose en la elección ideal para disfrutar del clásico que nunca pasa de moda.",
   },
   {
     id: "especial-jamon",
-    name: "Especial Jamón",
+    name: "Clásica de Jamón",
     description:
-      "Jamón natural seleccionado y mozzarella cremosa. El clásico de toda la vida, sin trucos.",
+      "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
     category: "clasica",
     freezerNote: "El jamón cocido congela bien si está bien sellado.",
-    image: "https://sfile.chatglm.cn/images-ppt/390ffe2a4647.jpg",
+    image: "/pizzas/jamon.png",
+    price: "$8.000",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
+    detail:
+      "Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una generosa capa de muzzarella de excelente calidad y abundante jamón cocido seleccionado. Se completa con nuestro aderezo especial y aceitunas verdes descarozadas, logrando una combinación clásica, equilibrada y llena de sabor. Una pizza ideal para quienes disfrutan de los sabores tradicionales con ingredientes de primera calidad y un gratinado irresistible.",
   },
   {
-    id: "especial-salame",
-    name: "Especial Salame",
+    id: "clasica-salame",
+    name: "Clásica de Salame",
     description:
-      "Salame artesanal en rodajas, mozzarella y un toque de ají molido. Carácter y crocancia.",
+      "Mozzarella cremosa, salsa de tomate, generosas fetas de salame seleccionado y aceitunas negras descarozadas. Un clásico de sabor intenso que conquista desde el primer bocado.",
+    detail:
+      "Una combinación que nunca falla: una base de salsa de tomate, abundante mozzarella cremosa, generosas fetas de salame seleccionado y aceitunas negras descarozadas que aportan el equilibrio perfecto entre intensidad y frescura. Al hornearse, el salame realza su aroma y se fusiona con el queso para lograr una pizza llena de sabor.\n\nPensada para quienes disfrutan de los clásicos de siempre, con ingredientes de primera calidad y lista para servir en pocos minutos. Todo el sabor de una gran pizza, con la practicidad de tenerla siempre a mano en tu freezer.",
     category: "clasica",
-    freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
-    image: "https://sfile.chatglm.cn/images-ppt/72bae4aea5eb.jpg",
+    freezerNote: "El salame congela bien si está bien sellado. Sabor intacto.",
+    image: "/pizzas/salame.png",
+    price: "$8.500",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame seleccionado", "Aceitunas negras"],
   },
-  {
-    id: "fugazzeta",
-    name: "Fugazzeta",
-    description:
-      "Masa rellena de mozzarella cubierta con cebolla previamente cocida. Un ícono argentino.",
-    category: "clasica",
-    freezerNote: "La cebolla cocida mantiene textura y sabor al descongelar.",
-    image: "https://sfile.chatglm.cn/images-ppt/267b919da18f.jpg",
-  },
-  // ── Especiales ────────────────────────────────────────────
   {
     id: "queso-azul",
-    name: "Queso Azul",
+    name: "Queso Azul (Roquefort)",
     description:
-      "Queso azul (Roquefort) desmenuzado sobre mozzarella. Sabor intenso e inconfundible.",
-    category: "especial",
-    freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
-    image: "https://sfile.chatglm.cn/images-ppt/66605f728adc.jpg",
+      "Mozzarella cremosa, salsa de tomate y queso azul (Roquefort), que aporta un sabor intenso, cremoso y lleno de personalidad para los paladares más exigentes.",
+    detail:
+      "Una combinación irresistible de abundante mozzarella cremosa y queso azul (Roquefort), cuidadosamente distribuido para lograr un equilibrio perfecto entre suavidad e intensidad. Al hornearse, el queso se funde sobre la pizza, creando una textura cremosa y un sabor profundo que convierte cada porción en una experiencia única.\n\nIdeal para quienes buscan una pizza con carácter, elaborada con ingredientes de primera calidad y lista para disfrutar en pocos minutos. Un clásico gourmet que nunca pasa desapercibido.",
+    category: "clasica",
+    freezerNote: "El queso azul congela excelente. Conserva toda su intensidad.",
+    image: "/pizzas/azul.png",
+    price: "$8.500",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul (Roquefort)"],
+  },
+  // ── Gourmet & Selección de Quesos ───────────────────────────
+  {
+    id: "provolone-oregano",
+    name: "Provolone y Orégano",
+    description:
+      "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte con personalidad.",
+    category: "gourmet",
+    freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
+    image: "/pizzas/provolone-oregano.jpg",
+    price: "$9.000",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Provolone picante", "Orégano fresco"],
+  },
+  {
+    id: "salame-premium",
+    name: "Salame Premium (Tandil)",
+    description:
+      "Salame artesanal de Tandil en rodajas, aceitunas verdes descarozadas, mozzarella y un toque de ají molido. Carácter y crocancia.",
+    category: "gourmet",
+    freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
+    image: "/pizzas/salame.png",
+    price: "$9.000",
+    badge: "nueva",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame de Tandil", "Aceitunas verdes", "Ají molido"],
   },
   {
     id: "panceta-ahumada",
     name: "Panceta Ahumada",
     description:
-      "Panceta ahumada en cubos sobre mozzarella fundida. Ahumado intenso y crocante.",
-    category: "especial",
+      "Panceta ahumada en cubos sobre mozzarella fundida. Ahumado intenso y crocante que conquista.",
+    category: "gourmet",
     freezerNote: "La panceta congelada conserva muy bien el sabor.",
-    image: "https://sfile.chatglm.cn/images-ppt/e10d51acede9.jpg",
+    image: "/pizzas/panceta-ahumada.jpg",
+    price: "$9.400",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Panceta ahumada"],
   },
   {
-    id: "provolone-oregano",
-    name: "Provolone y Orégano",
+    id: "queso-azul-gourmet",
+    name: "Queso Azul Gourmet",
     description:
-      "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte.",
-    category: "especial",
-    freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
-    image: "https://sfile.chatglm.cn/images-ppt/864692c88058.jpg",
+      "Queso azul desmenuzado sobre mozzarella con un toque de miel. Sabor intenso e inconfundible, solo en la línea Gourmet.",
+    category: "gourmet",
+    freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
+    image: "/pizzas/azul.png",
+    price: "$9.400",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul", "Miel"],
   },
+  // ── Premium & Especialidades de Autor ───────────────────────
   {
     id: "cuatro-quesos",
-    name: "Cuatro Quesos",
+    name: "Cuatro Quesos (Selección técnica)",
     description:
-      "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos semiduros.",
-    category: "especial",
+      "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos semiduros en su máxima expresión.",
+    category: "premium",
     freezerNote: "Excelente comportamiento con quesos semiduros.",
-    image: "https://sfile.chatglm.cn/images-ppt/dcbd98408d59.jpg",
+    image: "/pizzas/cuatro-quesos.jpg",
+    price: "$10.300",
+    badge: "premium",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
+  },
+  {
+    id: "napolitana-asada",
+    name: "Napolitana Asada (Tomates asados)",
+    description:
+      "Tomates asados lentamente, ajo confitado y mozzarella sobre masa artesanal. La Napolitana, reinventada.",
+    category: "premium",
+    freezerNote: "Los tomates asados mantienen su textura al congelar.",
+    image: "/pizzas/muzza.png",
+    price: "$10.300",
+    badge: "nueva",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Tomates asados", "Ajo confitado", "Mozzarella"],
+  },
+  {
+    id: "pollo-verdeo",
+    name: "Pollo al Verdeo (Reducción espesa)",
+    description:
+      "Pollo desmenuzado con verdeo salteado y reducción espesa sobre mozzarella cremosa. Elegancia en cada porción.",
+    category: "premium",
+    freezerNote: "El pollo cocido congela muy bien. Sabor intacto.",
+    image: "/pizzas/muzza.png",
+    price: "$11.000",
+    badge: "premium",
+    cookTime: "18 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Pollo desmenuzado", "Verdeo salteado", "Reducción espesa"],
+  },
+  {
+    id: "carne-desmenuzada",
+    name: "Carne Desmenuzada (Cocción lenta)",
+    description:
+      "Carne desmenuzada a cocción lenta con cebolla caramelizada y especias sobre mozzarella. La más contundente del catálogo.",
+    category: "premium",
+    freezerNote: "La carne desmenuzada congela excelente. Textura preservada.",
+    image: "/pizzas/muzza.png",
+    price: "$11.000",
+    badge: "premium",
+    cookTime: "18 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Carne desmenuzada", "Cebolla caramelizada", "Especias"],
+  },
+  // ── Pizza Individual ──────────────────────────────────────
+  {
+    id: "ind-muzzarella",
+    name: "Individual Muzzarella",
+    description:
+      "Pizza individual de mozzarella premium con salsa de tomate natural. Una porción perfecta para uno.",
+    category: "individual",
+    freezerNote: "Porción individual. Se hornea en 12 minutos directo del freezer.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "12 min",
+    portions: "1 porción",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella"],
+  },
+  {
+    id: "ind-especial-jamon",
+    name: "Individual Especial Jamón",
+    description:
+      "Pizza individual con jamón natural y mozzarella cremosa. El clásico en tamaño personal.",
+    category: "individual",
+    freezerNote: "El jamón congela perfecto en formato individual.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "12 min",
+    portions: "1 porción",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón natural"],
+  },
+  {
+    id: "ind-cuatro-quesos",
+    name: "Individual Cuatro Quesos",
+    description:
+      "Pizza individual de mozzarella, provolone, parmesano y queso azul. Explosión de quesos para uno solo.",
+    category: "individual",
+    freezerNote: "Los quesos semiduros se comportan excelente congelados.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "12 min",
+    portions: "1 porción",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
+  },
+  {
+    id: "ind-panceta",
+    name: "Individual Panceta Ahumada",
+    description:
+      "Pizza individual de panceta ahumada en cubos sobre mozzarella fundida. Sabor intenso, porción perfecta.",
+    category: "individual",
+    freezerNote: "La panceta conserva muy bien el sabor al congelar.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "12 min",
+    portions: "1 porción",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Panceta ahumada"],
+  },
+  // ── Mini Pizzetas ─────────────────────────────────────────
+  {
+    id: "mini-muzzarella",
+    name: "Mini Muzzarella",
+    description:
+      "Mini pizza de mozzarella premium con salsa de tomate natural y orégano. Perfecta para picar o como entrada.",
+    category: "mini-pizzeta",
+    freezerNote: "Ideal para freezer. Se hornean directo del congelado.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "10 min",
+    portions: "6 unidades",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Orégano"],
+  },
+  {
+    id: "mini-jamon-morron",
+    name: "Mini Jamón y Morrón",
+    description:
+      "Mini pizza con jamón natural, morrón asado y mozzarella. Clásica en formato bite.",
+    category: "mini-pizzeta",
+    freezerNote: "El morrón asado congela muy bien. Sabor intacto.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "10 min",
+    portions: "6 unidades",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón natural", "Morrón asado"],
+  },
+  {
+    id: "mini-salame",
+    name: "Mini Salame",
+    description:
+      "Mini pizza de salame artesanal con mozzarella y un toque de ají molido. Intensa y crocante.",
+    category: "mini-pizzeta",
+    freezerNote: "El salame soporta muy bien el congelado en formato mini.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "10 min",
+    portions: "6 unidades",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame artesanal", "Ají molido"],
+  },
+  {
+    id: "mini-queso-azul",
+    name: "Mini Queso Azul",
+    description:
+      "Mini pizza de queso azul desmenuzado sobre mozzarella. Para los que buscan sabor fuerte en formato chico.",
+    category: "mini-pizzeta",
+    freezerNote: "El queso azul mantiene su intensidad al congelar.",
+    image: "/pizzas/mini-pizzetas.png",
+    cookTime: "10 min",
+    portions: "6 unidades",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul"],
   },
 ];
 
+export type MiniPizzetaTray = {
+  id: string;
+  number: number;
+  mozzarella: number;
+  salame: number;
+  jamon: number;
+  quesoAzul: number;
+  proportion: string;
+};
+
+export const MINI_PIZZETA_TRAYS: MiniPizzetaTray[] = [
+  { id: "bandeja-1", number: 1, mozzarella: 3, salame: 1, jamon: 1, quesoAzul: 1, proportion: "Mitad mozzarella, el resto variado" },
+  { id: "bandeja-2", number: 2, mozzarella: 1, salame: 3, jamon: 1, quesoAzul: 1, proportion: "Protagonista el salame" },
+  { id: "bandeja-3", number: 3, mozzarella: 1, salame: 1, jamon: 3, quesoAzul: 1, proportion: "Protagonista el jamón" },
+  { id: "bandeja-4", number: 4, mozzarella: 1, salame: 1, jamon: 1, quesoAzul: 3, proportion: "Protagonista el queso azul" },
+  { id: "bandeja-5", number: 5, mozzarella: 2, salame: 2, jamon: 1, quesoAzul: 1, proportion: "Equilibrio entre mozzarella y salame" },
+  { id: "bandeja-6", number: 6, mozzarella: 2, salame: 1, jamon: 2, quesoAzul: 1, proportion: "Equilibrio entre mozzarella y jamón" },
+  { id: "bandeja-7", number: 7, mozzarella: 2, salame: 1, jamon: 1, quesoAzul: 2, proportion: "Equilibrio entre mozzarella y queso azul" },
+  { id: "bandeja-8", number: 8, mozzarella: 1, salame: 2, jamon: 2, quesoAzul: 1, proportion: "Equilibrio entre salame y jamón" },
+];
+
+export const MINI_PIZZETA_TRAY_INTRO =
+  "8 combinaciones diferentes para tus bandejas, repartiendo los 4 sabores (Mozzarella, Salame, Jamón y Queso Azul) en distintas proporciones para que no sean todas iguales. Cada bandeja suma 6 piezas.";
+
+export const TRAY_FLAVORS = [
+  { key: "mozzarella", label: "Mozzarella", emoji: "🧀", color: "#f59e0b" },
+  { key: "salame", label: "Salame", emoji: "🔴", color: "#c81009" },
+  { key: "jamon", label: "Jamón", emoji: "🟡", color: "#f97316" },
+  { key: "quesoAzul", label: "Queso Azul", emoji: "🔵", color: "#8b5cf6" },
+] as const;
+
 /**
- * Ingredient families shared across the 8-pizza catalog. Surfaced in the
+ * Ingredient families shared across the 20-pizza catalog. Surfaced in the
  * "Catálogo optimizado" section to communicate the production logic:
  * fewer SKUs at the supplier level → fresher stock, less waste, consistent
  * quality for the subscriber.
@@ -214,7 +519,7 @@ export type IngredientFamily = {
   emoji: string;
   name: string;
   ingredients: string[];
-  /** How many of the 8 pizzas use at least one item from this family. */
+  /** How many of the 20 pizzas use at least one item from this family. */
   usedIn: number;
 };
 
@@ -224,29 +529,29 @@ export const CATALOG_FAMILIES: IngredientFamily[] = [
     emoji: "🧀",
     name: "Familia de quesos",
     ingredients: ["Mozzarella", "Provolone", "Parmesano", "Queso azul"],
-    usedIn: 8,
+    usedIn: 20,
   },
   {
     id: "proteinas",
     emoji: "🥩",
     name: "Familia de proteínas",
-    ingredients: ["Jamón natural", "Salame artesanal", "Panceta ahumada"],
-    usedIn: 3,
+    ingredients: ["Jamón natural", "Salame de Tandil", "Panceta ahumada", "Pollo", "Carne desmenuzada"],
+    usedIn: 11,
   },
   {
     id: "aromaticos",
     emoji: "🌿",
     name: "Base aromática",
-    ingredients: ["Salsa de tomate", "Orégano", "Cebolla cocida", "Aceitunas"],
-    usedIn: 8,
+    ingredients: ["Salsa de tomate", "Orégano", "Cebolla caramelizada", "Morrones asados"],
+    usedIn: 20,
   },
 ];
 
 /** Headline stats for the optimized-catalog section. */
 export const CATALOG_STATS = [
-  { value: "8", label: "Variedades curadas" },
+  { value: "20", label: "Variedades elegidas" },
+  { value: "5", label: "Líneas de producto" },
   { value: "3+", label: "Meses en freezer" },
-  { value: "1", label: "Base compartida" },
   { value: "∞", label: "Al vacío, más tiempo" },
 ] as const;
 
@@ -386,7 +691,7 @@ export const PLANS: Plan[] = [
     name: "Evento Especial",
     description:
       "¿Tenés invitados? Armamos un kit personalizado con la cantidad y sabores que necesites.",
-    price: "A consultar",
+    price: "Desde $35.000",
     unit: "/pedido único",
     perks: ["Kit personalizado", "Sabores a pedido", "Cantidad flexible"],
   },
@@ -432,6 +737,7 @@ export type Testimonial = {
   initials: string;
   name: string;
   role: string;
+  since?: string;
   quote: string;
 };
 
@@ -440,6 +746,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "LM",
     name: "Laura Martínez",
     role: "Mamá de 3 hijos",
+    since: "Cliente desde hace 4 meses",
     quote:
       "Nunca pensé que una pizza congelada pudiera saber tan bien. La masa es increíble y el queso se derrite perfecto. Mis hijos la aman.",
   },
@@ -447,6 +754,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "CR",
     name: "Carlos Ramírez",
     role: "Foodie & Chef amateur",
+    since: "Suscripción Premium · 6 meses",
     quote:
       "La calidad es comparable a una pizzería italiana. El envío llegó perfecto, bien refrigerado. Ahora tengo suscripción mensual.",
   },
@@ -454,6 +762,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "AG",
     name: "Andrea Gómez",
     role: "Ejecutiva ocupada",
+    since: "Kit Semanal · 3 meses",
     quote:
       "Perfecta para cenas rápidas entre semana. En 15 minutos tengo una pizza de restaurante. La de cuatro quesos es espectacular.",
   },
@@ -461,6 +770,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "JP",
     name: "Javier Pereyra",
     role: "Padre y cocinero de fin de semana",
+    since: "Cliente desde hace 2 meses",
     quote:
       "La congelación flash se nota: la masa queda crocante como recién hecha. El Kit Premium nos rinde para toda la semana.",
   },
@@ -495,13 +805,96 @@ export const FAQS: Faq[] = [
   },
 ];
 
-export type Zone = { name: string; schedule: string; available: boolean };
+export type FreezerScienceReason = {
+  id: string;
+  emoji: string;
+  title: string;
+  description: string;
+};
 
-export const ZONES: Zone[] = [
-  { name: "Ciudad de Mendoza", schedule: "Martes y Jueves · 18–21 hs", available: true },
-  { name: "Godoy Cruz", schedule: "Martes y Jueves · 18–21 hs", available: true },
-  { name: "Guaymallén", schedule: "Miércoles y Viernes · 18–21 hs", available: true },
-  { name: "Las Heras", schedule: "Miércoles · 18–21 hs", available: true },
-  { name: "Luján de Cuyo", schedule: "Viernes · 18–21 hs", available: true },
-  { name: "Maipú", schedule: "Viernes · 18–21 hs", available: false },
+export const FREEZER_SCIENCE_REASONS: FreezerScienceReason[] = [
+  {
+    id: "retrogradacion",
+    emoji: "🧬",
+    title: "Frena el envejecimiento del almidón",
+    description:
+      "A temperatura ambiente, los almidones del pan o la masa cocida se reorganizan y se cristalizan, lo que hace que el producto se ponga duro y seco. El frío intenso del congelador detiene este proceso casi por completo. Cuando descongelás correctamente, el almidón vuelve a su estado original, devolviéndole la textura tierna.",
+  },
+  {
+    id: "frescura",
+    emoji: "✨",
+    title: "Mantiene la frescura original",
+    description:
+      "Si congelás una pizza o un pan apenas se enfría tras salir del horno, estás \"atrapando\" la humedad interna en su punto óptimo. Al recalentarlo, esa humedad se redistribuye, dando la sensación de que el producto fue horneado hace pocos minutos.",
+  },
+  {
+    id: "sin-quimicos",
+    emoji: "🌿",
+    title: "Seguridad alimentaria sin químicos",
+    description:
+      "La mayoría de los panes industriales usan conservantes para que no les salga moho en la despensa. Al congelar tus masas o panes, no necesitás conservantes. Es la forma más natural y saludable de mantener tus alimentos sin que se llenen de hongos o bacterias.",
+  },
+  {
+    id: "versatilidad",
+    emoji: "📦",
+    title: "Versatilidad operativa",
+    description:
+      "Las masas de harina son muy agradecidas con el frío. Podés congelar masas crudas (bolas de masa para pizza o galletas), masas pre-cocidas (el secreto de las pizzas de alta calidad: horneas la masa un 70-80%, la congelás, y cuando querés comerla, solo la terminás de hornear con los ingredientes encima), y mucho más.",
+  },
 ];
+
+export type FreezerScienceTip = {
+  id: string;
+  product: string;
+  technique: string;
+};
+
+export const FREEZER_SCIENCE_TIPS: FreezerScienceTip[] = [
+  {
+    id: "pan-hogaza",
+    product: "Pan en hogaza",
+    technique: "Cortar en rodajas antes de congelar.",
+  },
+  {
+    id: "pre-pizza",
+    product: "Pizza (pre-pizza)",
+    technique: "Pre-cocinarla, dejar enfriar, envolver en film y luego en bolsa.",
+  },
+  {
+    id: "masas-crudas",
+    product: "Masas crudas",
+    technique: "Separar por porciones individuales para no tener que descongelar todo el bloque.",
+  },
+  {
+    id: "empanadas",
+    product: "Empanadas",
+    technique: "Congelar crudas (sin hornear). Al sacarlas, van directo al horno caliente.",
+  },
+];
+
+export type FreezerScienceTrick = {
+  id: string;
+  product: string;
+  instruction: string;
+};
+
+export const FREEZER_SCIENCE_TRICKS: FreezerScienceTrick[] = [
+  {
+    id: "pan",
+    product: "Pan",
+    instruction: "Del freezer directo a la tostadora o al horno fuerte (200°C) durante 5 minutos.",
+  },
+  {
+    id: "pizza",
+    product: "Pizza",
+    instruction: "Del freezer directo al horno caliente. El calor intenso hará que la base se ponga crocante antes de que la miga llegue a ablandarse demasiado.",
+  },
+];
+
+export const FREEZER_SCIENCE_INTRO =
+  "Congelar productos de panadería (panes, pizzas, masas, empanadas, etc.) es, posiblemente, la mejor forma de conservar la calidad artesanal en casa. Cuando hablamos de productos elaborados con harina, el proceso de \"envejecimiento\" ocurre muy rápido debido a un fenómeno químico llamado retrogradación del almidón.";
+
+export const FREEZER_SCIENCE_TRICK_NOTE =
+  "El error más común es descongelar a temperatura ambiente, lo que suele hacer que el pan o la pizza queden gomosos o húmedos. La clave es el choque de calor:";
+
+
