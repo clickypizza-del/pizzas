@@ -413,7 +413,7 @@ export const PIZZAS: Pizza[] = [
       "Bandeja de 6 mini pizzas en 4 sabores: Mozzarella, Salame, Jamón y Queso Azul. Elegí la combinación que más te guste.",
     category: "mini-pizzeta",
     freezerNote: "Ideales para freezer. Se hornean directo del congelado en 10 minutos.",
-    image: "/pizzas/mini-pizzetas.png",
+    image: "/pizzas/mini-pizzetas2.png",
     cookTime: "10 min",
     portions: "6 unidades",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame", "Jamón natural", "Queso azul"],

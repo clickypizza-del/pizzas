@@ -356,7 +356,7 @@ function PizzaDialog({
       id: combo.id,
       name: `Mini Pizzetas — ${combo.nombre}`,
       price: combo.precio,
-      image: "/pizzas/mini-pizzetas.png",
+      image: "/pizzas/mini-pizzetas2.png",
       category: "mini-pizzeta",
       flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
     });
@@ -575,7 +575,7 @@ function MiniPizzetaCombosSection() {
       id: combo.id,
       name: `Mini Pizzetas — ${combo.nombre}`,
       price: combo.precio,
-      image: "/pizzas/mini-pizzetas.png",
+      image: "/pizzas/mini-pizzetas2.png",
       category: "mini-pizzeta",
       flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
     });
