@@ -132,9 +132,7 @@ export function MenuSection() {
             ))}
           </ul>
 
-          {activeCat === "mini-pizzeta" || activeCat === "all" ? (
-            <MiniPizzetaCombosSection />
-          ) : null}
+          {activeCat === "mini-pizzeta" || activeCat === "all" ? null : null}
         </Reveal>
       </div>
 
