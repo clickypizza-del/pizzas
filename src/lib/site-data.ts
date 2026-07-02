@@ -34,7 +34,7 @@ export { isNavGroup };
 
 export const NAV_ITEMS: NavLink[] = [
   { href: "/nosotros", label: "Nosotros" },
-  { href: "/menu", label: "Menú" },
+  { href: "/menu", label: "Catálogo" },
   { href: "/suscripcion", label: "Suscripción" },
   { href: "/revendedores", label: "Revendedores" },
   { href: "/panificados", label: "Panificados" },
