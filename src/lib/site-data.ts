@@ -940,16 +940,16 @@ export const PROMOTIONS: Promotion[] = [
       "¡Hola Click & Pizza! Quiero aprovechar la Promo 10 + 1 Gratis. ¿Cómo hago mi pedido?",
   },
   {
-    id: "pedidos-lunes-jueves",
-    title: "Pedidos Lunes y Jueves",
+    id: "pedidos-martes-jueves",
+    title: "Pedidos Martes y Jueves",
     description:
-      "Entregas programadas los lunes y jueves. Producto congelado, listo para el horno.",
+      "Entregas programadas los martes y jueves. Producto congelado, listo para el horno.",
     image: "/pizzas/cuatro-quesos.jpg",
     badge: "Entrega",
     badgeColor: "bg-brand-green text-white",
     cta: "Reservar Pedido",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero reservar un pedido para la entrega del lunes/jueves.",
+      "¡Hola Click & Pizza! Quiero reservar un pedido para la entrega del martes/jueves.",
   },
   {
     id: "revendedor",
