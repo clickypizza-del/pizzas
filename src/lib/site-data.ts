@@ -899,4 +899,70 @@ export const FREEZER_SCIENCE_INTRO =
 export const FREEZER_SCIENCE_TRICK_NOTE =
   "El error más común es descongelar a temperatura ambiente, lo que suele hacer que el pan o la pizza queden gomosos o húmedos. La clave es el choque de calor:";
 
+/* ─── Promociones destacadas ──────────────────────────────────────── */
+
+export type Promotion = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  badge?: string;
+  badgeColor?: string;
+  price?: string;
+  cta: string;
+  whatsappMessage: string;
+};
+
+export const PROMOTIONS: Promotion[] = [
+  {
+    id: "domingo-pizza",
+    title: "Domingo de Pizza",
+    description:
+      "Pedí anticipadamente y recibí pizzas congeladas listas para hornear. Ideal para disfrutar en familia los domingos.",
+    image: "/pizzas/muzza.png",
+    badge: "Popular",
+    badgeColor: "bg-brand-amber text-black",
+    cta: "Pedir por WhatsApp",
+    whatsappMessage:
+      "¡Hola Click & Pizza! Quiero hacer un pedido para el Domingo de Pizza. ¿Cuáles son las opciones?",
+  },
+  {
+    id: "promo-10-1",
+    title: "Promo 10 + 1 Gratis",
+    description:
+      "Comprando 10 pizzas, llevate 1 gratis. Ideal para familias, eventos y revendedores.",
+    image: "/pizzas/salame.png",
+    badge: "Oferta",
+    badgeColor: "bg-primary text-white",
+    price: "10 + 1",
+    cta: "Quiero la Promo",
+    whatsappMessage:
+      "¡Hola Click & Pizza! Quiero aprovechar la Promo 10 + 1 Gratis. ¿Cómo hago mi pedido?",
+  },
+  {
+    id: "pedidos-lunes-jueves",
+    title: "Pedidos Lunes y Jueves",
+    description:
+      "Entregas programadas los lunes y jueves. Producto congelado, listo para el horno.",
+    image: "/pizzas/cuatro-quesos.jpg",
+    badge: "Entrega",
+    badgeColor: "bg-brand-green text-white",
+    cta: "Reservar Pedido",
+    whatsappMessage:
+      "¡Hola Click & Pizza! Quiero reservar un pedido para la entrega del lunes/jueves.",
+  },
+  {
+    id: "revendedor",
+    title: "Sé Revendedor",
+    description:
+      "Excelente margen de ganancia, producto de alta rotación y sin necesidad de elaboración.",
+    image: "/pizzas/mini-pizzetas2.png",
+    badge: "Negocio",
+    badgeColor: "bg-blue-600 text-white",
+    cta: "Quiero Información",
+    whatsappMessage:
+      "¡Hola Click & Pizza! Quiero información para ser revendedor. ¿Cómo funciona?",
+  },
+];
+
 

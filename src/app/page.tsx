@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HeroSection } from "@/components/site/hero-section";
+import { PromotionsSection } from "@/components/site/promotions-section";
 import { PhilosophySection } from "@/components/site/philosophy-section";
 import { SocialProofSection } from "@/components/site/social-proof-section";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
@@ -19,6 +20,7 @@ export default function Home() {
   return (
     <>
       <HeroSection />
+      <PromotionsSection />
       <PhilosophySection />
 
       <section className="py-12 sm:py-20 lg:py-24">
