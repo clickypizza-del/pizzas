@@ -11,7 +11,7 @@ export const SITE = {
   instagram: "click_y_pizza",
   instagramUrl: "https://instagram.com/click_y_pizza",
   whatsappText:
-    "¡Hola Click & Pizza! Quería hacer una consulta sobre las pizzas.",
+    "¡Hola Click & Pizza! Quiero hacer una consulta sobre las pizzas.",
   qrUrl: "/qr-whatsapp.png",
   logoUrl: "/logo-click.png",
   shareUrl: "https://clickypizza.com.ar",
@@ -213,7 +213,7 @@ export const PIZZAS: Pizza[] = [
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
     detail:
-      "Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una generosa capa de muzzarella de excelente calidad y abundante jamón cocido seleccionado. Se completa con nuestro aderezo especial y aceitunas verdes descarozadas, logrando una combinación clásica, equilibrada y llena de sabor. Una pizza ideal para quienes disfrutan de los sabores tradicionales con ingredientes de primera calidad y un gratinado irresistible.",
+      "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.",
   },
   {
     id: "clasica-salame",
@@ -236,7 +236,7 @@ export const PIZZAS: Pizza[] = [
     description:
       "Mozzarella cremosa, salsa de tomate y queso azul (Roquefort), que aporta un sabor intenso, cremoso y lleno de personalidad para los paladares más exigentes.",
     detail:
-      "Una combinación irresistible de abundante mozzarella cremosa y queso azul (Roquefort), cuidadosamente distribuido para lograr un equilibrio perfecto entre suavidad e intensidad. Al hornearse, el queso se funde sobre la pizza, creando una textura cremosa y un sabor profundo que convierte cada porción en una experiencia única.\n\nIdeal para quienes buscan una pizza con carácter, elaborada con ingredientes de primera calidad y lista para disfrutar en pocos minutos. Un clásico gourmet que nunca pasa desapercibido.",
+      "Una combinación irresistible de abundante mozzarella cremosa y queso azul (Roquefort), cuidadosamente distribuido para lograr un equilibrio perfecto entre suavidad e intensidad. Al hornearse, el queso se funde sobre la pizza, creando una textura cremosa y un sabor profundo que conquista desde el primer bocado.\n\nIdeal para quienes buscan una pizza con carácter, elaborada con ingredientes de primera calidad y lista para disfrutar en pocos minutos. Un clásico gourmet que nunca pasa desapercibido.",
     category: "clasica",
     freezerNote: "El queso azul congela excelente. Conserva toda su intensidad.",
     image: "/pizzas/azul.png",
@@ -641,7 +641,7 @@ export const PANIFICADOS: Panificado[] = [
     id: "pan-salvado",
     name: "Pan de Salvado",
     description:
-      "Pan artesanal de salvado de trigo, rico en fibra. Ideal para tostadas al desayuno o como acompañamiento. Congela excelente y se mantiene tierno por semanas.",
+      "Pan artesanal de salvado de trigo, rico en fibra. Ideal para tostadas al desayuno o como acompañamiento. Se congela excelente y se mantiene tierno por semanas.",
     note: "Rico en fibra · Freezer 3+ meses",
     image: "/pan-salvado.jpeg",
     price: "$3.500",
@@ -666,7 +666,7 @@ export const PLANS: Plan[] = [
     emoji: "📦",
     name: "Kit Semanal",
     description:
-      "4 pizzas a elección entregadas cada semana. Ideal para familias o amantes de la pizza.",
+      "4 pizzas a elección, entregadas cada semana. Ideal para familias o amantes de la pizza.",
     price: "$25.000",
     unit: "/semana",
     perks: ["4 pizzas a elección", "Entrega semanal", "Cambio de sabores"],
@@ -930,7 +930,7 @@ export const PROMOTIONS: Promotion[] = [
     id: "promo-10-1",
     title: "Promo 10 + 1 Gratis",
     description:
-      "Comprando 10 pizzas, llevate 1 gratis. Ideal para familias, eventos y revendedores.",
+      "Comprando 10 pizzas, llévate 1 gratis. Ideal para familias, eventos y revendedores.",
     image: "/pizzas/salame.png",
     badge: "Oferta",
     badgeColor: "bg-primary text-white",

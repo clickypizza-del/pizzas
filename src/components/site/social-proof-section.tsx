@@ -64,7 +64,7 @@ export function SocialProofSection() {
           <SectionHeading
             eyebrow="Testimonios"
             title="Lo que dicen nuestros clientes"
-            description="Miles de hogares ya disfrutan la experiencia Click & Pizza."
+            description="Miles de hogares ya disfrutan de la experiencia Click & Pizza."
           />
         </Reveal>
 

@@ -114,10 +114,10 @@ export function CartDrawer() {
           <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4 sm:px-6">
             <ShoppingBag className="size-12 sm:size-16 text-muted-foreground/30" />
             <p className="text-sm text-muted-foreground text-center">
-              Tu carrito esta vacio
+              Tu carrito está vacío
             </p>
             <Button variant="outline" onClick={closeCart} className="cta-inline text-sm">
-              Ver menu
+              Ver menú
             </Button>
           </div>
         ) : (

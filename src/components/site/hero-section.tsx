@@ -59,7 +59,7 @@ export function HeroSection() {
                 className="cta-hero px-8 py-5 sm:py-6 text-base font-semibold"
               >
                 <a href="#planes">
-                  Ver planes y armar mi caja
+                  Ver planes
                   <ArrowRight className="size-4" />
                 </a>
               </Button>
@@ -69,7 +69,7 @@ export function HeroSection() {
                 variant="secondary"
                 className="cta-inline px-8 py-5 sm:py-6 text-base border-border hover:border-primary/40"
               >
-                <a href="#menu">Ver pizza del día</a>
+                <a href="#menu">Ver la pizza del día</a>
               </Button>
             </div>
 

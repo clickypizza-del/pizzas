@@ -4,19 +4,19 @@ import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const MENU_LINKS = [
-  { href: "#menu", label: "Clásicas" },
-  { href: "#menu", label: "Especiales" },
+  { href: "/menu", label: "Clásicas" },
+  { href: "/menu", label: "Especiales" },
   { href: "/panificados", label: "Panificados" },
-  { href: "#freezer", label: "Catálogo optimizado" },
-  { href: "#suscripcion", label: "Suscripción" },
+  { href: "/nosotros", label: "Catálogo optimizado" },
+  { href: "/suscripcion", label: "Suscripción" },
 ]
 
 const COMPANY_LINKS = [
-  { href: "#filosofia", label: "Nuestra filosofía" },
-  { href: "#suscripcion", label: "Suscripción" },
-  { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#pedidos", label: "Pedidos" },
-  { href: "#faq", label: "Preguntas frecuentes" },
+  { href: "/nosotros", label: "Nuestra filosofía" },
+  { href: "/suscripcion", label: "Suscripción" },
+  { href: "/nosotros", label: "Cómo funciona" },
+  { href: "/suscripcion", label: "Pedidos" },
+  { href: "/faq", label: "Preguntas frecuentes" },
 ]
 
 export function SiteFooter() {
@@ -161,13 +161,13 @@ export function SiteFooter() {
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
           <p>© {new Date().getFullYear()} Click &amp; Pizza. Todos los derechos reservados.</p>
           <div className="flex gap-4">
-            <a href="#faq" className="hover:text-primary transition-colors">
+            <a href="/faq" className="hover:text-primary transition-colors">
               Ayuda
             </a>
             <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground">Pagá en efectivo o transferencia</span>
+            <span className="text-muted-foreground">Pagá en efectivo o por transferencia</span>
             <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground">Envío en 15 min</span>
+            <span className="text-muted-foreground">Envío en 15 minutos</span>
           </div>
         </div>
       </div>

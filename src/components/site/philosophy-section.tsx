@@ -8,7 +8,7 @@ const PILLARS = [
     icon: Compass,
     title: "Curaduría de sabores",
     description:
-      "No encontrarás estas recetas en supermercados. Ingredientes seleccionados y combinaciones únicas.",
+      "No encontrás estas recetas en supermercados. Ingredientes seleccionados y combinaciones únicas.",
   },
   {
     icon: Package,
