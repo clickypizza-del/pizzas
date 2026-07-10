@@ -911,7 +911,8 @@ export type Promotion = {
   badgeColor?: string;
   price?: string;
   cta: string;
-  whatsappMessage: string;
+  whatsappMessage?: string;
+  link?: string;
 };
 
 export const PROMOTIONS: Promotion[] = [
@@ -937,9 +938,8 @@ export const PROMOTIONS: Promotion[] = [
     badge: "Ahorro",
     badgeColor: "bg-brand-green text-white",
     price: "$69.300",
-    cta: "Quiero ahorrar",
-    whatsappMessage:
-      "¡Hola Click & Pizza! Quiero aprovechar la Promo 10 + 1 Gratis. ¿Cómo hago mi pedido?",
+    cta: "Club Clicky",
+    link: "/club-clicky",
   },
   {
     id: "suscripcion",

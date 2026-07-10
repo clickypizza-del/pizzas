@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +10,9 @@ import { PROMOTIONS, type Promotion } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 function PromotionCard({ promo }: { promo: Promotion }) {
+  const href = promo.link ?? buildWhatsAppUrl(promo.whatsappMessage ?? "");
+  const isExternal = !promo.link;
+
   return (
     <article className="group relative flex flex-col h-full bg-card rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-xl hover:shadow-primary/8 hover:border-primary/40 hover:-translate-y-1 transition-all duration-300">
       <div className="relative aspect-[16/10] overflow-hidden bg-secondary">
@@ -51,15 +55,22 @@ function PromotionCard({ promo }: { promo: Promotion }) {
             size="sm"
             className="cta-section shrink-0 text-xs sm:text-sm px-4 py-2 h-9 rounded-xl font-semibold"
           >
-            <a
-              href={buildWhatsAppUrl(promo.whatsappMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={promo.cta}
-            >
-              {promo.cta}
-              <ArrowRight className="size-3.5 ml-1" />
-            </a>
+            {promo.link ? (
+              <Link href={promo.link}>
+                {promo.cta}
+                <ArrowRight className="size-3.5 ml-1" />
+              </Link>
+            ) : (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={promo.cta}
+              >
+                {promo.cta}
+                <ArrowRight className="size-3.5 ml-1" />
+              </a>
+            )}
           </Button>
         </div>
       </div>
