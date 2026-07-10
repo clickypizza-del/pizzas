@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site-data";
+import type { MiniPizzetaCombo } from "@/lib/site-data";
 
 /**
  * Build a wa.me deep link with a pre-filled, URL-encoded message.
@@ -21,6 +22,8 @@ export const WA_MESSAGES = {
     "¡Hola Click & Pizza! Quiero armar un pedido para un evento especial. ¿Me pasan info?",
   pizza: (name: string) =>
     `¡Hola Click & Pizza! Quiero consultar por la pizza ${name}. ¿La tengo disponible esta semana?`,
+  miniPizzeta: (combo: MiniPizzetaCombo) =>
+    `¡Hola Click & Pizza! Quiero las Mini Pizzetas — ${combo.nombre} ($${combo.precio.toLocaleString("es-AR")}). ${combo.sabores.map((s) => `${s.qty} ${s.name}`).join(", ")}.`,
   clubClicky:
     "Hola, quiero unirme al Club Clicky y empezar a sumar pizzas para obtener mi pizza gratis.",
   revendedor:

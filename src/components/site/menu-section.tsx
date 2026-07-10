@@ -54,10 +54,8 @@ export function MenuSection() {
     ? PIZZAS
     : PIZZAS.filter((p) => p.category === activeCat);
 
-  const miniPizzetaPizza = PIZZAS.find((p) => p.category === "mini-pizzeta");
-  const showMiniPizzetaCard = activeCat === "all" || activeCat === "mini-pizzeta";
+  const showMiniPizzetas = activeCat === "all" || activeCat === "mini-pizzeta";
   const showOtherPizzas = filteredPizzas.filter((p) => p.category !== "mini-pizzeta");
-  const showCombos = activeCat === "mini-pizzeta";
 
   return (
     <section
@@ -70,7 +68,7 @@ export function MenuSection() {
           <SectionHeading
             eyebrow="Nuestro catálogo"
             title="Catálogo elegido de variedades gourmet"
-            description="Veinte pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet & Selección de Quesos, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
+            description="Doce pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet & Selección de Quesos, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
           />
         </Reveal>
 
@@ -147,13 +145,13 @@ export function MenuSection() {
                 </Reveal>
               </li>
             ))}
-            {showMiniPizzetaCard && miniPizzetaPizza && (
-              <li key="mini-pizzetas" className="col-span-full">
-                <Reveal delay={0.05}>
-                  <MiniPizzetaCard pizza={miniPizzetaPizza} showCombos={showCombos} />
+            {showMiniPizzetas && MINI_PIZZETA_COMBOS.map((combo, i) => (
+              <li key={combo.id}>
+                <Reveal as="div" delay={i * 0.04}>
+                  <MiniPizzetaComboCard combo={combo} />
                 </Reveal>
               </li>
-            )}
+            ))}
           </ul>
         </Reveal>
       </div>
@@ -170,193 +168,125 @@ export function MenuSection() {
   );
 }
 
-/* ─── Mini Pizzetas — single card with inline combo selector ───────── */
+/* ─── Mini Pizzetas — individual combo cards ──────────────────────── */
 
-function MiniPizzetaCard({ pizza, showCombos }: { pizza: Pizza; showCombos: boolean }) {
+function MiniPizzetaComboCard({ combo }: { combo: MiniPizzetaCombo }) {
   const addItem = useCartStore((s) => s.addItem);
-  const [selectedCombo, setSelectedCombo] = useState<MiniPizzetaCombo>(MINI_PIZZETA_COMBOS[0]);
   const [added, setAdded] = useState(false);
 
-  const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
+  const labelConf = combo.etiqueta ? COMBO_LABEL_CONFIG[combo.etiqueta] : null;
 
   const handleAdd = () => {
     addItem({
-      id: `${pizza.id}-${selectedCombo.id}`,
-      name: `Mini Pizzetas — ${selectedCombo.nombre}`,
-      price: selectedCombo.precio,
-      image: pizza.image,
-      category: pizza.category,
-      flavors: selectedCombo.sabores.map((s) => `${s.qty} ${s.name}`),
+      id: `mini-pizzetas-${combo.id}`,
+      name: `Mini Pizzetas — ${combo.nombre}`,
+      price: combo.precio,
+      image: "/pizzas/mini-pizzetas2.png",
+      category: "mini-pizzeta",
+      flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
     });
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
 
-  const whatsappMsg = `¡Hola Click & Pizza! Quiero las Mini Pizzetas — ${selectedCombo.nombre} ($${selectedCombo.precio.toLocaleString("es-AR")}). ${selectedCombo.sabores.map((s) => `${s.qty} ${s.name}`).join(", ")}.`;
+  const whatsappMsg = WA_MESSAGES.miniPizzeta(combo);
 
   return (
-    <article className="bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
-      <div className="flex flex-col md:flex-row">
-        <div className="relative w-full md:w-80 lg:w-96 flex-shrink-0 overflow-hidden bg-secondary">
-          <div className="relative w-full aspect-[4/3] md:aspect-auto md:h-full">
-            <Image
-              src={pizza.image}
-              alt={`Pizza ${pizza.name}`}
-              width={600}
-              height={450}
-              loading="lazy"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2.5 py-1 text-[11px] font-semibold text-foreground">
-              <Snowflake className="size-3 text-primary" aria-hidden />
-              <span className="text-primary">3+ meses</span>
-            </div>
-          </div>
+    <article className="group flex flex-col bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
+      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+        <Image
+          src="/pizzas/mini-pizzetas2.png"
+          alt={`Mini Pizzetas — ${combo.nombre}`}
+          width={600}
+          height={450}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2.5 py-1 text-[11px] font-semibold text-foreground">
+          <Snowflake className="size-3 text-primary" aria-hidden />
+          <span className="text-primary">10 min</span>
         </div>
+        {labelConf ? (
+          <Badge className={`absolute top-3 left-3 border-transparent shadow-lg text-[10px] sm:text-xs font-bold px-2 py-0.5 ${labelConf.className}`}>
+            {labelConf.label}
+          </Badge>
+        ) : null}
+      </div>
 
-        <div className="flex-1 p-4 sm:p-6 flex flex-col min-h-0">
-          <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-            <Badge
-              className="border-transparent shadow-lg text-white text-[9px] sm:text-[10px] px-1.5 py-0.5 leading-tight"
-              style={{ backgroundColor: cat.accent }}
-            >
-              <span aria-hidden className="mr-0.5">{cat.emoji}</span>
-              {cat.label}
-            </Badge>
-          </div>
-
-          <h3 className="text-lg sm:text-xl font-extrabold text-foreground mb-1">
-            {pizza.name}
+      <div className="p-3 sm:p-5 flex flex-col flex-1 min-h-0">
+        <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
+          <Badge
+            className="border-transparent shadow-lg text-white text-[10px] sm:text-xs px-1.5 py-0.5 leading-tight"
+            style={{ backgroundColor: "#c81009" }}
+          >
+            <span aria-hidden className="mr-0.5">🫓</span>
+            Mini Pizzetas
+          </Badge>
+        </div>
+        <div className="flex items-start justify-between gap-2 mb-1.5">
+          <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">
+            {combo.nombre}
           </h3>
-
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-            {pizza.description}
-          </p>
-
-          <div className="flex items-center gap-3 mb-4 text-xs text-muted-foreground">
-            {pizza.cookTime ? (
-              <span className="inline-flex items-center gap-1">
-                <Clock className="size-3" aria-hidden />
-                {pizza.cookTime}
-              </span>
-            ) : null}
-            {pizza.portions ? (
-              <span className="inline-flex items-center gap-1">
-                <Users className="size-3" aria-hidden />
-                {pizza.portions}
-              </span>
-            ) : null}
-          </div>
-
-          {showCombos && (
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-sm" aria-hidden>🫓</span>
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Elegí tu combinación
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {MINI_PIZZETA_COMBOS.map((combo) => {
-                  const isSelected = selectedCombo.id === combo.id;
-                  const labelConf = combo.etiqueta ? COMBO_LABEL_CONFIG[combo.etiqueta] : null;
-                  return (
-                    <button
-                      key={combo.id}
-                      type="button"
-                      onClick={() => setSelectedCombo(combo)}
-                      className={`text-left rounded-xl p-3 border transition-all duration-200 ${
-                        isSelected
-                          ? "bg-primary/10 border-primary shadow-md shadow-primary/10"
-                          : "bg-secondary/60 border-border hover:border-primary/40 hover:bg-secondary"
-                      }`}
-                      aria-pressed={isSelected}
-                    >
-                      <div className="flex items-center justify-between gap-1 mb-1.5">
-                        <h4 className="text-xs sm:text-sm font-bold text-foreground leading-tight truncate">
-                          {combo.nombre}
-                        </h4>
-                        {labelConf ? (
-                          <Badge className={`border-transparent shadow-lg text-[8px] sm:text-[9px] font-bold px-1 py-0.5 flex-shrink-0 ${labelConf.className}`}>
-                            {labelConf.label}
-                          </Badge>
-                        ) : null}
-                      </div>
-                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 mb-2">
-                        {combo.sabores.map((s) => (
-                          <span key={s.name} className="text-[10px] sm:text-xs text-muted-foreground">
-                            <span className="font-bold text-foreground">{s.qty}</span> {s.name}
-                          </span>
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm sm:text-base font-extrabold text-price">
-                          ${combo.precio.toLocaleString("es-AR")}
-                        </span>
-                        {isSelected ? (
-                          <span className="size-4 rounded-full bg-primary flex items-center justify-center">
-                            <Check className="size-2.5 text-primary-foreground" />
-                          </span>
-                        ) : (
-                          <span className="size-4 rounded-full border border-border" />
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between gap-3 pt-3 border-t border-border mt-auto">
-            <div>
-              <span className="text-xs text-muted-foreground">Precio:</span>
-              <span className="ml-2 text-xl sm:text-2xl font-extrabold text-price">
-                ${selectedCombo.precio.toLocaleString("es-AR")}
-              </span>
-            </div>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                size="sm"
-                onClick={handleAdd}
-                className={`text-xs sm:text-sm transition-all duration-300 ${
-                  added
-                    ? "bg-brand-green hover:bg-brand-green text-white"
-                    : "cta-section"
-                }`}
-              >
-                {added ? (
-                  <>
-                    <Check className="size-3.5" />
-                    Agregado
-                  </>
-                ) : (
-                  <>
-                    <ShoppingCart className="size-3.5" />
-                    Agregar
-                  </>
-                )}
-              </Button>
-              <Button
-                asChild
-                size="sm"
-                variant="outline"
-                className="cta-inline border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary text-xs sm:text-sm"
-              >
-                <a
-                  href={buildWhatsAppUrl(whatsappMsg)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Consultar Mini Pizzetas ${selectedCombo.nombre} por WhatsApp`}
-                >
-                  <MessageCircle className="size-3.5 sm:hidden" />
-                  <span className="hidden sm:inline">Consultar</span>
-                </a>
-              </Button>
-            </div>
-          </div>
+          <span className="text-sm sm:text-base font-extrabold text-price whitespace-nowrap">
+            ${combo.precio.toLocaleString("es-AR")}
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-x-2 gap-y-0.5 mb-1.5 sm:mb-3">
+          {combo.sabores.map((s) => (
+            <span key={s.name} className="text-[10px] sm:text-xs text-muted-foreground">
+              <span className="font-bold text-foreground">{s.qty}</span> {s.name}
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-3 text-[10px] sm:text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-0.5">
+            <Clock className="size-2.5 sm:size-3" aria-hidden />
+            10 min
+          </span>
+          <span className="inline-flex items-center gap-0.5">
+            <Users className="size-2.5 sm:size-3" aria-hidden />
+            6 unidades
+          </span>
+        </div>
+        <div className="flex gap-2 mt-auto">
+          <Button
+            type="button"
+            size="sm"
+            onClick={handleAdd}
+            className={`flex-1 text-xs sm:text-sm transition-all duration-300 ${
+              added
+                ? "bg-brand-green hover:bg-brand-green text-white"
+                : "cta-section"
+            }`}
+          >
+            {added ? (
+              <>
+                <Check className="size-3.5" />
+                Agregado
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="size-3.5" />
+                Agregar
+              </>
+            )}
+          </Button>
+          <Button
+            asChild
+            size="sm"
+            variant="outline"
+            className="cta-inline border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary text-xs sm:text-sm"
+          >
+            <a
+              href={buildWhatsAppUrl(whatsappMsg)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Consultar Mini Pizzetas ${combo.nombre} por WhatsApp`}
+            >
+              <MessageCircle className="size-3.5 sm:hidden" />
+              <span className="hidden sm:inline">Consultar</span>
+            </a>
+          </Button>
         </div>
       </div>
     </article>
@@ -417,14 +347,14 @@ function PizzaCard({
       <div className="p-3 sm:p-5 flex flex-col flex-1 min-h-0">
         <div className="flex items-center gap-1.5 mb-1.5 flex-wrap">
           <Badge
-            className="border-transparent shadow-lg text-white text-[9px] sm:text-[10px] px-1.5 py-0.5 leading-tight"
+            className="border-transparent shadow-lg text-white text-[10px] sm:text-xs px-1.5 py-0.5 leading-tight"
             style={{ backgroundColor: category.accent }}
           >
             <span aria-hidden className="mr-0.5">{category.emoji}</span>
             {category.label}
           </Badge>
           {badgeConf ? (
-            <Badge className={`border-transparent shadow-lg text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 leading-tight ${badgeConf.className}`}>
+            <Badge className={`border-transparent shadow-lg text-[10px] sm:text-xs font-bold px-1.5 py-0.5 leading-tight ${badgeConf.className}`}>
               {badgeConf.label}
             </Badge>
           ) : null}

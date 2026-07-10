@@ -13,9 +13,9 @@ const MENU_LINKS = [
 
 const COMPANY_LINKS = [
   { href: "/nosotros", label: "Nuestra filosofía" },
+  { href: "/club-clicky", label: "Club Clicky" },
   { href: "/suscripcion", label: "Suscripción" },
   { href: "/nosotros", label: "Cómo funciona" },
-  { href: "/suscripcion", label: "Pedidos" },
   { href: "/faq", label: "Preguntas frecuentes" },
 ]
 

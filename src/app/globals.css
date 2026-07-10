@@ -45,13 +45,11 @@
   --color-brand-red-bright: var(--brand-red-bright);
   --color-brand-amber: var(--brand-amber);
   --color-brand-purple: var(--brand-purple);
-  --color-brand-cyan: var(--brand-cyan);
-  --color-brand-pink: var(--brand-pink);
+
   --color-cat-clasica: var(--cat-clasica);
   --color-cat-gourmet: var(--cat-gourmet);
   --color-cat-premium: var(--cat-premium);
-  --color-cat-mini: var(--cat-mini);
-  --color-cat-individual: var(--cat-individual);
+
   --color-wa-dark: var(--wa-dark);
   --color-wa-bubble: var(--wa-bubble);
   --color-wa-text: var(--wa-text);
@@ -78,8 +76,7 @@
   --brand-green-hover: #1ebe5c;
   --brand-amber: #f59e0b;
   --brand-purple: #8b5cf6;
-  --brand-cyan: #06b6d4;
-  --brand-pink: #ec4899;
+
 
   /* Surfaces — premium dark */
   --background: #0f0f0f;
@@ -99,7 +96,7 @@
   --secondary-foreground: #e5e5e5;
 
   --muted: #161616;
-  --muted-foreground: #b0b0b0;
+  --muted-foreground: #b8b8b8;
 
   --accent: #2a1010;
   --accent-foreground: #e5e5e5;
@@ -123,8 +120,7 @@
   --cat-clasica: #c81009;
   --cat-gourmet: #f59e0b;
   --cat-premium: #8b5cf6;
-  --cat-mini: #06b6d4;
-  --cat-individual: #ec4899;
+
 
   /* Price color */
   --price: #f59e0b;

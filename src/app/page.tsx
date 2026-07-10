@@ -26,7 +26,7 @@ export default function Home() {
       <section className="py-12 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-brand text-3xl sm:text-4xl text-foreground mb-4">
-            17+ variedades gourmet
+            12 variedades gourmet
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl mx-auto">
             Clásicas, premium, individuales y mini pizzetas. Elegí tus favoritas y armá tu caja.
@@ -50,6 +50,26 @@ export default function Home() {
       <SocialProofSection />
       <HowItWorksSection />
       <FaqSection />
+
+      {/* Club Clicky CTA */}
+      <section className="py-12 sm:py-20 lg:py-24 bg-surface-sunken">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="font-brand text-3xl sm:text-4xl text-foreground mb-4">
+            Registrate en el <span className="text-gradient-brand">Club Clicky</span>
+          </h2>
+          <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+            Comprá 10 pizzas y regalamos 1 Muzzarella Clásica. Sin inscripción, sin costo.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link href="/club-clicky">
+                Conocer Club Clicky
+                <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

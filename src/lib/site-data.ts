@@ -36,6 +36,7 @@ export const NAV_ITEMS: NavLink[] = [
   { href: "/nosotros", label: "Nosotros" },
   { href: "/menu", label: "Catálogo" },
   { href: "/suscripcion", label: "Suscripción" },
+  { href: "/club-clicky", label: "Club Clicky" },
   { href: "/revendedores", label: "Revendedores" },
   { href: "/panificados", label: "Panificados" },
   { href: "/faq", label: "FAQ" },
@@ -115,7 +116,7 @@ export const PIZZA_PRICES: Record<PizzaCategory, string> = {
   clasica: "$8.000",
   gourmet: "$9.000",
   premium: "$10.300",
-  "mini-pizzeta": "$10.000",
+  "mini-pizzeta": "$5.500",
   individual: "$10.000",
 };
 
@@ -163,8 +164,8 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     shortLabel: "Individual",
     subtitle: "Una porción perfecta para uno",
     emoji: "🍽️",
-    accent: "#ec4899",
-    textClass: "text-[#ec4899]",
+    accent: "#f59e0b",
+    textClass: "text-[#f59e0b]",
   },
   {
     id: "mini-pizzeta",
@@ -172,8 +173,8 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     shortLabel: "Mini",
     subtitle: "Bocados perfectos para picar",
     emoji: "🫓",
-    accent: "#06b6d4",
-    textClass: "text-[#06b6d4]",
+    accent: "#c81009",
+    textClass: "text-[#c81009]",
   },
 ];
 
@@ -445,7 +446,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Muzzarella", qty: 3 },
       { name: "Jamón", qty: 3 },
     ],
-    precio: 10000,
+    precio: 5500,
     etiqueta: "mas-vendida",
   },
   {
@@ -457,7 +458,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Salame", qty: 3 },
       { name: "Jamón", qty: 1 },
     ],
-    precio: 10500,
+    precio: 5500,
   },
   {
     id: "combo-jamon",
@@ -468,7 +469,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Jamón", qty: 3 },
       { name: "Queso Azul", qty: 1 },
     ],
-    precio: 10500,
+    precio: 5500,
   },
   {
     id: "combo-azul",
@@ -479,7 +480,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Salame", qty: 1 },
       { name: "Queso Azul", qty: 4 },
     ],
-    precio: 11500,
+    precio: 5500,
     etiqueta: "premium",
   },
   {
@@ -492,7 +493,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Jamón", qty: 1 },
       { name: "Queso Azul", qty: 1 },
     ],
-    precio: 10500,
+    precio: 5500,
     etiqueta: "recomendada",
   },
   {
@@ -505,7 +506,7 @@ export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
       { name: "Jamón", qty: 2 },
       { name: "Queso Azul", qty: 1 },
     ],
-    precio: 10500,
+    precio: 5500,
     etiqueta: "familiar",
   },
 ];
@@ -918,50 +919,40 @@ export const PROMOTIONS: Promotion[] = [
     id: "domingo-pizza",
     title: "Domingo de Pizza",
     description:
-      "Pedí anticipadamente y recibí pizzas congeladas listas para hornear. Ideal para disfrutar en familia los domingos.",
+      "Armá tu caja familiar con 12 variedades artesanales. Todo listo para el horno, directo a tu casa.",
     image: "/pizzas/muzza.png",
     badge: "Popular",
     badgeColor: "bg-brand-amber text-black",
-    cta: "Pedir por WhatsApp",
+    price: "Desde $25.000",
+    cta: "Armar mi caja",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero hacer un pedido para el Domingo de Pizza. ¿Cuáles son las opciones?",
+      "¡Hola Click & Pizza! Quiero armar una caja para el Domingo de Pizza. ¿Cuáles son las opciones?",
   },
   {
     id: "promo-10-1",
-    title: "Promo 10 + 1 Gratis",
+    title: "Pack 10 + 1 Gratis",
     description:
-      "Comprando 10 pizzas, llévate 1 gratis. Ideal para familias, eventos y revendedores.",
+      "Comprá 10 pizzas y llevate 1 gratis. Ahorrás una pizza completa. Ideal para familias o eventos.",
     image: "/pizzas/salame.png",
-    badge: "Oferta",
-    badgeColor: "bg-primary text-white",
-    price: "10 + 1",
-    cta: "Quiero la Promo",
+    badge: "Ahorro",
+    badgeColor: "bg-brand-green text-white",
+    price: "$69.300",
+    cta: "Quiero ahorrar",
     whatsappMessage:
       "¡Hola Click & Pizza! Quiero aprovechar la Promo 10 + 1 Gratis. ¿Cómo hago mi pedido?",
   },
   {
-    id: "pedidos-martes-jueves",
-    title: "Pedidos Martes y Jueves",
+    id: "suscripcion",
+    title: "Suscribite y Ahorrá",
     description:
-      "Entregas programadas los martes y jueves. Producto congelado, listo para el horno.",
+      "Elegí tu kit semanal o premium. Sin compromiso, pausá cuando quieras. Primer mes con 15% OFF.",
     image: "/pizzas/cuatro-quesos.jpg",
-    badge: "Entrega",
-    badgeColor: "bg-brand-green text-white",
-    cta: "Reservar Pedido",
+    badge: "Exclusivo",
+    badgeColor: "bg-purple-600 text-white",
+    price: "-15% primer mes",
+    cta: "Ver planes",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero reservar un pedido para la entrega del martes/jueves.",
-  },
-  {
-    id: "revendedor",
-    title: "Sé Revendedor",
-    description:
-      "Excelente margen de ganancia, producto de alta rotación y sin necesidad de elaboración.",
-    image: "/pizzas/mini-pizzetas2.png",
-    badge: "Negocio",
-    badgeColor: "bg-blue-600 text-white",
-    cta: "Quiero Información",
-    whatsappMessage:
-      "¡Hola Click & Pizza! Quiero información para ser revendedor. ¿Cómo funciona?",
+      "¡Hola Click & Pizza! Quiero información sobre la suscripción con 15% de descuento en el primer mes.",
   },
 ];
 
