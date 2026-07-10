@@ -30,10 +30,7 @@ export function FreezerScienceSection() {
           />
         </Reveal>
 
-        <ul
-          role="list"
-          className="grid sm:grid-cols-2 gap-6"
-        >
+        <ul role="list" className="grid sm:grid-cols-2 gap-6 mb-14">
           {FREEZER_SCIENCE_REASONS.map((reason, i) => (
             <Reveal as="li" key={reason.id} delay={i * 0.07}>
               <article className="group h-full bg-card rounded-2xl border border-border p-6 sm:p-7 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
@@ -54,96 +51,80 @@ export function FreezerScienceSection() {
         </ul>
 
         <Reveal delay={0.1}>
-          <div className="mt-14">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Consejos maestros */}
+            <div className="bg-card rounded-2xl border border-border overflow-hidden">
+              <div className="flex items-center gap-3 px-5 py-4 bg-primary/10 border-b border-border">
                 <Snowflake className="size-5 text-primary" aria-hidden />
-              </div>
-              <h3 className="font-brand text-xl sm:text-2xl text-foreground">
-                Consejos maestros para productos de harina
-              </h3>
-            </div>
-            <div className="overflow-x-auto cp-scroll">
-              <table className="w-full border-collapse bg-card rounded-2xl overflow-hidden border border-border">
-                <thead>
-                  <tr className="bg-primary/10">
-                    <th className="text-left text-sm font-bold text-foreground px-6 py-4">
-                      Producto
-                    </th>
-                    <th className="text-left text-sm font-bold text-foreground px-6 py-4">
-                      Mejor técnica
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {FREEZER_SCIENCE_TIPS.map((tip, i) => (
-                    <tr
-                      key={tip.id}
-                      className={
-                        i < FREEZER_SCIENCE_TIPS.length - 1
-                          ? "border-b border-border"
-                          : ""
-                      }
-                    >
-                      <td className="px-6 py-4 text-sm font-semibold text-foreground">
-                        {tip.product}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">
-                        {tip.technique}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.15}>
-          <div className="mt-10 max-w-3xl mx-auto">
-            <div className="flex items-start gap-4 bg-primary/5 border border-primary/20 rounded-2xl p-6">
-              <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
-                <Flame className="size-5 text-primary" aria-hidden />
-              </div>
-              <div>
-                <h3 className="font-bold text-foreground text-sm mb-1">
-                  El &quot;Truco de Resurrección&quot;
+                <h3 className="font-bold text-foreground text-sm">
+                  Consejos maestros
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                  {FREEZER_SCIENCE_TRICK_NOTE}
-                </p>
-                <ul className="space-y-3">
-                  {FREEZER_SCIENCE_TRICKS.map((trick) => (
-                    <li
-                      key={trick.id}
-                      className="flex items-start gap-3"
-                    >
-                      <span className="mt-0.5 inline-block size-2 rounded-full bg-primary flex-shrink-0" />
-                      <div>
-                        <span className="text-sm font-semibold text-foreground">
-                          {trick.product}:
-                        </span>{" "}
-                        <span className="text-sm text-muted-foreground">
-                          {trick.instruction}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="text-left text-xs font-bold text-muted-foreground px-5 py-3 uppercase tracking-wider">
+                        Producto
+                      </th>
+                      <th className="text-left text-xs font-bold text-muted-foreground px-5 py-3 uppercase tracking-wider">
+                        Mejor técnica
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {FREEZER_SCIENCE_TIPS.map((tip, i) => (
+                      <tr
+                        key={tip.id}
+                        className={i < FREEZER_SCIENCE_TIPS.length - 1 ? "border-b border-border" : ""}
+                      >
+                        <td className="px-5 py-3 text-sm font-semibold text-foreground whitespace-nowrap">
+                          {tip.product}
+                        </td>
+                        <td className="px-5 py-3 text-sm text-muted-foreground">
+                          {tip.technique}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
-        </Reveal>
 
-        <Reveal delay={0.2}>
-          <div className="mt-8 max-w-3xl mx-auto">
-            <div className="flex items-start gap-4 bg-brand-amber/5 border border-brand-amber/20 rounded-2xl p-6">
-              <div className="size-10 rounded-xl bg-brand-amber/15 flex items-center justify-center flex-shrink-0">
-                <Lightbulb className="size-5 text-brand-amber" aria-hidden />
+            {/* Truco de resurrección */}
+            <div className="flex flex-col gap-4">
+              <div className="flex items-start gap-4 bg-primary/5 border border-primary/20 rounded-2xl p-5 flex-1">
+                <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
+                  <Flame className="size-5 text-primary" aria-hidden />
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground text-sm mb-1">
+                    El &quot;Truco de Resurrección&quot;
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                    {FREEZER_SCIENCE_TRICK_NOTE}
+                  </p>
+                  <ul className="space-y-2">
+                    {FREEZER_SCIENCE_TRICKS.map((trick) => (
+                      <li key={trick.id} className="flex items-start gap-2">
+                        <span className="mt-1 inline-block size-1.5 rounded-full bg-primary flex-shrink-0" />
+                        <span className="text-sm text-muted-foreground">
+                          <strong className="text-foreground font-semibold">{trick.product}:</strong> {trick.instruction}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <strong className="text-foreground font-semibold">Masas pre-cocidas:</strong> es el secreto de las pizzas de alta calidad. Horneá la masa un 70-80% (sin dorar del todo), congelala, y cuando quieras comerla, solo terminala de hornear con los ingredientes encima. ¡Queda impecable!
-              </p>
+
+              <div className="flex items-start gap-4 bg-brand-amber/5 border border-brand-amber/20 rounded-2xl p-5">
+                <div className="size-10 rounded-xl bg-brand-amber/15 flex items-center justify-center flex-shrink-0">
+                  <Lightbulb className="size-5 text-brand-amber" aria-hidden />
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong className="text-foreground font-semibold">Masas pre-cocidas:</strong> horneá la masa un 70-80% (sin dorar del todo), congelala, y cuando quieras comerla, solo terminala de hornear con los ingredientes encima. Queda impecable.
+                </p>
+              </div>
             </div>
           </div>
         </Reveal>

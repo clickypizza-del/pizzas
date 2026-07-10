@@ -532,27 +532,27 @@ export const CATALOG_FAMILIES: IngredientFamily[] = [
     emoji: "🧀",
     name: "Familia de quesos",
     ingredients: ["Mozzarella", "Provolone", "Parmesano", "Queso azul"],
-    usedIn: 20,
+    usedIn: 12,
   },
   {
     id: "proteinas",
     emoji: "🥩",
     name: "Familia de proteínas",
     ingredients: ["Jamón natural", "Salame de Tandil", "Panceta ahumada", "Pollo", "Carne desmenuzada"],
-    usedIn: 11,
+    usedIn: 9,
   },
   {
     id: "aromaticos",
     emoji: "🌿",
     name: "Base aromática",
     ingredients: ["Salsa de tomate", "Orégano", "Cebolla caramelizada", "Morrones asados"],
-    usedIn: 20,
+    usedIn: 12,
   },
 ];
 
 /** Headline stats for the optimized-catalog section. */
 export const CATALOG_STATS = [
-  { value: "20", label: "Variedades elegidas" },
+  { value: "12", label: "Variedades elegidas" },
   { value: "5", label: "Líneas de producto" },
   { value: "3+", label: "Meses en freezer" },
   { value: "∞", label: "Al vacío, más tiempo" },

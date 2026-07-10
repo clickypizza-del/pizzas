@@ -1,15 +1,10 @@
-import { Lightbulb, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
-import { FREEZER_ADVANTAGES, FREEZER_TIP } from "@/lib/site-data";
+import { FREEZER_ADVANTAGES } from "@/lib/site-data";
 import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
 
-/**
- * "Why frozen?" section — 6 business + consumer advantages of the
- * frozen-pizza model, with a highlighted best-practice tip at the end.
- * Reinforces the brand's value proposition before the subscription plans.
- */
 export function FreezerAdvantagesSection() {
   return (
     <section
@@ -27,14 +22,11 @@ export function FreezerAdvantagesSection() {
                 <span className="text-gradient-brand">freezer</span>
               </>
             }
-            description="Para un emprendimiento como Click & Pizza, conservar las pizzas en el freezer no es una limitación: es la estrategia que garantiza calidad, reduce pérdidas y hace la diferencia con el cliente."
+            description="Conservar las pizzas en el freezer no es una limitación: es la estrategia que garantiza calidad y hace la diferencia con el cliente."
           />
         </Reveal>
 
-        <ul
-          role="list"
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <ul role="list" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {FREEZER_ADVANTAGES.map((adv, i) => (
             <Reveal as="li" key={adv.id} delay={i * 0.07}>
               <article className="group h-full bg-card rounded-2xl border border-border p-6 sm:p-7 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
@@ -53,25 +45,6 @@ export function FreezerAdvantagesSection() {
             </Reveal>
           ))}
         </ul>
-
-        {/* Best-practice tip */}
-        <Reveal delay={0.15}>
-          <div className="mt-10 max-w-3xl mx-auto">
-            <div className="flex items-start gap-4 bg-primary/5 border border-primary/20 rounded-2xl p-6">
-              <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
-                <Lightbulb className="size-5 text-primary" aria-hidden />
-              </div>
-              <div>
-                <h3 className="font-bold text-foreground text-sm mb-1">
-                  Tip para los mejores resultados
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {FREEZER_TIP}
-                </p>
-              </div>
-            </div>
-          </div>
-        </Reveal>
 
         <Reveal delay={0.2}>
           <div className="mt-10 text-center">

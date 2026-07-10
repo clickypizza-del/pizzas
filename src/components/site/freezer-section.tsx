@@ -1,4 +1,4 @@
-import { Snowflake, ArrowRight, Lightbulb, Flame, Layers, PackageCheck } from "lucide-react";
+import { Snowflake, ArrowRight, PackageCheck, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -6,9 +6,6 @@ import {
   CATALOG_FAMILIES,
   CATALOG_STATS,
   FREEZER_ADVANTAGES,
-  FREEZER_SCIENCE_TIPS,
-  FREEZER_SCIENCE_TRICKS,
-  FREEZER_SCIENCE_TRICK_NOTE,
   type IngredientFamily,
 } from "@/lib/site-data";
 import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
@@ -30,15 +27,13 @@ export function FreezerSection() {
                 Un catálogo <span className="text-gradient-brand">optimizado</span> para tu freezer
               </>
             }
-            description="No son pizzas al azar. Elegimos 20 variedades en 5 líneas que comparten ingredientes y soportan estar congeladas 3+ meses sin perder calidad. Hasta más tiempo si están bien envasadas al vacío."
+            description="No son pizzas al azar. Elegimos 12 variedades en 5 líneas que comparten ingredientes y soportan estar congeladas 3+ meses sin perder calidad."
           />
         </Reveal>
 
+        {/* Stats */}
         <Reveal delay={0.08}>
-          <ul
-            role="list"
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12"
-          >
+          <ul role="list" className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             {CATALOG_STATS.map((stat) => (
               <li
                 key={stat.label}
@@ -55,39 +50,66 @@ export function FreezerSection() {
           </ul>
         </Reveal>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-16 items-start mb-16">
-          <Reveal delay={0.12}>
-            <div className="space-y-5">
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">
-                Por qué estas 20 variedades
+        {/* Ventajas en grid */}
+        <Reveal delay={0.12}>
+          <h3 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-6">
+            ¿Por qué congeladas?
+          </h3>
+          <ul role="list" className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            {FREEZER_ADVANTAGES.map((adv, i) => (
+              <li key={adv.id}>
+                <article className="group h-full bg-card/60 rounded-2xl border border-border p-4 sm:p-6 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                    <div className="size-9 sm:size-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-lg sm:text-xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <span aria-hidden>{adv.emoji}</span>
+                    </div>
+                    <h4 className="text-xs sm:text-sm font-bold text-foreground leading-tight">
+                      {adv.title}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed">
+                    {adv.description}
+                  </p>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        {/* Lógica de ingredientes */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start mb-12">
+          <Reveal delay={0.15}>
+            <div className="space-y-4">
+              <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                ¿Cómo elegimos las variedades?
               </h3>
               <FeatureRow
                 icon={Layers}
                 title="Ingredientes compartidos"
-                description="Las 20 pizzas se arman con 3 familias de insumos. Menos SKUs, stock más fresco y menos desperdicio — eficiencia que trasladamos a tu precio."
+                description="Las pizzas se arman con pocas familias de insumos. Menos stock, más fresco, menos desperdicio."
               />
               <FeatureRow
                 icon={Snowflake}
-                title="Estabilidad en freezer"
-                description="Cada variedad fue probada para aguantar 3+ meses con excelente calidad. Quesos semiduros, salame y panceta son los más resilientes al congelado."
+                title="Estabilidad probada"
+                description="Cada variedad fue testeada para aguantar 3+ meses en freezer sin perder calidad."
               />
               <FeatureRow
                 icon={PackageCheck}
                 title="Envasado al vacío"
-                description="Sellado al vacío individual con instructivo de cocción. Así extendés la vida útil más allá de los 3 meses sin perder textura ni sabor."
+                description="Sellado individual con instructivo. Vida útil extendida sin perder textura ni sabor."
               />
             </div>
           </Reveal>
 
-          <Reveal delay={0.18}>
-            <div className="bg-card rounded-2xl border border-primary/20 p-6 sm:p-8 shadow-xl">
-              <h3 className="text-lg font-bold text-foreground mb-1">
+          <Reveal delay={0.2}>
+            <div className="bg-card rounded-2xl border border-primary/20 p-5 sm:p-6 shadow-xl">
+              <h3 className="text-base font-bold text-foreground mb-1">
                 Familias de ingredientes
               </h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Cómo se reparten los insumos entre las 20 variedades
+              <p className="text-xs text-muted-foreground mb-5">
+                Cómo se reparten los insumos entre las 12 variedades
               </p>
-              <ul role="list" className="space-y-5">
+              <ul role="list" className="space-y-4">
                 {CATALOG_FAMILIES.map((family) => (
                   <li key={family.id}>
                     <FamilyRow family={family} />
@@ -98,110 +120,8 @@ export function FreezerSection() {
           </Reveal>
         </div>
 
-        <Reveal>
-          <SectionHeading
-            eyebrow="Por qué congeladas"
-            title={
-              <>
-                Las ventajas de tener pizzas en el{" "}
-                <span className="text-gradient-brand">freezer</span>
-              </>
-            }
-            description="Conservar las pizzas en el freezer no es una limitación: es la estrategia que garantiza calidad, reduce pérdidas y hace la diferencia con el cliente."
-          />
-        </Reveal>
-
-        <ul
-          role="list"
-          className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8 sm:mb-12"
-        >
-          {FREEZER_ADVANTAGES.map((adv, i) => (
-            <Reveal as="li" key={adv.id} delay={i * 0.07}>
-              <article className="group h-full bg-card/60 rounded-2xl border border-border p-4 sm:p-7 hover:border-primary/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
-                  <div className="size-9 sm:size-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
-                    <span aria-hidden>{adv.emoji}</span>
-                  </div>
-                  <h3 className="text-xs sm:text-lg font-bold text-foreground leading-tight">
-                    {adv.title}
-                  </h3>
-                </div>
-                <p className="text-[11px] sm:text-sm text-muted-foreground leading-relaxed">
-                  {adv.description}
-                </p>
-              </article>
-            </Reveal>
-          ))}
-        </ul>
-
-        <Reveal delay={0.1}>
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="flex items-start gap-4 bg-primary/5 border border-primary/20 rounded-2xl p-6">
-              <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center flex-shrink-0">
-                <Flame className="size-5 text-primary" aria-hidden />
-              </div>
-              <div>
-                <h3 className="font-bold text-foreground text-sm mb-1">
-                  El truco del choque de calor
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                  {FREEZER_SCIENCE_TRICK_NOTE}
-                </p>
-                <ul className="space-y-2">
-                  {FREEZER_SCIENCE_TRICKS.map((trick) => (
-                    <li key={trick.id} className="flex items-start gap-2">
-                      <span className="mt-1 inline-block size-1.5 rounded-full bg-primary flex-shrink-0" />
-                      <span className="text-sm text-muted-foreground">
-                        <strong className="text-foreground font-semibold">{trick.product}:</strong> {trick.instruction}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-card rounded-2xl border border-border overflow-hidden">
-              <div className="flex items-center gap-3 px-4 sm:px-6 py-4 bg-primary/10 border-b border-border">
-                <Snowflake className="size-5 text-primary" aria-hidden />
-                <h3 className="font-bold text-foreground text-sm">
-                  Consejos maestros para productos de harina
-                </h3>
-              </div>
-              <div className="overflow-x-auto">
-              <table className="w-full min-w-[480px]">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left text-xs font-bold text-muted-foreground px-4 sm:px-6 py-3 uppercase tracking-wider">
-                      Producto
-                    </th>
-                    <th className="text-left text-xs font-bold text-muted-foreground px-4 sm:px-6 py-3 uppercase tracking-wider">
-                      Mejor técnica
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {FREEZER_SCIENCE_TIPS.map((tip, i) => (
-                    <tr
-                      key={tip.id}
-                      className={i < FREEZER_SCIENCE_TIPS.length - 1 ? "border-b border-border" : ""}
-                    >
-                      <td className="px-4 sm:px-6 py-3 text-sm font-semibold text-foreground whitespace-nowrap">
-                        {tip.product}
-                      </td>
-                      <td className="px-4 sm:px-6 py-3 text-sm text-muted-foreground">
-                        {tip.technique}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <div className="mt-12 text-center">
+        <Reveal delay={0.25}>
+          <div className="text-center">
             <Button asChild size="lg" className="cta-section">
               <a
                 href={buildWhatsAppUrl(WA_MESSAGES.general)}
@@ -229,12 +149,12 @@ function FeatureRow({
   description: string;
 }) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="size-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+    <div className="flex items-start gap-3">
+      <div className="size-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
         <Icon className="size-5 text-primary" aria-hidden />
       </div>
       <div>
-        <h4 className="font-bold text-foreground mb-1">{title}</h4>
+        <h4 className="font-bold text-foreground text-sm mb-0.5">{title}</h4>
         <p className="text-sm text-muted-foreground leading-relaxed">
           {description}
         </p>
@@ -246,7 +166,7 @@ function FeatureRow({
 function FamilyRow({ family }: { family: IngredientFamily }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="text-2xl flex-shrink-0" aria-hidden>
+      <span className="text-xl flex-shrink-0" aria-hidden>
         {family.emoji}
       </span>
       <div className="flex-1 min-w-0">
