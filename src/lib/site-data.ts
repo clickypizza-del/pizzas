@@ -275,17 +275,17 @@ export const PIZZAS: Pizza[] = [
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame de Tandil", "Aceitunas verdes", "Ají molido"],
   },
   {
-    id: "panceta-ahumada",
-    name: "Panceta Ahumada",
+    id: "lomito",
+    name: "Lomito",
     description:
-      "Panceta ahumada en cubos sobre mozzarella fundida. Ahumado intenso y crocante que conquista.",
+      "Lomito en cubos sobre mozzarella fundida. Ahumado intenso y crocante que conquista.",
     category: "gourmet",
-    freezerNote: "La panceta congelada conserva muy bien el sabor.",
-    image: "/pizzas/panceta-ahumada.jpg",
+    freezerNote: "El lomito congelado conserva muy bien el sabor.",
+    image: "/pizzas/lomito.jpg",
     price: "$9.400",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Panceta ahumada"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
   },
   {
     id: "queso-azul-gourmet",
@@ -395,16 +395,16 @@ export const PIZZAS: Pizza[] = [
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
   },
   {
-    id: "ind-panceta",
-    name: "Individual Panceta Ahumada",
+    id: "ind-lomito",
+    name: "Individual Lomito",
     description:
-      "Pizza individual de panceta ahumada en cubos sobre mozzarella fundida. Sabor intenso, porción perfecta.",
+      "Pizza individual de lomito en cubos sobre mozzarella fundida. Sabor intenso, porción perfecta.",
     category: "individual",
-    freezerNote: "La panceta conserva muy bien el sabor al congelar.",
+    freezerNote: "El lomito congela muy bien. Sabor intacto.",
     image: "/pizzas/invividual1.png",
     cookTime: "12 min",
     portions: "1 porción",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Panceta ahumada"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
   },
   // ── Mini Pizzetas ─────────────────────────────────────────
   {
@@ -538,7 +538,7 @@ export const CATALOG_FAMILIES: IngredientFamily[] = [
     id: "proteinas",
     emoji: "🥩",
     name: "Familia de proteínas",
-    ingredients: ["Jamón natural", "Salame de Tandil", "Panceta ahumada", "Pollo", "Carne desmenuzada"],
+    ingredients: ["Jamón natural", "Salame de Tandil", "Lomito", "Pollo", "Carne desmenuzada"],
     usedIn: 9,
   },
   {
