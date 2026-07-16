@@ -238,7 +238,7 @@ export const PIZZAS: Pizza[] = [
       "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
     category: "clasica",
     freezerNote: "El jamón cocido congela bien si está bien sellado.",
-    image: "/pizzas/jamon.png",
+    image: "/pizzas/jamon.webp",
     price: "$8.000",
     cookTime: "15 min",
     portions: "4-6 porciones",
