@@ -202,34 +202,19 @@ export const PIZZAS: Pizza[] = [
       "El equilibrio perfecto entre tradición y sabor. Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una abundante capa de muzzarella de excelente calidad, nuestro aderezo especial y aceitunas verdes descarozadas. Cada pizza se gratina hasta alcanzar una textura irresistible y un sabor auténtico, convirtiéndose en la elección ideal para disfrutar del clásico que nunca pasa de moda.",
   },
   {
-    id: "especial-jamon",
-    name: "Clásica de Jamón",
+    id: "clasica-salame",
+    name: "Clásica de Salame",
     description:
-      "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
+      "Mozzarella cremosa, salsa de tomate, generosas fetas de salame seleccionado y aceitunas negras descarozadas. Un clásico de sabor intenso que conquista desde el primer bocado.",
     category: "clasica",
-    freezerNote: "El jamón cocido congela bien si está bien sellado.",
-    image: "/pizzas/jamon.png",
-    price: "$8.000",
+    freezerNote: "El salame congela bien si está bien sellado. Sabor intacto.",
+    image: "/pizzas/salame.png",
+    price: "$8.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame seleccionado", "Aceitunas negras"],
     detail:
-      "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.",
-  },
-  {
-    id: "especial-jamon",
-    name: "Clásica de Jamón",
-    description:
-      "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
-    detail:
-      "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.\n\n**Maridaje de aceitunas:** Aceituna negra con carozo con salame, provolone y morrón. El jamón es la pizza de perfil más noble pero más plano: no tiene intensidad especiada ni picante. Acá la estrategia es completar, no contrastar. La aceituna negra, de carácter intenso y ligeramente amargo, sirve de base para un trío que le inyecte personalidad. El salame aporta especias y curado, el provolone suma cremosidad y punto picante-láctico que el jamón no tiene, y el morrón redondea con dulzor asado.",
-    category: "clasica",
-    freezerNote: "El jamón cocido congela bien si está bien sellado.",
-    image: "/pizzas/jamon.png",
-    price: "$8.000",
-    cookTime: "15 min",
-    portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
+      "Una combinación que nunca falla: una base de salsa de tomate, abundante mozzarella cremosa, generosas fetas de salame seleccionado y aceitunas negras descarozadas que aportan el equilibrio perfecto entre intensidad y frescura.\n\n**Maridaje de aceitunas:** Aceituna verde descarozada con jamón crudo, palmito y morrón. El salame ya aporta salinidad y grasa animal en niveles altos — repetir esa nota en la picada sería redundante. La aceituna verde ofrece contraste ácido, el morrón asado suma dulzor ahumado que dialoga con las especias del embutido, el jamón crudo aporta umami liviano y el palmito la frescura vegetal que refresca el conjunto.",
   },
   {
     id: "queso-azul",
