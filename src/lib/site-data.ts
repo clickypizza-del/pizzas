@@ -142,7 +142,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
   },
   {
     id: "gourmet",
-    label: "Gourmet & Selección de Quesos",
+    label: "Gourmet",
     shortLabel: "Gourmet",
     subtitle: "Sabores intensos y quesos premium",
     emoji: "⭐",
