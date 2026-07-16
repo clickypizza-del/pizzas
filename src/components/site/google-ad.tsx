@@ -9,6 +9,8 @@ interface GoogleAdProps {
   className?: string;
 }
 
+const ADSENSE_CLIENT = "ca-pub-6697921053683954";
+
 export function GoogleAd({
   slot,
   format = "auto",
@@ -30,17 +32,13 @@ export function GoogleAd({
     }
   }, [loaded]);
 
-  const publisherId = process.env.NEXT_PUBLIC_ADSENSE_ID;
-
-  if (!publisherId) return null;
-
   return (
     <div className={`flex justify-center ${className}`}>
       <ins
         ref={adRef}
         className="adsbygoogle"
         style={{ display: "block" }}
-        data-ad-client={publisherId}
+        data-ad-client={ADSENSE_CLIENT}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive ? "true" : "false"}

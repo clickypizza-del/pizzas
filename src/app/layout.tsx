@@ -22,7 +22,6 @@ const bebasNeue = Bebas_Neue({
 });
 
 const siteUrl = "https://clickypizza.com.ar";
-const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -120,17 +119,16 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning className="dark">
       <head>
+        <meta name="google-adsense-account" content="ca-pub-6697921053683954" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {adsenseId ? (
-          <script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
-            crossOrigin="anonymous"
-          />
-        ) : null}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697921053683954"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${inter.variable} ${bebasNeue.variable} font-sans antialiased bg-background text-foreground`}
