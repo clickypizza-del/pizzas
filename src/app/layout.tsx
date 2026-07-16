@@ -129,10 +129,16 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697921053683954"
           crossOrigin="anonymous"
         />
+        <script
+          async
+          custom-element="amp-auto-ads"
+          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+        />
       </head>
       <body
         className={`${inter.variable} ${bebasNeue.variable} font-sans antialiased bg-background text-foreground`}
       >
+        <amp-auto-ads type="adsense" data-ad-client="ca-pub-6697921053683954" />
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main id="main" className="flex-1">

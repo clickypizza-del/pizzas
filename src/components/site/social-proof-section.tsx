@@ -5,7 +5,6 @@ import { useInView } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
-import { GoogleAd } from "@/components/site/google-ad";
 import { TESTIMONIALS, STATS, type Stat } from "@/lib/site-data";
 
 function parseValue(value: string): [number, string] | null {
@@ -121,10 +120,6 @@ export function SocialProofSection() {
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-6">
-              <GoogleAd slot="0000000000" className="min-h-[250px]" />
             </div>
           </div>
         </div>
