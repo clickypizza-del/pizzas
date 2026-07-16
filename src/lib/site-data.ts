@@ -208,7 +208,7 @@ export const PIZZAS: Pizza[] = [
       "Mozzarella cremosa, salsa de tomate, generosas fetas de salame seleccionado y aceitunas negras descarozadas. Un clásico de sabor intenso que conquista desde el primer bocado.",
     category: "clasica",
     freezerNote: "El salame congela bien si está bien sellado. Sabor intacto.",
-    image: "/pizzas/salame.png",
+    image: "/pizzas/salame.webp",
     price: "$8.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
@@ -937,7 +937,7 @@ export const PROMOTIONS: Promotion[] = [
     title: "Pack 10 + 1 Gratis",
     description:
       "Comprá 10 pizzas y llevate 1 gratis. Ahorrás una pizza completa. Ideal para familias o eventos.",
-    image: "/pizzas/salame.png",
+    image: "/pizzas/salame.webp",
     badge: "Ahorro",
     badgeColor: "bg-brand-green text-white",
     price: "$69.300",
