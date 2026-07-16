@@ -217,19 +217,19 @@ export const PIZZAS: Pizza[] = [
       "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.",
   },
   {
-    id: "clasica-salame",
-    name: "Clásica de Salame",
+    id: "especial-jamon",
+    name: "Clásica de Jamón",
     description:
-      "Mozzarella cremosa, salsa de tomate, generosas fetas de salame seleccionado y aceitunas negras descarozadas. Un clásico de sabor intenso que conquista desde el primer bocado.",
+      "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
     detail:
-      "Una combinación que nunca falla: una base de salsa de tomate, abundante mozzarella cremosa, generosas fetas de salame seleccionado y aceitunas negras descarozadas que aportan el equilibrio perfecto entre intensidad y frescura. Al hornearse, el salame realza su aroma y se fusiona con el queso para lograr una pizza llena de sabor.\n\nPensada para quienes disfrutan de los clásicos de siempre, con ingredientes de primera calidad y lista para servir en pocos minutos. Todo el sabor de una gran pizza, con la practicidad de tenerla siempre a mano en tu freezer.",
+      "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.\n\n**Maridaje de aceitunas:** Aceituna negra con carozo con salame, provolone y morrón. El jamón es la pizza de perfil más noble pero más plano: no tiene intensidad especiada ni picante. Acá la estrategia es completar, no contrastar. La aceituna negra, de carácter intenso y ligeramente amargo, sirve de base para un trío que le inyecte personalidad. El salame aporta especias y curado, el provolone suma cremosidad y punto picante-láctico que el jamón no tiene, y el morrón redondea con dulzor asado.",
     category: "clasica",
-    freezerNote: "El salame congela bien si está bien sellado. Sabor intacto.",
-    image: "/pizzas/salame.png",
-    price: "$8.500",
+    freezerNote: "El jamón cocido congela bien si está bien sellado.",
+    image: "/pizzas/jamon.png",
+    price: "$8.000",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame seleccionado", "Aceitunas negras"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
   },
   {
     id: "queso-azul",
@@ -237,7 +237,7 @@ export const PIZZAS: Pizza[] = [
     description:
       "Mozzarella cremosa, salsa de tomate y queso azul (Roquefort), que aporta un sabor intenso, cremoso y lleno de personalidad para los paladares más exigentes.",
     detail:
-      "Una combinación irresistible de abundante mozzarella cremosa y queso azul (Roquefort), cuidadosamente distribuido para lograr un equilibrio perfecto entre suavidad e intensidad. Al hornearse, el queso se funde sobre la pizza, creando una textura cremosa y un sabor profundo que conquista desde el primer bocado.\n\nIdeal para quienes buscan una pizza con carácter, elaborada con ingredientes de primera calidad y lista para disfrutar en pocos minutos. Un clásico gourmet que nunca pasa desapercibido.",
+      "Una combinación irresistible de abundante mozzarella cremosa y queso azul (Roquefort), cuidadosamente distribuido para lograr un equilibrio perfecto entre suavidad e intensidad. Al hornearse, el queso se funde sobre la pizza, creando una textura cremosa y un sabor profundo que conquista desde el primer bocado.\n\n**Maridaje de aceitunas:** Aceituna verde descarozada con jamón crudo, almendra y palmito. El roquefort es pungente y domina el paladar por sí solo — por eso la aceituna verde actúa como agente de limpieza entre porciones. El jamón crudo aporta salinidad y umami sin agregar otro componente graso que compita. La almendra suma crocancia — textura que la pizza blanda no tiene — y el palmito cierra con frescura vegetal. El resultado acompaña sin competir, siempre limpia y prepara el paladar para el próximo bocado.",
     category: "clasica",
     freezerNote: "El queso azul congela excelente. Conserva toda su intensidad.",
     image: "/pizzas/azul.png",
@@ -261,24 +261,28 @@ export const PIZZAS: Pizza[] = [
     ingredients: ["Masa artesanal", "Salsa de tomate", "Provolone picante", "Orégano fresco"],
   },
   {
-    id: "salame-premium",
-    name: "Salame Premium (Tandil)",
+    id: "musa-suprema",
+    name: "Muzzarella Clásica",
     description:
-      "Salame artesanal de Tandil en rodajas, aceitunas verdes descarozadas, mozzarella y un toque de ají molido. Carácter y crocancia.",
-    category: "gourmet",
-    freezerNote: "El salame soporta muy bien el congelado. No pierde textura.",
-    image: "/pizzas/salame.png",
-    price: "$9.000",
-    badge: "nueva",
+      "Masa artesanal, salsa de tomate, abundante muzzarella, aderezo especial y aceitunas verdes descarozadas.",
+    detail:
+      "El equilibrio perfecto entre tradición y sabor. Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una abundante capa de muzzarella de excelente calidad, nuestro aderezo especial y aceitunas verdes descarozadas. Cada pizza se gratina hasta alcanzar una textura irresistible y un sabor auténtico, convirtiéndose en la elección ideal para disfrutar del clásico que nunca pasa de moda.\n\n**Maridaje de aceitunas:** Aceituna negra con carozo con panceta, provolone y morrón. La muzzarella sola es la pizza más neutra y láctea del menú: sin sal curada, sin ahumado, sin grasa animal fuerte. Esto le da mucha libertad al maridaje, pero exige elegir con intención. La panceta aporta ahumado en lugar de curado-especiado, el provolone dialoga directamente con la propia muzzarella por ser ambos quesos de pasta, reforzando la identidad láctea, y el morrón cierra con el dulzor que evita que el conjunto quede plano.",
+    category: "clasica",
+    freezerNote: "Muy estable. Excelente calidad varios meses.",
+    image: "/pizzas/muzza.png",
+    price: "$7.700",
+    badge: "mas-vendida",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame de Tandil", "Aceitunas verdes", "Ají molido"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Aderezo especial", "Aceitunas verdes"],
   },
   {
     id: "lomito",
     name: "Lomito",
     description:
       "Lomito en cubos sobre mozzarella fundida. Ahumado intenso y crocante que conquista.",
+    detail:
+      "Lomito en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado — es la pizza más robusta y \"carnosa\" del menú.\n\n**Maridaje de aceitunas:** Aceituna rellena con roquefort, panceta y morrón. Una picada liviana o ácida se perdería frente a esta pizza. Se aplica el principio de intensidad proporcional: el trío tiene que igualar la potencia de la pizza, no suavizarla. El roquefort aporta pungencia de queso azul, la panceta suma ahumado y grasa crocante, y el morrón cumple su función de contrapeso dulce para que el conjunto no se vuelva unidimensional de sal y grasa.",
     category: "gourmet",
     freezerNote: "El lomito congelado conserva muy bien el sabor.",
     image: "/pizzas/lomito.jpg",
@@ -286,6 +290,21 @@ export const PIZZAS: Pizza[] = [
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
+  },
+  {
+    id: "cantimpalo",
+    name: "Cantimpalo",
+    description:
+      "Embutido español curado con pimentón, en rodajas sobre mozzarella. Picante, ahumado y contundente.",
+    detail:
+      "Cantimpalo — embutido español curado y con pimentón — en rodajas generosas sobre mozzarella cremosa y salsa de tomate. Aporta picante, ahumado y grasa animal en niveles altos, en un registro similar al del salame pero con la personalidad del pimentón español.\n\n**Maridaje de aceitunas:** Aceituna verde descarozada con jamón cocido, almendra y palmito. El cantimpalo ya tiene curado y salazón de sobra, por eso se usa jamón cocido (más suave, más dulce) en lugar de jamón crudo — sumar jamón crudo hubiera duplicado el registro curado-salado. La almendra y el palmito aportan crocancia y frescura que frenan el picor del pimentón.",
+    category: "gourmet",
+    freezerNote: "El cantimpalo soporta muy bien el congelado. Sabor intacto.",
+    image: "/pizzas/cantimpalo.png",
+    price: "$9.400",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Cantimpalo"],
   },
   {
     id: "queso-azul-gourmet",
