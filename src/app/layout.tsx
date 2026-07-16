@@ -138,7 +138,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${bebasNeue.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <amp-auto-ads type="adsense" data-ad-client="ca-pub-6697921053683954" />
+        <amp-auto-ads type="adsense"
+          data-ad-client="ca-pub-6697921053683954">
+        </amp-auto-ads>
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main id="main" className="flex-1">
