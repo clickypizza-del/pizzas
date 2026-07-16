@@ -125,6 +125,7 @@ export type PizzaCategoryMeta = {
   label: string;
   shortLabel?: string;
   subtitle: string;
+  description: string;
   emoji: string;
   accent: string;
   textClass: string;
@@ -136,6 +137,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Clásica & Tradicional",
     shortLabel: "Clásica",
     subtitle: "Alta rotación y sabores familiares",
+    description: "Los clásicos de siempre: muzzarella, jamón, salame y roquefort. Alta rotación, sabores que todo el mundo conoce y elige. La base del catálogo, pensada para que en casa siempre haya una que guste a todos.",
     emoji: "🍕",
     accent: "#c81009",
     textClass: "text-[#c81009]",
@@ -145,6 +147,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Gourmet",
     shortLabel: "Gourmet",
     subtitle: "Sabores intensos y quesos premium",
+    description: "Ingredientes con personalidad: provolone picante, salame de Tandil, lomito, queso azul con miel y cantimpalo español. Para quienes buscan algo más allá del clásico, con sabores intensos y combinaciones originales.",
     emoji: "⭐",
     accent: "#f59e0b",
     textClass: "text-[#f59e0b]",
@@ -154,6 +157,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Premium & Especialidades de Autor",
     shortLabel: "Premium",
     subtitle: "Máxima complejidad y cocción lenta",
+    description: "La máxima expresión del catálogo. Cuatro quesos técnicos, napolitana asada, pollo al verdeo con reducción y carne desmenuzada a cocción lenta. Ingredientes elaborados, técnicas de cocina profesional y sabores que sorprenden.",
     emoji: "🏆",
     accent: "#8b5cf6",
     textClass: "text-[#8b5cf6]",
@@ -163,6 +167,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Pizza Individual",
     shortLabel: "Individual",
     subtitle: "Una porción perfecta para uno",
+    description: "Mismos sabores del catálogo en formato individual. Perfectas para una cena sola, un almuerzo de oficina o cuando no querés compartir. Se hornean en 12 minutos directo del freezer.",
     emoji: "🍽️",
     accent: "#f59e0b",
     textClass: "text-[#f59e0b]",
@@ -172,6 +177,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Mini Pizzetas",
     shortLabel: "Mini",
     subtitle: "Bocados perfectos para picar",
+    description: "Bandejas de 6 mini pizzas en combinaciones de sabores. Ideales para picadas, reuniones o cuando querés probar de todo. Se hornean en 10 minutos directo del freezer.",
     emoji: "🫓",
     accent: "#c81009",
     textClass: "text-[#c81009]",

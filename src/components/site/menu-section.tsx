@@ -57,6 +57,8 @@ export function MenuSection() {
   const showMiniPizzetas = activeCat === "all" || activeCat === "mini-pizzeta";
   const showOtherPizzas = filteredPizzas.filter((p) => p.category !== "mini-pizzeta");
 
+  const activeCategoryMeta = activeCat !== "all" ? PIZZA_CATEGORIES.find((c) => c.id === activeCat) ?? null : null;
+
   return (
     <section
       id="menu"
@@ -68,7 +70,7 @@ export function MenuSection() {
           <SectionHeading
             eyebrow="Nuestro catálogo"
             title="Catálogo elegido de variedades gourmet"
-            description="Doce pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet & Selección de Quesos, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
+            description="Doce pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
           />
         </Reveal>
 
@@ -117,42 +119,82 @@ export function MenuSection() {
             </ul>
           </nav>
 
-          <ul
-            role="list"
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
-          >
-            {showOtherPizzas.map((pizza, i) => {
-              const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
-              return (
-                <li key={pizza.id}>
-                  <Reveal as="div" delay={i * 0.04}>
-                    <PizzaCard
-                      pizza={pizza}
-                      category={cat}
-                      onSelect={() => {
-                        setSelected(pizza);
-                        setSelectedCat(cat);
-                      }}
-                    />
+          {/* Category view: vertical layout with description */}
+          {activeCategoryMeta ? (
+            <div className="grid lg:grid-cols-3 gap-6 lg:gap-10">
+              <div className="lg:col-span-2 space-y-4">
+                {showOtherPizzas.map((pizza, i) => {
+                  const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
+                  return (
+                    <Reveal key={pizza.id} as="div" delay={i * 0.04}>
+                      <PizzaCard pizza={pizza} category={cat} onSelect={() => { setSelected(pizza); setSelectedCat(cat); }} horizontal />
+                    </Reveal>
+                  );
+                })}
+                {showMiniPizzetas && MINI_PIZZETA_COMBOS.map((combo, i) => (
+                  <Reveal key={combo.id} as="div" delay={i * 0.04}>
+                    <MiniPizzetaComboCard combo={combo} horizontal />
+                  </Reveal>
+                ))}
+              </div>
+              <div className="lg:col-span-1">
+                <div className="lg:sticky lg:top-24 space-y-4">
+                  <div
+                    className="rounded-2xl border-2 p-5 sm:p-6"
+                    style={{ borderColor: activeCategoryMeta.accent }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl" aria-hidden>{activeCategoryMeta.emoji}</span>
+                      <h3 className="text-lg sm:text-xl font-extrabold text-foreground">
+                        {activeCategoryMeta.label}
+                      </h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {activeCategoryMeta.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* All categories: grid layout */
+            <ul
+              role="list"
+              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
+            >
+              {showOtherPizzas.map((pizza, i) => {
+                const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
+                return (
+                  <li key={pizza.id}>
+                    <Reveal as="div" delay={i * 0.04}>
+                      <PizzaCard
+                        pizza={pizza}
+                        category={cat}
+                        onSelect={() => {
+                          setSelected(pizza);
+                          setSelectedCat(cat);
+                        }}
+                      />
+                    </Reveal>
+                  </li>
+                );
+              })}
+              {showOtherPizzas.length > 0 && Array.from({ length: (3 - (showOtherPizzas.length % 3)) % 3 }).map((_, i) => (
+                <li key={`banner-${i}`}>
+                  <Reveal as="div" delay={(showOtherPizzas.length + i) * 0.04}>
+                    <ComboBanner />
                   </Reveal>
                 </li>
-              );
-            })}
-            {showOtherPizzas.length > 0 && Array.from({ length: (3 - (showOtherPizzas.length % 3)) % 3 }).map((_, i) => (
-              <li key={`banner-${i}`}>
-                <Reveal as="div" delay={(showOtherPizzas.length + i) * 0.04}>
-                  <ComboBanner />
-                </Reveal>
-              </li>
-            ))}
-            {showMiniPizzetas && MINI_PIZZETA_COMBOS.map((combo, i) => (
-              <li key={combo.id}>
-                <Reveal as="div" delay={i * 0.04}>
-                  <MiniPizzetaComboCard combo={combo} />
-                </Reveal>
-              </li>
-            ))}
-          </ul>
+              ))}
+              {showMiniPizzetas && MINI_PIZZETA_COMBOS.map((combo, i) => (
+                <li key={combo.id}>
+                  <Reveal as="div" delay={i * 0.04}>
+                    <MiniPizzetaComboCard combo={combo} />
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          )}
         </Reveal>
       </div>
 
@@ -170,7 +212,7 @@ export function MenuSection() {
 
 /* ─── Mini Pizzetas — individual combo cards ──────────────────────── */
 
-function MiniPizzetaComboCard({ combo }: { combo: MiniPizzetaCombo }) {
+function MiniPizzetaComboCard({ combo, horizontal }: { combo: MiniPizzetaCombo; horizontal?: boolean }) {
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
 
@@ -192,8 +234,8 @@ function MiniPizzetaComboCard({ combo }: { combo: MiniPizzetaCombo }) {
   const whatsappMsg = WA_MESSAGES.miniPizzeta(combo);
 
   return (
-    <article className="group flex flex-col bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
-      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 ${horizontal ? "flex-row" : "flex-col"}`}>
+      <div className={`relative overflow-hidden bg-secondary ${horizontal ? "w-32 sm:w-44 flex-shrink-0" : "aspect-[4/3]"}`}>
         <Image
           src="/pizzas/mini-pizzetas2.png"
           alt={`Mini Pizzetas — ${combo.nombre}`}
@@ -202,8 +244,8 @@ function MiniPizzetaComboCard({ combo }: { combo: MiniPizzetaCombo }) {
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2.5 py-1 text-[11px] font-semibold text-foreground">
-          <Snowflake className="size-3 text-primary" aria-hidden />
+        <div className="absolute bottom-2 left-2 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2 py-0.5 text-[10px] font-semibold text-foreground">
+          <Snowflake className="size-2.5 text-primary" aria-hidden />
           <span className="text-primary">10 min</span>
         </div>
         {labelConf ? (
@@ -299,10 +341,12 @@ function PizzaCard({
   pizza,
   category,
   onSelect,
+  horizontal,
 }: {
   pizza: Pizza;
   category: PizzaCategoryMeta;
   onSelect: () => void;
+  horizontal?: boolean;
 }) {
   const badgeConf = pizza.badge ? BADGE_CONFIG[pizza.badge] : null;
   const addItem = useCartStore((s) => s.addItem);
@@ -323,11 +367,11 @@ function PizzaCard({
   };
 
   return (
-    <article className="group flex flex-col bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 transition-all duration-300">
+    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 ${horizontal ? "flex-row" : "flex-col"}`}>
       <button
         type="button"
         onClick={onSelect}
-        className="relative aspect-[4/3] overflow-hidden bg-secondary cursor-pointer text-left w-full flex-shrink-0"
+        className={`relative overflow-hidden bg-secondary cursor-pointer text-left flex-shrink-0 ${horizontal ? "w-32 sm:w-44" : "aspect-[4/3] w-full"}`}
         aria-label={`Ver detalle de ${pizza.name}`}
       >
         <Image
@@ -338,8 +382,8 @@ function PizzaCard({
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2.5 py-1 text-[11px] font-semibold text-foreground">
-          <Snowflake className="size-3 text-primary" aria-hidden />
+        <div className="absolute bottom-2 left-2 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2 py-0.5 text-[10px] font-semibold text-foreground">
+          <Snowflake className="size-2.5 text-primary" aria-hidden />
           <span className="text-primary">3+ meses</span>
         </div>
       </button>
