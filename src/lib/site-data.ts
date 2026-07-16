@@ -231,6 +231,21 @@ export const PIZZAS: Pizza[] = [
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul (Roquefort)"],
   },
+  {
+    id: "especial-jamon",
+    name: "Clásica de Jamón",
+    description:
+      "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
+    category: "clasica",
+    freezerNote: "El jamón cocido congela bien si está bien sellado.",
+    image: "/pizzas/jamon.png",
+    price: "$8.000",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
+    detail:
+      "Masa artesanal de fermentación cuidada, salsa de tomate, generosa capa de muzzarella y abundante jamón cocido. Se completa con aderezo especial y aceitunas verdes, logrando una combinación clásica y equilibrada.\n\n**Maridaje de aceitunas:** Aceituna negra con carozo con salame, provolone y morrón. El jamón es la pizza de perfil más noble pero más plano: no tiene intensidad especiada ni picante. Acá la estrategia es completar, no contrastar. La aceituna negra, de carácter intenso y ligeramente amargo, sirve de base para un trío que le inyecte personalidad. El salame aporta especias y curado, el provolone suma cremosidad y punto picante-láctico que el jamón no tiene, y el morrón redondea con dulzor asado.",
+  },
   // ── Gourmet & Selección de Quesos ───────────────────────────
   {
     id: "provolone-oregano",
@@ -244,22 +259,6 @@ export const PIZZAS: Pizza[] = [
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Provolone picante", "Orégano fresco"],
-  },
-  {
-    id: "musa-suprema",
-    name: "Muzzarella Clásica",
-    description:
-      "Masa artesanal, salsa de tomate, abundante muzzarella, aderezo especial y aceitunas verdes descarozadas.",
-    detail:
-      "El equilibrio perfecto entre tradición y sabor. Preparada con una masa artesanal de fermentación cuidada, salsa de tomate elaborada con ingredientes seleccionados, una abundante capa de muzzarella de excelente calidad, nuestro aderezo especial y aceitunas verdes descarozadas. Cada pizza se gratina hasta alcanzar una textura irresistible y un sabor auténtico, convirtiéndose en la elección ideal para disfrutar del clásico que nunca pasa de moda.\n\n**Maridaje de aceitunas:** Aceituna negra con carozo con panceta, provolone y morrón. La muzzarella sola es la pizza más neutra y láctea del menú: sin sal curada, sin ahumado, sin grasa animal fuerte. Esto le da mucha libertad al maridaje, pero exige elegir con intención. La panceta aporta ahumado en lugar de curado-especiado, el provolone dialoga directamente con la propia muzzarella por ser ambos quesos de pasta, reforzando la identidad láctea, y el morrón cierra con el dulzor que evita que el conjunto quede plano.",
-    category: "clasica",
-    freezerNote: "Muy estable. Excelente calidad varios meses.",
-    image: "/pizzas/muzza.png",
-    price: "$7.700",
-    badge: "mas-vendida",
-    cookTime: "15 min",
-    portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Aderezo especial", "Aceitunas verdes"],
   },
   {
     id: "lomito",
