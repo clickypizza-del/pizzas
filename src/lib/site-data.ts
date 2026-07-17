@@ -137,7 +137,7 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
     label: "Clásica & Tradicional",
     shortLabel: "Clásica",
     subtitle: "Alta rotación y sabores familiares",
-    description: "Los clásicos de siempre: muzzarella, jamón, salame y roquefort. Alta rotación, sabores que todo el mundo conoce y elige. La base del catálogo, pensada para que en casa siempre haya una que guste a todos.",
+    description: "Los sabores que nunca fallan: muzzarella, jamón, salame y roquefort. Cuatro pizzas que atravesaron generaciones y se ganaron un lugar fijo en la mesa familiar, no por moda sino por algo más simple y más difícil de lograr — gustan a todos, siempre.\n\nEsta es la base de nuestro catálogo: la que elegís cuando no querés arriesgar, cuando llega gente a casa sin avisar, o cuando simplemente tenés ganas de esa combinación de sabores que ya conocés de memoria y que nunca decepciona. Alta rotación no es casualidad — es la confirmación de que lo clásico, cuando está bien hecho, no necesita reinventarse.\n\nCada una de estas cuatro pizzas respeta la receta que las hizo populares, elaborada con nuestro proceso de congelado artesanal que preserva la textura de la masa y la frescura de cada ingrediente, lista para hornear en minutos y disfrutar como recién salida de la pizzería de barrio.\n\nLa colección Clásica & Tradicional: para cuando lo simple es, justamente, lo que se busca.",
     emoji: "🍕",
     accent: "#c81009",
     textClass: "text-[#c81009]",
