@@ -5,6 +5,7 @@ import { PhilosophySection } from "@/components/site/philosophy-section";
 import { SocialProofSection } from "@/components/site/social-proof-section";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
 import { FaqSection } from "@/components/site/faq-section";
+import { OrderSection } from "@/components/site/order-section";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,8 @@ export default function Home() {
       <SocialProofSection />
       <HowItWorksSection />
       <FaqSection />
+
+      <OrderSection />
 
       {/* Club Clicky CTA */}
       <section className="py-12 sm:py-20 lg:py-24 bg-surface-sunken">
