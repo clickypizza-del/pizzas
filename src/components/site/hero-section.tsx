@@ -8,7 +8,7 @@ export function HeroSection() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="relative overflow-hidden pt-24 pb-20 sm:pt-32 lg:pt-52 lg:pb-32"
+      className="relative overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20 lg:pt-52 lg:pb-32"
     >
       {/* Ambient red glows */}
       <div
@@ -34,26 +34,27 @@ export function HeroSection() {
             aria-hidden
             className="absolute -inset-4 bg-gradient-to-r from-primary to-brand-red-bright rounded-[2rem] blur-3xl opacity-20"
           />
-          <div className="relative rounded-[2rem] overflow-hidden border border-border shadow-2xl shadow-black/50">
-            {/* Image */}
-            <Image
-              src="/hero.webp"
-              alt="Pizzas gourmet recién horneadas con ingredientes premium"
-              width={1400}
-              height={600}
-              priority
-              className="w-full object-cover"
-              style={{ aspectRatio: "16/7" }}
-            />
+          <div className="relative rounded-2xl lg:rounded-[2rem] overflow-hidden border border-border shadow-2xl shadow-black/50">
+            {/* Image — different aspect ratios for mobile vs desktop */}
+            <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[16/7]">
+              <Image
+                src="/hero.webp"
+                alt="Pizzas gourmet recién horneadas con ingredientes premium"
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1280px"
+              />
+            </div>
 
             {/* Solid dark overlay — ensures text is always readable */}
-            <div className="absolute inset-0 bg-black/60" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
 
-            {/* Text overlay — vertically centered, left-aligned */}
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full px-5 sm:px-8 lg:px-14">
+            {/* Text overlay — stacked on mobile, centered on desktop */}
+            <div className="absolute inset-0 flex items-end sm:items-center">
+              <div className="w-full px-4 sm:px-8 lg:px-14 py-8 sm:py-0">
                 <div className="max-w-xl">
-                  <div className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-3 sm:px-4 py-1.5 mb-4 sm:mb-6">
+                  <div className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-3 py-1.5 mb-3 sm:mb-6">
                     <span
                       aria-hidden
                       className="w-2 h-2 bg-brand-amber rounded-full animate-pulse"
@@ -69,10 +70,10 @@ export function HeroSection() {
                     Pizza Gourmet.{" "}
                     <span className="text-gradient-brand">Lista en 15 minutos.</span>
                   </h1>
-                  <p className="mt-3 sm:mt-6 text-sm sm:text-lg text-white/80 leading-relaxed">
+                  <p className="mt-2 sm:mt-6 text-sm sm:text-lg text-white/80 leading-relaxed max-w-md">
                     Del freezer a tu mesa. Sin pasar por el supermercado. Masa artesanal, ingredientes premium.
                   </p>
-                  <div className="mt-6 sm:mt-9 flex flex-col sm:flex-row gap-3">
+                  <div className="mt-4 sm:mt-9 flex flex-col sm:flex-row gap-3">
                     <Button
                       asChild
                       size="lg"
@@ -94,7 +95,7 @@ export function HeroSection() {
                   </div>
 
                   {/* Trust strip */}
-                  <dl className="mt-6 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-4 max-w-sm sm:max-w-lg">
+                  <dl className="mt-5 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-4 max-w-xs sm:max-w-lg">
                     {[
                       { v: "15 min", l: "Al horno", icon: Clock },
                       { v: "4.9★", l: "Valoración", icon: Star },
@@ -106,11 +107,11 @@ export function HeroSection() {
                       >
                         <div className="flex items-center gap-1 sm:gap-1.5">
                           <item.icon className="size-3 sm:size-4 text-primary" aria-hidden />
-                          <dd className="text-lg sm:text-3xl font-extrabold text-white">
+                          <dd className="text-base sm:text-3xl font-extrabold text-white">
                             {item.v}
                           </dd>
                         </div>
-                        <dt className="text-[10px] sm:text-xs text-white/60">{item.l}</dt>
+                        <dt className="text-[9px] sm:text-xs text-white/60">{item.l}</dt>
                       </div>
                     ))}
                   </dl>

@@ -19,17 +19,31 @@ export function GoogleAd({
 }: GoogleAdProps) {
   const adRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
+  const hasAttemptedLoad = useRef(false);
 
   useEffect(() => {
-    if (loaded) return;
+    // Solo intentar una vez
+    if (hasAttemptedLoad.current || loaded) return;
+    hasAttemptedLoad.current = true;
 
-    try {
-      // @ts-expect-error adsbygoogle is a global from AdSense script
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-      setLoaded(true);
-    } catch {
-      // AdSense not loaded yet
-    }
+    const attemptLoad = () => {
+      try {
+        if (!window.adsbygoogle) {
+          // Agendamos el próximo intento si AdSense no está disponible
+          setTimeout(attemptLoad, 100);
+          return;
+        }
+
+        window.adsbygoogle.push({});
+        setLoaded(true);
+      } catch {
+        // Reintentar en 1 segundo
+        setTimeout(attemptLoad, 1000);
+      }
+    };
+
+    // Intentar carga inmediata
+    attemptLoad();
   }, [loaded]);
 
   return (
