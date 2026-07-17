@@ -234,16 +234,17 @@ function MiniPizzetaComboCard({ combo, horizontal }: { combo: MiniPizzetaCombo; 
   const whatsappMsg = WA_MESSAGES.miniPizzeta(combo);
 
   return (
-    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 ${horizontal ? "flex-row" : "flex-col"}`}>
-      <div className={`relative overflow-hidden bg-secondary ${horizontal ? "w-32 sm:w-44 flex-shrink-0" : "aspect-[4/3]"}`}>
+    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer ${horizontal ? "flex-row" : "flex-col"}`}>
+      <div className={`relative overflow-hidden bg-secondary group/img ${horizontal ? "w-32 sm:w-44 flex-shrink-0" : "aspect-[4/3]"}`}>
         <Image
           src="/pizzas/mini-pizzetas2.png"
           alt={`Mini Pizzetas — ${combo.nombre}`}
           width={600}
           height={450}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
         />
+        <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-colors duration-300" />
         <div className="absolute bottom-2 left-2 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2 py-0.5 text-[10px] font-semibold text-foreground">
           <Snowflake className="size-2.5 text-primary" aria-hidden />
           <span className="text-primary">10 min</span>
@@ -367,11 +368,11 @@ function PizzaCard({
   };
 
   return (
-    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 ${horizontal ? "flex-row" : "flex-col"}`}>
+    <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer ${horizontal ? "flex-row" : "flex-col"}`}>
       <button
         type="button"
         onClick={onSelect}
-        className={`relative overflow-hidden bg-secondary cursor-pointer text-left flex-shrink-0 ${horizontal ? "w-32 sm:w-44" : "aspect-[4/3] w-full"}`}
+        className={`relative overflow-hidden bg-secondary cursor-pointer text-left flex-shrink-0 group/img ${horizontal ? "w-32 sm:w-44" : "aspect-[4/3] w-full"}`}
         aria-label={`Ver detalle de ${pizza.name}`}
       >
         <Image
@@ -380,8 +381,14 @@ function PizzaCard({
           width={600}
           height={450}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"
         />
+        <div className="absolute inset-0 bg-black/0 group-hover/img:bg-black/30 transition-colors duration-300" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-300">
+          <span className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-full p-2.5 text-white">
+            <ArrowRight className="size-5" aria-hidden />
+          </span>
+        </div>
         <div className="absolute bottom-2 left-2 inline-flex items-center gap-1 cp-glass border border-primary/30 rounded-full px-2 py-0.5 text-[10px] font-semibold text-foreground">
           <Snowflake className="size-2.5 text-primary" aria-hidden />
           <span className="text-primary">3+ meses</span>
