@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ArrowRight, UserPlus, Tag } from "lucide-react";
+import { Check, ArrowRight, UserPlus, Tag, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/site/reveal";
@@ -11,6 +11,125 @@ import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
 import { ShareButton } from "@/components/site/share-button";
 import { RegisterForm } from "@/components/site/register-form";
 import { cn } from "@/lib/utils";
+
+const DAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+function getDeliveryDates(year: number, month: number): number[] {
+  const dates: number[] = [];
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const day = new Date(year, month, d).getDay();
+    if (day === 2 || day === 4) dates.push(d);
+  }
+  return dates;
+}
+
+function getOrderDates(year: number, month: number): number[] {
+  const dates: number[] = [];
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const day = new Date(year, month, d).getDay();
+    if (day === 1 || day === 3) dates.push(d);
+  }
+  return dates;
+}
+
+function getNextDeliveryDay(): string {
+  const today = new Date().getDay();
+  if (today === 2) return "jueves";
+  if (today === 4) return "martes";
+  return today > 4 || today === 0 ? "martes" : "jueves";
+}
+
+function DeliveryCalendar() {
+  const now = new Date();
+  const [month, setMonth] = useState(now.getMonth());
+  const [year, setYear] = useState(now.getFullYear());
+
+  const deliveryDates = getDeliveryDates(year, month);
+  const orderDates = getOrderDates(year, month);
+  const today = now.getDate();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const prevMonth = () => {
+    if (month === 0) { setMonth(11); setYear(year - 1); }
+    else setMonth(month - 1);
+  };
+
+  const nextMonth = () => {
+    if (month === 11) { setMonth(0); setYear(year + 1); }
+    else setMonth(month + 1);
+  };
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  return (
+    <div className="bg-card border border-border rounded-2xl shadow-xl p-4 w-full max-w-xs">
+      <div className="flex items-center justify-between mb-3">
+        <button type="button" onClick={prevMonth} className="p-1 hover:bg-secondary rounded-lg transition-colors">
+          <ChevronLeft className="size-4 text-muted-foreground" />
+        </button>
+        <span className="text-sm font-bold text-foreground">
+          {MONTHS[month]} {year}
+        </span>
+        <button type="button" onClick={nextMonth} className="p-1 hover:bg-secondary rounded-lg transition-colors">
+          <ChevronRight className="size-4 text-muted-foreground" />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-7 gap-1 mb-1">
+        {DAYS.map((d) => (
+          <div key={d} className="text-center text-[10px] font-semibold text-muted-foreground py-1">
+            {d}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-7 gap-1">
+        {Array.from({ length: firstDay }).map((_, i) => (
+          <div key={`empty-${i}`} />
+        ))}
+        {Array.from({ length: daysInMonth }).map((_, i) => {
+          const day = i + 1;
+          const isDelivery = deliveryDates.includes(day);
+          const isOrder = orderDates.includes(day);
+          const isToday = day === today && month === currentMonth && year === currentYear;
+          const isPast = (month < currentMonth && year === currentYear) || year < currentYear ||
+            (month === currentMonth && year === currentYear && day < today);
+
+          return (
+            <div
+              key={day}
+              className={`relative flex items-center justify-center h-7 rounded-lg text-xs font-medium transition-colors
+                ${isToday ? "ring-2 ring-primary" : ""}
+                ${isDelivery && !isPast ? "bg-brand-green text-white font-bold" : ""}
+                ${isOrder && !isPast ? "bg-primary/20 text-primary" : ""}
+                ${isPast ? "text-muted-foreground/40" : "text-foreground"}
+                ${!isDelivery && !isOrder && !isPast ? "hover:bg-secondary" : ""}
+              `}
+            >
+              {day}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex items-center gap-4 mt-3 pt-3 border-t border-border">
+        <div className="flex items-center gap-1.5">
+          <div className="size-2.5 rounded-full bg-primary/40" />
+          <span className="text-[10px] text-muted-foreground">Pedido (Lun/Mié)</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="size-2.5 rounded-full bg-brand-green" />
+          <span className="text-[10px] text-muted-foreground">Entrega (Mar/Jue)</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const PLAN_MESSAGES: Record<string, string> = {
   "kit-semanal": WA_MESSAGES.planKitSemanal,
@@ -33,19 +152,37 @@ const PLAN_SAVINGS: Record<string, string | null> = {
 export function PlansSection() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("kit-semanal");
+  const [showCalendar, setShowCalendar] = useState(false);
+  const nextDay = getNextDeliveryDay();
 
   return (
     <section
       id="suscripcion"
       aria-labelledby="suscripcion-title"
-      className="relative py-12 sm:py-24 lg:py-28 bg-surface-dark border-y border-border overflow-hidden"
+      className="relative py-8 sm:py-14 lg:py-18 bg-surface-dark border-y border-border overflow-hidden"
     >
       <div aria-hidden className="absolute inset-0 cp-dotgrid opacity-40" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex justify-center mb-6">
-          <div className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-4 py-1.5">
-            <span aria-hidden className="w-2 h-2 bg-brand-amber rounded-full animate-pulse" />
-            <span className="text-brand-amber text-xs sm:text-sm font-semibold">🗓 Pedidos abiertos — próxima entrega martes</span>
+          <div className="relative inline-block">
+            <button
+              type="button"
+              onClick={() => setShowCalendar(!showCalendar)}
+              className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-4 py-1.5 hover:bg-brand-amber/20 transition-colors cursor-pointer"
+            >
+              <span aria-hidden className="w-2 h-2 bg-brand-amber rounded-full animate-pulse" />
+              <span className="text-brand-amber text-xs sm:text-sm font-semibold">🗓 Pedidos abiertos — próxima entrega {nextDay}</span>
+              <span className="text-brand-amber/60 text-[10px]">▼</span>
+            </button>
+
+            {showCalendar && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowCalendar(false)} />
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50">
+                  <DeliveryCalendar />
+                </div>
+              </>
+            )}
           </div>
         </div>
         <Reveal>

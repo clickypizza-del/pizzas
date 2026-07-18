@@ -227,7 +227,7 @@ export function HeroSection() {
                       size="lg"
                       className="cta-hero px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base font-semibold"
                     >
-                      <a href="#planes">
+                        <a href="/suscripcion">
                         Ver planes
                         <ArrowRight className="size-4" />
                       </a>
