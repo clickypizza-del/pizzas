@@ -1,16 +1,20 @@
+"use client";
+
+import { useState } from "react";
 import { Snowflake, ArrowRight, PackageCheck, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { KitBuilder } from "@/components/site/kit-builder";
 import {
   CATALOG_FAMILIES,
   CATALOG_STATS,
   FREEZER_ADVANTAGES,
   type IngredientFamily,
 } from "@/lib/site-data";
-import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
 
 export function FreezerSection() {
+  const [kitOpen, setKitOpen] = useState(false);
   return (
     <section
       id="freezer"
@@ -122,19 +126,19 @@ export function FreezerSection() {
 
         <Reveal delay={0.25}>
           <div className="text-center">
-            <Button asChild size="lg" className="cta-section">
-              <a
-                href={buildWhatsAppUrl(WA_MESSAGES.general)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Armar mi kit con el catálogo elegido
-                <ArrowRight className="size-4" />
-              </a>
+            <Button
+              size="lg"
+              className="cta-section"
+              onClick={() => setKitOpen(true)}
+            >
+              Armar mi kit con el catálogo elegido
+              <ArrowRight className="size-4" />
             </Button>
           </div>
         </Reveal>
       </div>
+
+      <KitBuilder open={kitOpen} onClose={() => setKitOpen(false)} />
     </section>
   );
 }
