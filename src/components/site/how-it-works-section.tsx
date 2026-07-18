@@ -7,7 +7,7 @@ export function HowItWorksSection() {
     <section
       id="como-funciona"
       aria-labelledby="como-funciona-title"
-      className="py-12 sm:py-24 lg:py-28"
+      className="py-8 sm:py-14 lg:py-18"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>

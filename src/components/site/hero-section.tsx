@@ -1,9 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, Clock, Star, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 
+function getNextDeliveryDay(): string {
+  const today = new Date().getDay(); // 0=dom, 1=lun, 2=mar, 3=mié, 4=jue, 5=vie, 6=sáb
+  if (today === 2) return "jueves"; // Si es martes, próxima entrega jueves
+  if (today === 4) return "martes"; // Si es jueves, próxima entrega martes
+  // cualquier otro día: próxima entrega martes (más cercano)
+  return today > 4 || today === 0 ? "martes" : "jueves";
+}
+
 export function HeroSection() {
+  const nextDay = getNextDeliveryDay();
+
   return (
     <section
       id="top"
@@ -60,7 +72,7 @@ export function HeroSection() {
                       className="w-2 h-2 bg-brand-amber rounded-full animate-pulse"
                     />
                     <span className="text-brand-amber text-[11px] sm:text-sm font-semibold tracking-wide">
-                      🗓 Próxima entrega: martes
+                      🗓 Próxima entrega: {nextDay}
                     </span>
                   </div>
                   <h1

@@ -15,7 +15,7 @@ export function FaqSection() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="py-12 sm:py-24 lg:py-28 bg-surface-dark border-y border-border"
+      className="py-8 sm:py-14 lg:py-18 bg-surface-dark border-y border-border"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>

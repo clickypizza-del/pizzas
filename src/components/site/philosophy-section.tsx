@@ -38,7 +38,7 @@ export function PhilosophySection() {
     <section
       id="filosofia"
       aria-labelledby="filosofia-title"
-      className="py-12 sm:py-24 lg:py-28"
+      className="py-8 sm:py-14 lg:py-18"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-8 sm:mb-16">

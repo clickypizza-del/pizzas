@@ -11,7 +11,7 @@ export function OrderSection() {
     <section
       id="pedidos"
       aria-labelledby="pedidos-title"
-      className="relative py-12 sm:py-24 lg:py-28 overflow-hidden"
+      className="relative py-8 sm:py-14 lg:py-18 overflow-hidden"
     >
       <div aria-hidden className="absolute inset-0 cp-dotgrid opacity-30" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

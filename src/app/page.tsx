@@ -24,7 +24,7 @@ export default function Home() {
       <PromotionsSection />
       <PhilosophySection />
 
-      <section className="py-12 sm:py-20 lg:py-24">
+      <section className="py-8 sm:py-14 lg:py-18">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-brand text-3xl sm:text-4xl text-foreground mb-4">
             12 variedades gourmet
@@ -55,7 +55,7 @@ export default function Home() {
       <OrderSection />
 
       {/* Club Clicky CTA */}
-      <section className="py-12 sm:py-20 lg:py-24 bg-surface-sunken">
+      <section className="py-8 sm:py-14 lg:py-18 bg-surface-sunken">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-brand text-3xl sm:text-4xl text-foreground mb-4">
             Registrate en el <span className="text-gradient-brand">Club Clicky</span>
