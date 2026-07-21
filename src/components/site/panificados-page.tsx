@@ -48,7 +48,7 @@ export function PanificadosPage() {
                 <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
                   <Image
                     src={item.image}
-                    alt={item.name}
+                    alt={`${item.name} — panificado artesanal congelado`}
                     width={600}
                     height={450}
                     loading="lazy"

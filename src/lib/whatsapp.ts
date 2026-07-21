@@ -28,6 +28,8 @@ export const WA_MESSAGES = {
     "Hola, quiero unirme al Club Clicky y empezar a sumar pizzas para obtener mi pizza gratis.",
   revendedor:
     "¡Hola Click & Pizza! Quiero info para ser revendedor. ¿Cómo funciona?",
+  aceituna: (name: string) =>
+    `¡Hola Click & Pizza! Quiero consultar por las Aceitunas Verdes Rellenas de ${name}. ¿Las tengo disponible esta semana?`,
   zona: (zone: string) =>
     `¡Hola Click & Pizza! Quiero saber si entregan en ${zone}.`,
 } as const;

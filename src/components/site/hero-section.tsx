@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Clock, Star, Leaf, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Clock, Star, Leaf, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const DAYS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const MONTHS = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
@@ -238,7 +239,22 @@ export function HeroSection() {
                       variant="secondary"
                       className="cta-inline px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base border-white/30 text-white hover:bg-white hover:text-black hover:border-white"
                     >
-                      <a href="#menu">Ver el catálogo</a>
+                      <a href="/menu">Ver el catálogo</a>
+                    </Button>
+                    <Button
+                      asChild
+                      size="lg"
+                      variant="outline"
+                      className="cta-inline px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base border-brand-green/50 text-brand-green hover:bg-brand-green hover:text-white hover:border-brand-green"
+                    >
+                      <a
+                        href={buildWhatsAppUrl()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <MessageCircle className="size-4" />
+                        Pedir por WhatsApp
+                      </a>
                     </Button>
                   </div>
 

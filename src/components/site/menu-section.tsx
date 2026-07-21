@@ -45,10 +45,16 @@ const COMBO_LABEL_CONFIG: Record<MiniPizzetaComboLabel, { label: string; classNa
   "premium": { label: "Premium", className: "bg-purple-600 text-white" },
 };
 
-export function MenuSection() {
+export function MenuSection({ initialCategory }: { initialCategory?: string }) {
   const [selected, setSelected] = useState<Pizza | null>(null);
   const [selectedCat, setSelectedCat] = useState<PizzaCategoryMeta | null>(null);
-  const [activeCat, setActiveCat] = useState<PizzaCategoryMeta["id"] | "all">("all");
+  const [activeCat, setActiveCat] = useState<PizzaCategoryMeta["id"] | "all">(() => {
+    if (!initialCategory) return "all";
+    const match = PIZZA_CATEGORIES.find(
+      (c) => c.id === initialCategory || c.shortLabel?.toLowerCase() === initialCategory.toLowerCase(),
+    );
+    return match ? match.id : "all";
+  });
 
   const filteredPizzas = activeCat === "all"
     ? PIZZAS

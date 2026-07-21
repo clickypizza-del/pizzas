@@ -17,19 +17,17 @@ function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
   const parsed = parseValue(value);
-  const [display, setDisplay] = useState(() =>
-    parsed ? `0${parsed[1]}` : value,
-  );
+  const [display, setDisplay] = useState(value);
 
   useEffect(() => {
-    if (!inView) return;
-    const p = parseValue(value);
-    if (!p) return;
-    const [target, suffix] = p;
+    if (!inView || !parsed) return;
+    const [target, suffix] = parsed;
     const duration = 1400;
     const start = performance.now();
     let raf = 0;
     const isInt = Number.isInteger(target);
+
+    setDisplay((isInt ? 0 : "0.0") + suffix);
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / duration, 1);
@@ -40,7 +38,7 @@ function CountUp({ value }: { value: string }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value]);
+  }, [inView, value, parsed]);
 
   return <span ref={ref}>{display}</span>;
 }

@@ -4,18 +4,18 @@ import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 const MENU_LINKS = [
-  { href: "/menu", label: "Clásicas" },
-  { href: "/menu", label: "Especiales" },
+  { href: "/menu?cat=clasica", label: "Clásicas" },
+  { href: "/menu?cat=gourmet", label: "Gourmet" },
+  { href: "/aceitunas", label: "Picadas Gourmet" },
   { href: "/panificados", label: "Panificados" },
-  { href: "/nosotros", label: "Catálogo optimizado" },
+  { href: "/menu", label: "Catálogo completo" },
   { href: "/suscripcion", label: "Suscripción" },
 ]
 
 const COMPANY_LINKS = [
   { href: "/nosotros", label: "Nuestra filosofía" },
   { href: "/club-clicky", label: "Club Clicky" },
-  { href: "/suscripcion", label: "Suscripción" },
-  { href: "/nosotros", label: "Cómo funciona" },
+  { href: "/revendedores", label: "Revendedores" },
   { href: "/faq", label: "Preguntas frecuentes" },
 ]
 

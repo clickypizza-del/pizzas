@@ -61,7 +61,7 @@ export default function Home() {
             Registrate en el <span className="text-gradient-brand">Club Clicky</span>
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-2xl mx-auto">
-            Comprá 10 pizzas y regalamos 1 Muzzarella Clásica. Sin inscripción, sin costo.
+            Comprá 10 pizzas y te regalamos 1 Muzzarella Clásica. Sin inscripción, sin costo.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="rounded-full px-8">

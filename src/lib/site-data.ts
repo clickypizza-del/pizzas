@@ -33,12 +33,11 @@ function isNavGroup(item: NavItem): item is NavGroup {
 export { isNavGroup };
 
 export const NAV_ITEMS: NavLink[] = [
-  { href: "/nosotros", label: "Nosotros" },
   { href: "/menu", label: "Catálogo" },
+  { href: "/aceitunas", label: "Picadas Gourmet" },
   { href: "/suscripcion", label: "Suscripción" },
   { href: "/club-clicky", label: "Club Clicky" },
   { href: "/revendedores", label: "Revendedores" },
-  { href: "/panificados", label: "Panificados" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -280,6 +279,20 @@ export const PIZZAS: Pizza[] = [
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
+  },
+  {
+    id: "lomo-gourmet",
+    name: "Lomo Gourmet",
+    description:
+      "Lomo en finas laminas sobre mozzarella fundida con aceitunas verdes. Elegancia y sabor en cada porción.",
+    category: "gourmet",
+    freezerNote: "El lomo congelado conserva muy bien la textura y el sabor.",
+    image: "/pizzas/lomo-gourmet.webp",
+    price: "$9.400",
+    badge: "nueva",
+    cookTime: "15 min",
+    portions: "4-6 porciones",
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomo en láminas", "Aceitunas verdes"],
   },
   {
     id: "cantimpalo",
@@ -922,39 +935,57 @@ export type Promotion = {
   cta: string;
   whatsappMessage?: string;
   link?: string;
+  featured?: boolean;
+  cupos?: string;
 };
 
 export const PROMOTIONS: Promotion[] = [
   {
     id: "domingo-pizza",
-    title: "Domingo de Pizza",
+    title: "Domingo de Pizza — Entrega Jueves",
     description:
-      "Armá tu caja familiar con 12 variedades artesanales. Todo listo para el horno, directo a tu casa.",
+      "Armá tu caja familiar con 12 variedades artesanales. Quedan pocos cupos de entrega para esta semana en tu zona.",
     image: "/pizzas/muzza.webp",
-    badge: "Popular",
+    badge: "Últimos cupos",
     badgeColor: "bg-brand-amber text-black",
     price: "Desde $25.000",
-    cta: "Armar mi caja",
+    cta: "Reservar mi caja",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero armar una caja para el Domingo de Pizza. ¿Cuáles son las opciones?",
+      "¡Hola Click & Pizza! Quiero reservar mi caja para la entrega del jueves antes de que se agoten los cupos.",
+    featured: true,
+    cupos: "Quedan 8 cupos",
+  },
+  {
+    id: "nuevo-cliente",
+    title: "Probá Click & Pizza",
+    description:
+      "En tu primer pedido, envío gratis en tu zona. Conocé la experiencia gourmet sin vueltas.",
+    image: "/pizzas/jamon.webp",
+    badge: "Nuevo cliente",
+    badgeColor: "bg-brand-green text-white",
+    price: "Envío $0 en tu primera compra",
+    cta: "Quiero mi primer pedido",
+    whatsappMessage:
+      "¡Hola! Es mi primera vez pidiendo Click & Pizza y quiero aprovechar el envío gratis.",
   },
   {
     id: "promo-10-1",
     title: "Pack 10 + 1 Gratis",
     description:
-      "Comprá 10 pizzas y llevate 1 gratis. Ahorrás una pizza completa. Ideal para familias o eventos.",
+      "Comprá 10 pizzas y te regalamos 1 Muzzarella Clásica. Ideal para familias o eventos.",
     image: "/pizzas/salame.webp",
     badge: "Ahorro",
-    badgeColor: "bg-brand-green text-white",
+    badgeColor: "bg-blue-600 text-white",
     price: "$69.300",
-    cta: "Club Clicky",
-    link: "/club-clicky",
+    cta: "Armar mi pack",
+    whatsappMessage:
+      "¡Hola Click & Pizza! Quiero armar el Pack 10 + 1 Gratis. ¿Cómo seguimos?",
   },
   {
     id: "suscripcion",
     title: "Suscribite y Ahorrá",
     description:
-      "Elegí tu kit semanal o premium. Sin compromiso, pausá cuando quieras. Primer mes con 15% OFF.",
+      "Elegí tu kit semanal o premium. Sin compromiso, pausá cuando quieras.",
     image: "/pizzas/cuatro-quesos.jpg",
     badge: "Exclusivo",
     badgeColor: "bg-purple-600 text-white",
@@ -962,6 +993,138 @@ export const PROMOTIONS: Promotion[] = [
     cta: "Ver planes",
     whatsappMessage:
       "¡Hola Click & Pizza! Quiero información sobre la suscripción con 15% de descuento en el primer mes.",
+  },
+];
+
+// ── Aceitunas Verdes Rellenas Gourmet ─────────────────────────
+
+export type Aceituna = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: string;
+  weight?: string;
+  badge?: "nueva" | "premium" | "mas-vendida";
+};
+
+export const ACEITUNAS: Aceituna[] = [
+  {
+    id: "aceituna-almendra",
+    name: "Almendra",
+    description: "Aceituna verde rellena de almendra crocante. Textura y sabor en cada bocado.",
+    image: "/aceitunas/aceituna-almendra.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-moron",
+    name: "Morrón",
+    description: "Rellena de morrón asado. Dulzor ahumado que equilibra la salacidad de la aceituna.",
+    image: "/aceitunas/aceituna-morron.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-salame",
+    name: "Salame",
+    description: "Rellena de salame seleccionado. Intensidad y personalidad en cada unidad.",
+    image: "/aceitunas/aceituna-salame.webp",
+    price: "$5.500",
+    weight: "300g",
+    badge: "mas-vendida",
+  },
+  {
+    id: "aceituna-jamon-crudo",
+    name: "Jamón Crudo",
+    description: "Rellena de jamón curado. Umami y suavidad que enamoran desde el primer bocado.",
+    image: "/aceitunas/aceituna-jamon-crudo.webp",
+    price: "$6.000",
+    weight: "300g",
+    badge: "premium",
+  },
+  {
+    id: "aceituna-jamon-cocido",
+    name: "Jamón Cocido",
+    description: "Rellena de jamón cocido tradicional. Sabor clásico y textura tierna.",
+    image: "/aceitunas/aceituna-jamon-cocido.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-panceta",
+    name: "Panceta",
+    description: "Rellena de panceta ahumada. Ahumado intenso y grasa crocante que conquista.",
+    image: "/aceitunas/aceituna-panceta.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-palmito",
+    name: "Palmito",
+    description: "Rellena de palmito. Frescura vegetal y textura delicada para un equilibrio perfecto.",
+    image: "/aceitunas/aceituna-palmito.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-champinones",
+    name: "Champiñones",
+    description: "Rellena de champiñones salteados. Earthy y aromática, para los amantes del sabor umami.",
+    image: "/aceitunas/aceituna-champinones.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-atun",
+    name: "Atún",
+    description: "Rellena de atún seleccionado. Proteína marina con la frescura de la aceituna verde.",
+    image: "/aceitunas/aceituna-atun.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-anchoa",
+    name: "Anchoa",
+    description: "Rellena de anchoa. Intensidad salada y umami profundo para paladares exigentes.",
+    image: "/aceitunas/aceituna-anchoa.webp",
+    price: "$6.000",
+    weight: "300g",
+    badge: "premium",
+  },
+  {
+    id: "aceituna-provolone",
+    name: "Queso Provolone",
+    description: "Rellena de provolone picante. Cremosidad y carácter que eleva cualquier picada.",
+    image: "/aceitunas/aceituna-provolone.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-ajo",
+    name: "Ajo",
+    description: "Rellena de ajo confitado. Aroma intenso y dulzor suave que maravilla.",
+    image: "/aceitunas/aceituna-ajo.webp",
+    price: "$5.500",
+    weight: "300g",
+  },
+  {
+    id: "aceituna-anana",
+    name: "Ananá",
+    description: "Rellena de ananá. Dulzor tropical que contrasta con la acidez de la aceituna.",
+    image: "/aceitunas/aceituna-anana.webp",
+    price: "$5.500",
+    weight: "300g",
+    badge: "nueva",
+  },
+  {
+    id: "aceituna-roquefort",
+    name: "Roquefort",
+    description: "Rellena de queso azul. Pungencia y cremosidad para los paladares más atrevidos.",
+    image: "/aceitunas/aceituna-roquefort.webp",
+    price: "$6.000",
+    weight: "300g",
+    badge: "premium",
   },
 ];
 

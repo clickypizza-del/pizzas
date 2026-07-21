@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MenuSection } from "@/components/site/menu-section";
+import { MenuPageClient } from "@/components/site/menu-page-client";
 
 export const metadata: Metadata = {
   title: "Catálogo — Variedades de pizza gourmet",
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function MenuPage() {
-  return <MenuSection />;
+  return <MenuPageClient />;
 }
