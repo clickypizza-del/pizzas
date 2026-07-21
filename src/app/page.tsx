@@ -13,13 +13,103 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Click & Pizza — Pizza Gourmet Congelada en Mendoza",
   description:
-    "Pizza artesanal gourmet, congelada al instante. Masa artesanal, ingredientes premium. Directo de tu freezer en 15 minutos. Delivery en Mendoza.",
-  alternates: { canonical: "/" },
+    "Pizza artesanal congelada delivery en Mendoza. Muzzarella, fugazzeta, jamón y más. Lista en 15 minutos. Pedí por WhatsApp.",
+  alternates: { canonical: "https://clickypizza.com.ar" },
+  openGraph: {
+    title: "Click & Pizza — Pizza Gourmet Congelada en Mendoza",
+    description:
+      "Pizza artesanal gourmet, congelada al instante. Lista en 15 minutos. Delivery en Mendoza.",
+    url: "https://clickypizza.com.ar",
+    images: [
+      {
+        url: "/pizzas/muzza.webp",
+        width: 1200,
+        height: 630,
+        alt: "Pizza gourmet Muzzarella Clásica de Click & Pizza",
+      },
+    ],
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Inicio",
+      item: "https://clickypizza.com.ar",
+    },
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "¿Cómo pido mis pizzas?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Escribinos por WhatsApp, elegí tus variedades y coordinamos la entrega. Es simple y rápido.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cuánto tarda en estar lista la pizza?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Del freezer al horno en 15 minutos. Sin descongelar, directo al horno a 220°C.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cómo se conservan las pizzas?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "En freezer estándar a -18°C tienen una vida útil de 90 días. Sin aditivos ni conservantes artificiales.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Qué medios de pago aceptan?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Efectivo y transferencia bancaria. Al ser delivery local en Mendoza, facilitamos los medios más simples.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Hay suscripción semanal?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sí, tenemos Kit Semanal (4 pizzas) y Kit Premium (6 pizzas + bolsa térmica). Sin compromiso, pausá cuando quieras.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cuánto cuesta el envío?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "El envío tiene costo variable según la zona. Consultanos por WhatsApp con tu dirección y te decimos el precio exacto.",
+      },
+    },
+  ],
 };
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <HeroSection />
       <PromotionsSection />
       <PhilosophySection />
