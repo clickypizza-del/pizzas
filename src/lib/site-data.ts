@@ -941,58 +941,56 @@ export type Promotion = {
 
 export const PROMOTIONS: Promotion[] = [
   {
-    id: "domingo-pizza",
-    title: "Domingo de Pizza — Entrega Jueves",
+    id: "noche-clicky",
+    title: "Noche Clicky",
     description:
-      "Armá tu caja familiar con 12 variedades artesanales. Quedan pocos cupos de entrega para esta semana en tu zona.",
+      "Elegí tus sabores favoritos y disfrutá una cena gourmet en casa, lista en minutos y sin complicaciones.",
     image: "/pizzas/muzza.webp",
-    badge: "Últimos cupos",
-    badgeColor: "bg-brand-amber text-black",
-    price: "Desde $25.000",
-    cta: "Reservar mi caja",
+    badge: "Combo especial",
+    badgeColor: "bg-brand-red text-white",
+    price: "2 pizzas gourmet + bebida de regalo",
+    cta: "Pedir por WhatsApp",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero reservar mi caja para la entrega del jueves antes de que se agoten los cupos.",
+      "¡Hola Click & Pizza! Quiero armar mi Noche Clicky. ¿Me ayudan a elegir los combos?",
     featured: true,
-    cupos: "Quedan 8 cupos",
   },
   {
-    id: "nuevo-cliente",
-    title: "Probá Click & Pizza",
+    id: "combo-familiar",
+    title: "Combo Familiar",
     description:
-      "En tu primer pedido, envío gratis en tu zona. Conocé la experiencia gourmet sin vueltas.",
-    image: "/pizzas/jamon.webp",
-    badge: "Nuevo cliente",
-    badgeColor: "bg-brand-green text-white",
-    price: "Envío $0 en tu primera compra",
-    cta: "Quiero mi primer pedido",
+      "4 pizzas gourmet para compartir en familia. Elegí los sabores que más te gusten y armá tu cena perfecta.",
+    image: "/pizzas/cuatro-quesos.webp",
+    badge: "Para compartir",
+    badgeColor: "bg-brand-amber text-black",
+    price: "Desde $32.000",
+    cta: "Armar mi combo",
     whatsappMessage:
-      "¡Hola! Es mi primera vez pidiendo Click & Pizza y quiero aprovechar el envío gratis.",
+      "¡Hola Click & Pizza! Quiero armar un Combo Familiar con 4 pizzas gourmet. ¿Cómo seguimos?",
   },
   {
-    id: "promo-10-1",
-    title: "Pack 10 + 1 Gratis",
+    id: "mix-sabores",
+    title: "Mix de Sabores",
     description:
-      "Comprá 10 pizzas y te regalamos 1 Muzzarella Clásica. Ideal para familias o eventos.",
-    image: "/pizzas/salame.webp",
-    badge: "Ahorro",
-    badgeColor: "bg-blue-600 text-white",
-    price: "$69.300",
-    cta: "Armar mi pack",
-    whatsappMessage:
-      "¡Hola Click & Pizza! Quiero armar el Pack 10 + 1 Gratis. ¿Cómo seguimos?",
-  },
-  {
-    id: "suscripcion",
-    title: "Suscribite y Ahorrá",
-    description:
-      "Elegí tu kit semanal o premium. Sin compromiso, pausá cuando quieras.",
-    image: "/pizzas/cuatro-quesos.jpg",
-    badge: "Exclusivo",
+      "No te decidas por una sola. Armá tu mix con 3 variedades distintas y descubrí tu favorita.",
+    image: "/pizzas/especial-salame.webp",
+    badge: "Mix & Match",
     badgeColor: "bg-purple-600 text-white",
-    price: "-15% primer mes",
-    cta: "Ver planes",
+    price: "Desde $26.000",
+    cta: "Elegir mis sabores",
     whatsappMessage:
-      "¡Hola Click & Pizza! Quiero información sobre la suscripción con 15% de descuento en el primer mes.",
+      "¡Hola Click & Pizza! Quiero armar un Mix de Sabores con 3 variedades. ¿Me ayudan?",
+  },
+  {
+    id: "promo-club-clicky",
+    title: "Promo Club Clicky",
+    description:
+      "Sumá 10 pedidos y regalamos una pizza Muzzarella Clásica. ¡Tu noche perfecta te está esperando!",
+    image: "/pizzas/lomo-gourmet.webp",
+    badge: "Exclusivo",
+    badgeColor: "bg-brand-green text-white",
+    price: "1 pizza gratis cada 10",
+    cta: "Unirme al Club",
+    link: "/club-clicky",
   },
 ];
 
