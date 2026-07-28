@@ -137,12 +137,11 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="font-brand text-2xl sm:text-3xl text-white mb-1">
-          Dashboard
+          Panel
         </h1>
         <p className="text-sm text-white/40">Resumen de tu catálogo</p>
       </div>
 
-      {/* Main stats */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         <StatCard
           label="Productos totales"
@@ -193,7 +192,6 @@ export default function AdminDashboard() {
         />
       </div>
 
-      {/* Secondary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard
           label="Ocultos"
@@ -222,7 +220,6 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Categories breakdown */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
           <h3 className="font-brand text-lg text-white mb-4">
             Productos por categoría
@@ -253,7 +250,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Top products */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
           <h3 className="font-brand text-lg text-white mb-4">
             Productos más vistos
@@ -283,7 +279,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Recent activity */}
       <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
         <h3 className="font-brand text-lg text-white mb-4">
           Actividad reciente

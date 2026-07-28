@@ -42,7 +42,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-2xl bg-brand-red flex items-center justify-center mx-auto mb-4">
             <span className="text-white font-brand text-2xl font-bold">CP</span>
@@ -53,7 +52,6 @@ export default function LoginPage() {
           <p className="text-sm text-white/40">Panel de administración</p>
         </div>
 
-        {/* Form */}
         <form
           onSubmit={handleSubmit}
           className="bg-[#111111] border border-white/10 rounded-2xl p-6 sm:p-8 space-y-5"
@@ -66,7 +64,7 @@ export default function LoginPage() {
 
           <div>
             <label className="block text-xs font-medium text-white/50 uppercase tracking-wider mb-2">
-              Email
+              Correo electrónico
             </label>
             <input
               type="email"

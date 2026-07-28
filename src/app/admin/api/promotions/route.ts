@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json(
-      { error: "Error creating promotion" },
+      { error: "Error al crear la promoción" },
       { status: 500 }
     );
   }

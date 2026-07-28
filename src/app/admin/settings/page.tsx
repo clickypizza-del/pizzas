@@ -8,14 +8,14 @@ type Settings = Record<string, string>;
 const SETTING_FIELDS = [
   { key: "phone", label: "WhatsApp (E.164)", placeholder: "542612545724" },
   { key: "phone_display", label: "WhatsApp visible", placeholder: "+54 9 261 254-5724" },
-  { key: "email", label: "Email", placeholder: "info@clickypizza.com.ar" },
+  { key: "email", label: "Correo electrónico", placeholder: "info@clickypizza.com.ar" },
   { key: "address", label: "Dirección", placeholder: "Mendoza, Argentina" },
   { key: "instagram", label: "Instagram", placeholder: "click_y_pizza" },
-  { key: "hero_title", label: "Hero título", placeholder: "Pizzas artesanales..." },
-  { key: "hero_subtitle", label: "Hero subtítulo", placeholder: "Sin cocinar..." },
-  { key: "analytics_ga", label: "Google Analytics ID", placeholder: "G-XXXXXXXXXX" },
+  { key: "hero_title", label: "Título del hero", placeholder: "Pizzas artesanales..." },
+  { key: "hero_subtitle", label: "Subtítulo del hero", placeholder: "Sin cocinar..." },
+  { key: "analytics_ga", label: "ID de Google Analytics", placeholder: "G-XXXXXXXXXX" },
   { key: "analytics_gtm", label: "Google Tag Manager", placeholder: "GTM-XXXXXXX" },
-  { key: "analytics_meta_pixel", label: "Meta Pixel ID", placeholder: "123456789" },
+  { key: "analytics_meta_pixel", label: "ID de Meta Pixel", placeholder: "123456789" },
 ];
 
 export default function SettingsPage() {
@@ -41,19 +41,20 @@ export default function SettingsPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(settings),
     });
-    setMessage("Configuración guardada");
+    setMessage("Configuración guardada correctamente");
     setSaving(false);
     setTimeout(() => setMessage(""), 3000);
   };
 
   const handleBackup = async () => {
     setBacking(true);
+    setMessage("");
     const res = await fetch("/admin/api/backup", { method: "POST" });
     const data = await res.json();
     if (data.filename) {
       setMessage(`Backup creado: ${data.filename}`);
     } else {
-      setMessage("Error al crear backup");
+      setMessage("Error al crear el backup");
     }
     setBacking(false);
     setTimeout(() => setMessage(""), 5000);
@@ -72,6 +73,14 @@ export default function SettingsPage() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin size-8 border-2 border-brand-red border-t-transparent rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -96,7 +105,6 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Business info */}
       <div className="bg-[#111111] border border-white/10 rounded-xl p-5 space-y-4">
         <h3 className="font-brand text-lg text-white">Información del negocio</h3>
         {SETTING_FIELDS.map((field) => (
@@ -129,9 +137,8 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      {/* Backups */}
       <div className="bg-[#111111] border border-white/10 rounded-xl p-5 space-y-4">
-        <h3 className="font-brand text-lg text-white">Backups</h3>
+        <h3 className="font-brand text-lg text-white">Copias de seguridad</h3>
         <p className="text-sm text-white/40">
           Creá copias de seguridad de tu catálogo completo.
         </p>

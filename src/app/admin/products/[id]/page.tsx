@@ -193,7 +193,7 @@ export default function ProductFormPage({
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Image */}
+        {/* Imagen */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
           <h3 className="font-brand text-lg text-white mb-4">Imagen</h3>
           <div className="flex items-start gap-4">
@@ -201,7 +201,7 @@ export default function ProductFormPage({
               <div className="relative w-32 h-32 rounded-xl overflow-hidden bg-white/5 shrink-0">
                 <Image
                   src={form.image_url}
-                  alt="Preview"
+                  alt="Vista previa"
                   fill
                   className="object-cover"
                 />
@@ -242,7 +242,7 @@ export default function ProductFormPage({
           </div>
         </div>
 
-        {/* Basic info */}
+        {/* Info básica */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5 space-y-4">
           <h3 className="font-brand text-lg text-white">Información básica</h3>
 
@@ -326,7 +326,7 @@ export default function ProductFormPage({
           </div>
         </div>
 
-        {/* Pricing */}
+        {/* Precios */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
           <h3 className="font-brand text-lg text-white mb-4">Precios</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -386,7 +386,7 @@ export default function ProductFormPage({
           </div>
         </div>
 
-        {/* Status */}
+        {/* Estado */}
         <div className="bg-[#111111] border border-white/10 rounded-xl p-5">
           <h3 className="font-brand text-lg text-white mb-4">Estado</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -419,7 +419,7 @@ export default function ProductFormPage({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
             <div>
               <label className="block text-xs text-white/40 uppercase tracking-wider mb-1.5">
-                Badge
+                Etiqueta
               </label>
               <input
                 type="text"
@@ -474,7 +474,7 @@ export default function ProductFormPage({
           <div className="space-y-4">
             <div>
               <label className="block text-xs text-white/40 uppercase tracking-wider mb-1.5">
-                Meta Title
+                Título meta
               </label>
               <input
                 type="text"
@@ -488,7 +488,7 @@ export default function ProductFormPage({
             </div>
             <div>
               <label className="block text-xs text-white/40 uppercase tracking-wider mb-1.5">
-                Meta Description
+                Descripción meta
               </label>
               <textarea
                 value={form.meta_description}
@@ -497,12 +497,12 @@ export default function ProductFormPage({
                 }
                 rows={2}
                 className="w-full px-4 py-2.5 bg-[#0D0D0D] border border-white/10 rounded-lg text-white text-sm focus:outline-none focus:border-brand-red/50 resize-none"
-                placeholder="Descripción para buscadores (150-160 chars)"
+                placeholder="Descripción para buscadores (150-160 caracteres)"
               />
             </div>
             <div>
               <label className="block text-xs text-white/40 uppercase tracking-wider mb-1.5">
-                Keywords (separadas por coma)
+                Palabras clave (separadas por coma)
               </label>
               <input
                 type="text"
@@ -517,7 +517,7 @@ export default function ProductFormPage({
           </div>
         </div>
 
-        {/* Submit */}
+        {/* Botones */}
         <div className="flex items-center justify-end gap-3 pb-8">
           <button
             type="button"

@@ -70,7 +70,7 @@ export async function GET() {
     });
   } catch {
     return NextResponse.json(
-      { error: "Error fetching stats" },
+      { error: "Error al cargar las estadísticas" },
       { status: 500 }
     );
   }

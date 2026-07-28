@@ -51,7 +51,7 @@ export async function PUT(
     return NextResponse.json(data);
   } catch {
     return NextResponse.json(
-      { error: "Error updating product" },
+      { error: "Error al actualizar el producto" },
       { status: 500 }
     );
   }
@@ -79,7 +79,7 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: "Error deleting product" },
+      { error: "Error al eliminar el producto" },
       { status: 500 }
     );
   }

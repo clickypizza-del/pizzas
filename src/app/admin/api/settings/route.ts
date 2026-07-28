@@ -37,7 +37,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: "Error updating settings" },
+      { error: "Error al actualizar la configuración" },
       { status: 500 }
     );
   }

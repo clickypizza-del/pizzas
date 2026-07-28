@@ -98,7 +98,6 @@ export default function CategoriesPage() {
     const [moved] = updated.splice(idx, 1);
     updated.splice(target, 0, moved);
 
-    // Update sort orders
     const patches = updated.map((c, i) =>
       fetch(`/admin/api/categories/${c.id}`, {
         method: "PUT",
@@ -130,7 +129,6 @@ export default function CategoriesPage() {
         </button>
       </div>
 
-      {/* Edit modal */}
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="bg-[#111111] border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4">
@@ -251,7 +249,6 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      {/* List */}
       {loading ? (
         <div className="flex items-center justify-center h-40">
           <div className="animate-spin size-8 border-2 border-brand-red border-t-transparent rounded-full" />

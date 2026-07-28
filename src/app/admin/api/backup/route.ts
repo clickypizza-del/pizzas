@@ -80,7 +80,7 @@ export async function POST() {
     return NextResponse.json(backup, { status: 201 });
   } catch (err) {
     return NextResponse.json(
-      { error: "Error creating backup" },
+      { error: "Error al crear el backup" },
       { status: 500 }
     );
   }

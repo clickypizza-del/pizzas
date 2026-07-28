@@ -8,7 +8,6 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Calendar,
   Loader2,
   X,
   Upload,
@@ -147,7 +146,6 @@ export default function PromotionsPage() {
         </button>
       </div>
 
-      {/* Edit modal */}
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 overflow-y-auto">
           <div className="bg-[#111111] border border-white/10 rounded-2xl p-6 w-full max-w-lg space-y-4 my-8">
@@ -164,7 +162,6 @@ export default function PromotionsPage() {
             </div>
 
             <div className="space-y-3">
-              {/* Image */}
               <div>
                 <label className="block text-xs text-white/40 uppercase tracking-wider mb-1.5">
                   Imagen
@@ -173,7 +170,7 @@ export default function PromotionsPage() {
                   <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden mb-2">
                     <Image
                       src={editing.image_url}
-                      alt="Preview"
+                      alt="Vista previa"
                       fill
                       className="object-cover"
                     />
@@ -241,7 +238,7 @@ export default function PromotionsPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
-                    Texto botón
+                    Texto del botón
                   </label>
                   <input
                     type="text"
@@ -257,7 +254,7 @@ export default function PromotionsPage() {
                 </div>
                 <div>
                   <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
-                    URL botón
+                    URL del botón
                   </label>
                   <input
                     type="text"
@@ -273,7 +270,7 @@ export default function PromotionsPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
-                    Badge
+                    Etiqueta
                   </label>
                   <input
                     type="text"
@@ -318,7 +315,7 @@ export default function PromotionsPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
-                    Fecha inicio
+                    Fecha de inicio
                   </label>
                   <input
                     type="date"
@@ -331,7 +328,7 @@ export default function PromotionsPage() {
                 </div>
                 <div>
                   <label className="block text-xs text-white/40 uppercase tracking-wider mb-1">
-                    Fecha fin
+                    Fecha de fin
                   </label>
                   <input
                     type="date"
@@ -397,7 +394,6 @@ export default function PromotionsPage() {
         </div>
       )}
 
-      {/* List */}
       {loading ? (
         <div className="flex items-center justify-center h-40">
           <div className="animate-spin size-8 border-2 border-brand-red border-t-transparent rounded-full" />

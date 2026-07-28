@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json(
-      { error: "Error creating product" },
+      { error: "Error al crear el producto" },
       { status: 500 }
     );
   }

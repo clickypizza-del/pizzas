@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 const NAV = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin", label: "Panel", icon: LayoutDashboard },
   { href: "/admin/products", label: "Productos", icon: Package },
   { href: "/admin/categories", label: "Categorías", icon: Tags },
   { href: "/admin/promotions", label: "Promociones", icon: Megaphone },
@@ -70,7 +70,7 @@ export default function AdminLayout({
                 Click & Pizza
               </span>
               <span className="text-[10px] text-white/40 uppercase tracking-wider">
-                Admin Panel
+                Panel de Admin
               </span>
             </div>
           </Link>

@@ -33,7 +33,7 @@ export async function PUT(
     return NextResponse.json(data);
   } catch {
     return NextResponse.json(
-      { error: "Error updating category" },
+      { error: "Error al actualizar la categoría" },
       { status: 500 }
     );
   }
@@ -65,7 +65,7 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: "Error deleting category" },
+      { error: "Error al eliminar la categoría" },
       { status: 500 }
     );
   }

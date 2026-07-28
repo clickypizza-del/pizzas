@@ -12,9 +12,7 @@ import {
   Trash2,
   Pencil,
   Copy,
-  Filter,
   Loader2,
-  AlertTriangle,
 } from "lucide-react";
 
 type Product = {
@@ -133,7 +131,6 @@ export default function ProductsPage() {
         </Link>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-white/30" />
@@ -168,7 +165,6 @@ export default function ProductsPage() {
         </select>
       </div>
 
-      {/* Table */}
       {loading ? (
         <div className="flex items-center justify-center h-40">
           <div className="animate-spin size-8 border-2 border-brand-red border-t-transparent rounded-full" />
@@ -265,9 +261,7 @@ export default function ProductsPage() {
                         <button
                           onClick={() => toggleVisibility(product)}
                           className="p-1.5 rounded-lg hover:bg-white/5 text-white/40 hover:text-white transition-colors"
-                          title={
-                            product.visible ? "Ocultar" : "Mostrar"
-                          }
+                          title={product.visible ? "Ocultar" : "Mostrar"}
                         >
                           {product.visible ? (
                             <Eye className="size-4" />

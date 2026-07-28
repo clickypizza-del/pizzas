@@ -9,14 +9,14 @@ export async function POST(request: NextRequest) {
     const folder = (formData.get("folder") as string) || "products";
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return NextResponse.json({ error: "No se proporcionó ningún archivo" }, { status: 400 });
     }
 
     // Validate file type
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/avif"];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: "Invalid file type. Allowed: JPG, PNG, WebP, AVIF" },
+        { error: "Tipo de archivo no válido. Permitidos: JPG, PNG, WebP, AVIF" },
         { status: 400 }
       );
     }
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     // Validate size (max 10MB)
     if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json(
-        { error: "File too large. Max 10MB" },
+        { error: "Archivo demasiado grande. Máximo 10MB" },
         { status: 400 }
       );
     }
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     });
   } catch {
     return NextResponse.json(
-      { error: "Error uploading file" },
+      { error: "Error al subir el archivo" },
       { status: 500 }
     );
   }
@@ -84,7 +84,7 @@ export async function DELETE(request: NextRequest) {
     const path = searchParams.get("path");
 
     if (!path) {
-      return NextResponse.json({ error: "Path required" }, { status: 400 });
+      return NextResponse.json({ error: "Se requiere una ruta" }, { status: 400 });
     }
 
     const { error } = await supabase.storage.from("media").remove([path]);
@@ -95,7 +95,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
-      { error: "Error deleting file" },
+      { error: "Error al eliminar el archivo" },
       { status: 500 }
     );
   }
