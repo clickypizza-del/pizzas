@@ -253,17 +253,17 @@ export const PIZZAS: Pizza[] = [
   },
   // ── Gourmet & Selección de Quesos ───────────────────────────
   {
-    id: "provolone-oregano",
-    name: "Provolone y Orégano",
+    id: "especial-muzza",
+    name: "Especial Muzzarella",
     description:
-      "Provolone picante fundido con orégano fresco. Para los amantes del queso fuerte con personalidad.",
+      "Mozzarella cremosa con morrones asados, aceitunas verdes rellenas y orégano fresco. Una clásica reinventada.",
     category: "gourmet",
-    freezerNote: "Ingredientes muy estables. Ideal para almacenamiento prolongado.",
-    image: "/pizzas/provolone-oregano.jpg",
+    freezerNote: "Morrones y aceitunas conservan textura al congelar.",
+    image: "/pizzas/especial-muzza.webp",
     price: "$9.000",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Provolone picante", "Orégano fresco"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Morrones asados", "Aceitunas verdes rellenas", "Orégano fresco"],
   },
   {
     id: "lomito",
