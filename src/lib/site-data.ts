@@ -262,7 +262,7 @@ export const PIZZAS: Pizza[] = [
     category: "gourmet",
     freezerNote: "Morrones y aceitunas conservan textura al congelar.",
     image: "/pizzas/especial-muzza.webp",
-    price: "$9.000",
+    price: "$10.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Morrones rojos asados", "Aceitunas verdes rellenas", "Orégano"],
