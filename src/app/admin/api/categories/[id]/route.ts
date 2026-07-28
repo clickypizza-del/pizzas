@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON, writeJSON } from "@/lib/db";
+
+type Category = {
+  id: string;
+  [key: string]: unknown;
+};
 
 type Params = Promise<{ id: string }>;
 
@@ -11,26 +16,17 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const categories = await readJSON<Category>("categories.json");
+    const idx = categories.findIndex((c) => c.id === id);
 
-    const { data, error } = await supabase
-      .from("categories")
-      .update(body)
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (idx === -1) {
+      return NextResponse.json({ error: "Categoría no encontrada" }, { status: 404 });
     }
 
-    await supabase.from("activity_log").insert({
-      action: "update",
-      entity_type: "category",
-      entity_id: id,
-      details: { fields: Object.keys(body) },
-    });
+    categories[idx] = { ...categories[idx], ...body };
+    await writeJSON("categories.json", categories);
 
-    return NextResponse.json(data);
+    return NextResponse.json(categories[idx]);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar la categoría" },
@@ -46,21 +42,9 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-
-    const { error } = await supabase
-      .from("categories")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    await supabase.from("activity_log").insert({
-      action: "delete",
-      entity_type: "category",
-      entity_id: id,
-    });
+    let categories = await readJSON<Category>("categories.json");
+    categories = categories.filter((c) => c.id !== id);
+    await writeJSON("categories.json", categories);
 
     return NextResponse.json({ success: true });
   } catch {

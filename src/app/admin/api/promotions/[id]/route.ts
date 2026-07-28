@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON, writeJSON } from "@/lib/db";
+
+type Promotion = {
+  id: string;
+  [key: string]: unknown;
+};
 
 type Params = Promise<{ id: string }>;
 
@@ -11,26 +16,17 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const promos = await readJSON<Promotion>("promotions.json");
+    const idx = promos.findIndex((p) => p.id === id);
 
-    const { data, error } = await supabase
-      .from("promotions")
-      .update(body)
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (idx === -1) {
+      return NextResponse.json({ error: "Promoción no encontrada" }, { status: 404 });
     }
 
-    await supabase.from("activity_log").insert({
-      action: "update",
-      entity_type: "promotion",
-      entity_id: id,
-      details: { fields: Object.keys(body) },
-    });
+    promos[idx] = { ...promos[idx], ...body };
+    await writeJSON("promotions.json", promos);
 
-    return NextResponse.json(data);
+    return NextResponse.json(promos[idx]);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar la promoción" },
@@ -46,21 +42,9 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-
-    const { error } = await supabase
-      .from("promotions")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    await supabase.from("activity_log").insert({
-      action: "delete",
-      entity_type: "promotion",
-      entity_id: id,
-    });
+    let promos = await readJSON<Promotion>("promotions.json");
+    promos = promos.filter((p) => p.id !== id);
+    await writeJSON("promotions.json", promos);
 
     return NextResponse.json({ success: true });
   } catch {

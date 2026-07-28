@@ -1,39 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON, writeJSON } from "@/lib/db";
+
+type Setting = {
+  key: string;
+  value: string;
+};
 
 // GET all settings
 export async function GET() {
-  const { data, error } = await supabase
-    .from("business_settings")
-    .select("*");
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  // Convert array of {key, value} to a flat object
-  const settings: Record<string, string> = {};
-  (data || []).forEach((row) => {
-    settings[row.key] =
-      typeof row.value === "string" ? row.value : JSON.stringify(row.value);
+  const settings = await readJSON<Setting>("settings.json");
+  const result: Record<string, string> = {};
+  settings.forEach((s) => {
+    result[s.key] = s.value;
   });
-
-  return NextResponse.json(settings);
+  return NextResponse.json(result);
 }
 
 // PUT update settings (bulk)
 export async function PUT(request: NextRequest) {
   try {
-    const settings = await request.json();
+    const incoming = await request.json();
+    const settings = await readJSON<Setting>("settings.json");
 
-    const updates = Object.entries(settings).map(([key, value]) =>
-      supabase
-        .from("business_settings")
-        .upsert({ key, value: JSON.stringify(value) }, { onConflict: "key" })
-    );
+    for (const [key, value] of Object.entries(incoming)) {
+      const idx = settings.findIndex((s) => s.key === key);
+      if (idx !== -1) {
+        settings[idx].value = String(value);
+      } else {
+        settings.push({ key, value: String(value) });
+      }
+    }
 
-    await Promise.all(updates);
-
+    await writeJSON("settings.json", settings);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(

@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON, writeJSON } from "@/lib/db";
+
+type Product = {
+  id: string;
+  [key: string]: unknown;
+};
 
 type Params = Promise<{ id: string }>;
 
@@ -9,16 +14,13 @@ export async function GET(
   { params }: { params: Params }
 ) {
   const { id } = await params;
-  const { data, error } = await supabase
-    .from("products")
-    .select("*, categories(label, slug)")
-    .eq("id", id)
-    .single();
+  const products = await readJSON<Product>("products.json");
+  const product = products.find((p) => p.id === id);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
+  if (!product) {
+    return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
   }
-  return NextResponse.json(data);
+  return NextResponse.json(product);
 }
 
 // PUT update product
@@ -29,26 +31,17 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
+    const products = await readJSON<Product>("products.json");
+    const idx = products.findIndex((p) => p.id === id);
 
-    const { data, error } = await supabase
-      .from("products")
-      .update(body)
-      .eq("id", id)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (idx === -1) {
+      return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
     }
 
-    await supabase.from("activity_log").insert({
-      action: "update",
-      entity_type: "product",
-      entity_id: id,
-      details: { fields: Object.keys(body) },
-    });
+    products[idx] = { ...products[idx], ...body };
+    await writeJSON("products.json", products);
 
-    return NextResponse.json(data);
+    return NextResponse.json(products[idx]);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar el producto" },
@@ -64,17 +57,9 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-
-    const { error } = await supabase.from("products").delete().eq("id", id);
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    await supabase.from("activity_log").insert({
-      action: "delete",
-      entity_type: "product",
-      entity_id: id,
-    });
+    let products = await readJSON<Product>("products.json");
+    products = products.filter((p) => p.id !== id);
+    await writeJSON("products.json", products);
 
     return NextResponse.json({ success: true });
   } catch {

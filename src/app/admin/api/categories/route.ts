@@ -1,48 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON, writeJSON, generateId, slugify } from "@/lib/db";
+
+type Category = {
+  id: string;
+  slug: string;
+  label: string;
+  subtitle: string;
+  emoji: string;
+  accent_color: string;
+  sort_order: number;
+  visible: boolean;
+};
 
 // GET all categories
 export async function GET() {
-  const { data, error } = await supabase
-    .from("categories")
-    .select("*")
-    .order("sort_order", { ascending: true });
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-  return NextResponse.json(data);
+  const categories = await readJSON<Category>("categories.json");
+  categories.sort((a, b) => a.sort_order - b.sort_order);
+  return NextResponse.json(categories);
 }
 
 // POST create category
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const slug =
-      body.slug ||
-      body.label
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
+    const categories = await readJSON<Category>("categories.json");
 
-    const { data, error } = await supabase
-      .from("categories")
-      .insert({ ...body, slug })
-      .select()
-      .single();
+    const newCategory: Category = {
+      id: generateId(),
+      slug: body.slug || slugify(body.label),
+      label: body.label,
+      subtitle: body.subtitle || "",
+      emoji: body.emoji || "🍕",
+      accent_color: body.accent_color || "#C1121F",
+      sort_order: categories.length,
+      visible: body.visible ?? true,
+    };
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    categories.push(newCategory);
+    await writeJSON("categories.json", categories);
 
-    await supabase.from("activity_log").insert({
-      action: "create",
-      entity_type: "category",
-      entity_id: data.id,
-      details: { name: body.label },
-    });
-
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(newCategory, { status: 201 });
   } catch {
     return NextResponse.json(
       { error: "Error al crear la categoría" },

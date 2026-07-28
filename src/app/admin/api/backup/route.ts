@@ -1,18 +1,25 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { readJSON } from "@/lib/db";
+import fs from "fs/promises";
+import path from "path";
 
 // GET list backups
 export async function GET() {
-  const { data, error } = await supabase
-    .from("backups")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(20);
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  const backupDir = path.join(process.cwd(), "data", "backups");
+  try {
+    const files = await fs.readdir(backupDir);
+    const backups = files
+      .filter((f) => f.endsWith(".json"))
+      .map((f) => ({
+        filename: f,
+        created_at: f,
+      }))
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))
+      .slice(0, 20);
+    return NextResponse.json(backups);
+  } catch {
+    return NextResponse.json([]);
   }
-  return NextResponse.json(data);
 }
 
 // POST create backup
@@ -21,64 +28,49 @@ export async function POST() {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     const filename = `backup-${timestamp}.json`;
 
-    // Export all data
-    const [products, categories, promotions, settings, admins] =
+    const [products, categories, promotions, settings, users, activity] =
       await Promise.all([
-        supabase.from("products").select("*"),
-        supabase.from("categories").select("*"),
-        supabase.from("promotions").select("*"),
-        supabase.from("business_settings").select("*"),
-        supabase.from("admin_users").select("id, email, name, role, created_at"),
+        readJSON("products.json"),
+        readJSON("categories.json"),
+        readJSON("promotions.json"),
+        readJSON("settings.json"),
+        readJSON("users.json"),
+        readJSON("activity.json"),
       ]);
 
     const backupData = {
       version: "1.0",
       created_at: new Date().toISOString(),
-      products: products.data || [],
-      categories: categories.data || [],
-      promotions: promotions.data || [],
-      business_settings: settings.data || [],
-      admin_users: admins.data || [],
+      products,
+      categories,
+      promotions,
+      settings,
+      users: users.map((u: Record<string, unknown>) => {
+        const { password_hash, ...rest } = u;
+        return rest;
+      }),
+      activity,
     };
 
-    const jsonStr = JSON.stringify(backupData, null, 2);
-    const buffer = Buffer.from(jsonStr);
-
-    // Upload to storage
-    const { error: uploadError } = await supabase.storage
-      .from("backups")
-      .upload(filename, buffer, {
-        contentType: "application/json",
-      });
-
-    if (uploadError) {
-      throw uploadError;
+    const backupDir = path.join(process.cwd(), "data", "backups");
+    try {
+      await fs.access(backupDir);
+    } catch {
+      await fs.mkdir(backupDir, { recursive: true });
     }
 
-    // Record backup
-    const { data: backup, error: dbError } = await supabase
-      .from("backups")
-      .insert({
+    const filePath = path.join(backupDir, filename);
+    await fs.writeFile(filePath, JSON.stringify(backupData, null, 2), "utf-8");
+
+    return NextResponse.json(
+      {
         filename,
-        size_bytes: buffer.length,
+        size_bytes: (await fs.stat(filePath)).size,
         status: "completed",
-      })
-      .select()
-      .single();
-
-    if (dbError) {
-      throw dbError;
-    }
-
-    await supabase.from("activity_log").insert({
-      action: "backup_created",
-      entity_type: "backup",
-      entity_id: backup.id,
-      details: { filename, size: buffer.length },
-    });
-
-    return NextResponse.json(backup, { status: 201 });
-  } catch (err) {
+      },
+      { status: 201 }
+    );
+  } catch {
     return NextResponse.json(
       { error: "Error al crear el backup" },
       { status: 500 }
