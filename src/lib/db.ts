@@ -1,37 +1,24 @@
-import { createClient, type RedisClientType } from "redis";
+import { createClient } from "redis";
 
-let client: RedisClientType | null = null;
+let client: ReturnType<typeof createClient> | null = null;
 
-export async function getRedis(): Promise<RedisClientType> {
+export async function getRedis() {
   if (client && client.isOpen) return client;
 
-  const url = process.env.REDIS_URL || process.env.KV_REST_API_URL;
-  const token = process.env.REDIS_TOKEN || process.env.KV_REST_API_TOKEN;
+  const url = process.env.REDIS_URL;
+  if (!url) throw new Error("Missing REDIS_URL");
 
-  if (!url) {
-    throw new Error("Missing REDIS_URL env var");
-  }
-
-  if (token) {
-    client = createClient({ url, password: token }) as RedisClientType;
-  } else {
-    client = createClient({ url }) as RedisClientType;
-  }
-
-  client.on("error", (err) => console.error("Redis error:", err));
+  client = createClient({ url });
+  client.on("error", (err) => console.error("Redis:", err));
   await client.connect();
   return client;
 }
 
 export async function readJSON<T>(key: string): Promise<T[]> {
-  try {
-    const redis = await getRedis();
-    const raw = await redis.get(key);
-    if (!raw) return [];
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+  const redis = await getRedis();
+  const raw = await redis.get(key);
+  if (!raw) return [];
+  return JSON.parse(raw);
 }
 
 export async function writeJSON<T>(key: string, data: T[]): Promise<void> {
