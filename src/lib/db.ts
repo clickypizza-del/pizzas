@@ -1,32 +1,42 @@
-import fs from "fs/promises";
-import path from "path";
-import crypto from "crypto";
+import { createClient, type RedisClientType } from "redis";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+let client: RedisClientType | null = null;
 
-async function ensureDir() {
-  try {
-    await fs.access(DATA_DIR);
-  } catch {
-    await fs.mkdir(DATA_DIR, { recursive: true });
+export async function getRedis(): Promise<RedisClientType> {
+  if (client && client.isOpen) return client;
+
+  const url = process.env.REDIS_URL || process.env.KV_REST_API_URL;
+  const token = process.env.REDIS_TOKEN || process.env.KV_REST_API_TOKEN;
+
+  if (!url) {
+    throw new Error("Missing REDIS_URL env var");
   }
+
+  if (token) {
+    client = createClient({ url, password: token }) as RedisClientType;
+  } else {
+    client = createClient({ url }) as RedisClientType;
+  }
+
+  client.on("error", (err) => console.error("Redis error:", err));
+  await client.connect();
+  return client;
 }
 
-export async function readJSON<T>(file: string): Promise<T[]> {
-  await ensureDir();
-  const filePath = path.join(DATA_DIR, file);
+export async function readJSON<T>(key: string): Promise<T[]> {
   try {
-    const raw = await fs.readFile(filePath, "utf-8");
+    const redis = await getRedis();
+    const raw = await redis.get(key);
+    if (!raw) return [];
     return JSON.parse(raw);
   } catch {
     return [];
   }
 }
 
-export async function writeJSON<T>(file: string, data: T[]): Promise<void> {
-  await ensureDir();
-  const filePath = path.join(DATA_DIR, file);
-  await fs.writeFile(filePath, JSON.stringify(data, null, 2), "utf-8");
+export async function writeJSON<T>(key: string, data: T[]): Promise<void> {
+  const redis = await getRedis();
+  await redis.set(key, JSON.stringify(data));
 }
 
 export function generateId(): string {
