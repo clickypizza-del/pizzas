@@ -9,8 +9,8 @@ import {
   Tags,
   Megaphone,
   Settings,
-  Upload,
-  History,
+  RefreshCw,
+  ExternalLink,
   LogOut,
   Menu,
   X,
@@ -22,6 +22,7 @@ const NAV = [
   { href: "/admin/products", label: "Productos", icon: Package },
   { href: "/admin/categories", label: "Categorías", icon: Tags },
   { href: "/admin/promotions", label: "Promociones", icon: Megaphone },
+  { href: "/admin/sync", label: "Sincronización", icon: RefreshCw },
   { href: "/admin/settings", label: "Configuración", icon: Settings },
 ];
 
@@ -117,7 +118,7 @@ export default function AdminLayout({
             target="_blank"
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/50 hover:text-white hover:bg-white/5 transition-all mb-1"
           >
-            <Upload className="size-4" />
+            <ExternalLink className="size-4" />
             <span className="font-medium">Ver sitio</span>
           </Link>
           <button
