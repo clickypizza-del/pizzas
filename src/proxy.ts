@@ -9,7 +9,7 @@ const JWT_SECRET = new TextEncoder().encode(
 const ADMIN_ROUTES = ["/admin"];
 const PUBLIC_ADMIN = ["/admin/login", "/admin/api"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip non-admin routes
