@@ -281,20 +281,6 @@ export const PIZZAS: Pizza[] = [
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
   },
   {
-    id: "lomo-gourmet",
-    name: "Lomo Gourmet",
-    description:
-      "Lomo en finas laminas sobre mozzarella fundida con aceitunas verdes. Elegancia y sabor en cada porción.",
-    category: "gourmet",
-    freezerNote: "El lomo congelado conserva muy bien la textura y el sabor.",
-    image: "/pizzas/lomo-gourmet.webp",
-    price: "$9.400",
-    badge: "nueva",
-    cookTime: "15 min",
-    portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomo en láminas", "Aceitunas verdes"],
-  },
-  {
     id: "cantimpalo",
     name: "Cantimpalo",
     description:
@@ -308,19 +294,6 @@ export const PIZZAS: Pizza[] = [
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Cantimpalo"],
-  },
-  {
-    id: "queso-azul-gourmet",
-    name: "Queso Azul Gourmet",
-    description:
-      "Queso azul desmenuzado sobre mozzarella con un toque de miel. Sabor intenso e inconfundible, solo en la línea Gourmet.",
-    category: "gourmet",
-    freezerNote: "El queso azul congela muy bien. Mantiene su sabor intenso.",
-    image: "/pizzas/azul.webp",
-    price: "$9.400",
-    cookTime: "15 min",
-    portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul", "Miel"],
   },
   // ── Premium & Especialidades de Autor ───────────────────────
   {
