@@ -256,14 +256,16 @@ export const PIZZAS: Pizza[] = [
     id: "especial-muzza",
     name: "Especial Muzzarella",
     description:
-      "Mozzarella cremosa con morrones asados, aceitunas verdes rellenas y orégano fresco. Una clásica reinventada.",
+      "Muzzarella con Morrón Asado + Mix Gourmet de Aceitunas Rellenas. Una pizza gourmet elaborada con abundante muzzarella, morrones rojos asados y un exclusivo mix de aceitunas verdes rellenas.",
+    detail:
+      "Una pizza gourmet elaborada con abundante muzzarella, morrones rojos asados y un exclusivo mix de aceitunas verdes rellenas.\n\n**Ingredientes:**\n• Muzzarella\n• Morrones rojos asados\n• Aceitunas verdes rellenas de: Provolone, Jamón crudo, Almendra\n• Orégano\n\nUna combinación premium de sabores intensos, lista para hornear y disfrutar en pocos minutos.",
     category: "gourmet",
     freezerNote: "Morrones y aceitunas conservan textura al congelar.",
     image: "/pizzas/especial-muzza.webp",
     price: "$9.000",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Morrones asados", "Aceitunas verdes rellenas", "Orégano fresco"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Morrones rojos asados", "Aceitunas verdes rellenas", "Orégano"],
   },
   {
     id: "lomito",
