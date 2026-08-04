@@ -33,8 +33,8 @@ function isNavGroup(item: NavItem): item is NavGroup {
 export { isNavGroup };
 
 export const NAV_ITEMS: NavLink[] = [
-  { href: "/menu", label: "Catálogo" },
-  { href: "/aceitunas", label: "Picadas Gourmet" },
+  { href: "/menu", label: "Nuestras Pizzas" },
+  { href: "/aceitunas", label: "Estilo Gourmet" },
   { href: "/suscripcion", label: "Suscripción" },
   { href: "/club-clicky", label: "Club Clicky" },
   { href: "/revendedores", label: "Revendedores" },
