@@ -1118,4 +1118,106 @@ export const ACEITUNAS: Aceituna[] = [
   },
 ];
 
+// ── Bebidas para Picadas ──────────────────────────────────────
+
+export type Bebida = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  price: string;
+  volume: string;
+  category: "gaseosa" | "cerveza" | "agua" | "jugo";
+  badge?: "mas-vendida" | "nueva" | "premium";
+};
+
+export const BEBIDAS: Bebida[] = [
+  {
+    id: "bebida-coca-15l",
+    name: "Coca-Cola 1.5L",
+    description: "El clásico que nunca falla. Sabor original para acompañar cualquier picada.",
+    image: "/bebidas/coca-15l.webp",
+    price: "$2.800",
+    volume: "1.5L",
+    category: "gaseosa",
+    badge: "mas-vendida",
+  },
+  {
+    id: "bebida-coca-zero-15l",
+    name: "Coca-Cola Zero 1.5L",
+    description: "Todo el sabor, sin azúcar. La versión zero para quienes prefieren cuidarse sin renunciar.",
+    image: "/bebidas/coca-zero-15l.webp",
+    price: "$2.800",
+    volume: "1.5L",
+    category: "gaseosa",
+  },
+  {
+    id: "bebida-sprite-15l",
+    name: "Sprite 1.5L",
+    description: "Refrescante y con limón. El complemento perfecto para cortar grasas y limpiar el paladar.",
+    image: "/bebidas/sprite-15l.webp",
+    price: "$2.500",
+    volume: "1.5L",
+    category: "gaseosa",
+  },
+  {
+    id: "bebida-fanta-15l",
+    name: "Fanta 1.5L",
+    description: "Naranja y efervescencia. Dulce, cítrica y con el color que levanta cualquier mesa.",
+    image: "/bebidas/fanta-15l.webp",
+    price: "$2.500",
+    volume: "1.5L",
+    category: "gaseosa",
+  },
+  {
+    id: "bebida-quilmes-1l",
+    name: "Cerveza Quilmes 1L",
+    description: "La rubia argentina por excelencia. Lager dorada, espuma firme, amargor suave. Hecha para la picada.",
+    image: "/bebidas/quilmes-1l.webp",
+    price: "$3.200",
+    volume: "1L",
+    category: "cerveza",
+    badge: "mas-vendida",
+  },
+  {
+    id: "bebida-stella-1l",
+    name: "Cerveza Stella Artois 1L",
+    description: "Lager premium belga. Notas florales y final limpio. Para cuando la picada merece algo más elegante.",
+    image: "/bebidas/stella-1l.webp",
+    price: "$4.000",
+    volume: "1L",
+    category: "cerveza",
+    badge: "premium",
+  },
+  {
+    id: "bebida-andes-1l",
+    name: "Cerveza Andes 1L",
+    description: "Cuyana de alma. Lager suave con personalidad mendocina. La cerveza que entiende el asado y la pizza.",
+    image: "/bebidas/andes-1l.webp",
+    price: "$3.200",
+    volume: "1L",
+    category: "cerveza",
+    badge: "nueva",
+  },
+  {
+    id: "bebida-agua-15l",
+    name: "Agua Mineral 1.5L",
+    description: "Sin gas, sin sodio. La opción que siempre tiene lugar en la mesa, especialmente para los más chicos.",
+    image: "/bebidas/agua-15l.webp",
+    price: "$1.500",
+    volume: "1.5L",
+    category: "agua",
+  },
+  {
+    id: "bebida-jugo-citrus-1l",
+    name: "Jugo Cítrico 1L",
+    description: "Naranja y limón exprimidos. Natural, sin conservantes. Frescura que acompaña sin opacar sabores.",
+    image: "/bebidas/jugo-citrus-1l.webp",
+    price: "$2.200",
+    volume: "1L",
+    category: "jugo",
+    badge: "nueva",
+  },
+];
+
 
