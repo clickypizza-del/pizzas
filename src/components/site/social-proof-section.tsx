@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { useInView } from "framer-motion";
 import { Star, Quote, Users, Flame, Clock, Leaf } from "lucide-react";
 import { Reveal } from "@/components/site/reveal";
@@ -23,11 +23,13 @@ function parseValue(value: string): [number, string] | null {
 function CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
-  const parsed = parseValue(value);
+  const parsed = useMemo(() => parseValue(value), [value]);
   const [display, setDisplay] = useState(value);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    if (!inView || !parsed) return;
+    if (!inView || !parsed || hasAnimated.current) return;
+    hasAnimated.current = true;
     const [target, suffix] = parsed;
     const duration = 1400;
     const start = performance.now();
@@ -45,106 +47,12 @@ function CountUp({ value }: { value: string }) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, parsed]);
+  }, [inView, parsed]);
 
   return <span ref={ref}>{display}</span>;
 }
 
-function TestimonialCard({
-  t,
-  featured = false,
-}: {
-  t: (typeof TESTIMONIALS)[number];
-  featured?: boolean;
-}) {
-  return (
-    <figure
-      className={`relative flex flex-col rounded-2xl border transition-all duration-300 ${
-        featured
-          ? "bg-gradient-to-br from-primary/10 via-card to-card border-primary/30 p-6 sm:p-8 shadow-xl shadow-primary/5"
-          : "bg-card border-border p-5 sm:p-6 hover:border-primary/40 hover:shadow-lg"
-      }`}
-    >
-      {featured && (
-        <div className="absolute -top-px left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent" />
-      )}
-      <Quote
-        className={`size-6 mb-3 ${featured ? "text-primary/60" : "text-primary/25"}`}
-        aria-hidden
-      />
-      <div
-        className="flex gap-0.5 text-price mb-3"
-        role="img"
-        aria-label="5 de 5 estrellas"
-      >
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            className={`${featured ? "size-4" : "size-3.5"} fill-current`}
-            aria-hidden
-          />
-        ))}
-      </div>
-      <blockquote
-        className={`leading-relaxed flex-1 ${
-          featured
-            ? "text-foreground text-base sm:text-lg font-medium not-italic"
-            : "text-sm text-muted-foreground italic"
-        }`}
-      >
-        &ldquo;{t.quote}&rdquo;
-      </blockquote>
-      <figcaption className="flex items-center gap-3 mt-5 pt-4 border-t border-border/60">
-        <div
-          className={`rounded-full flex items-center justify-center font-bold flex-shrink-0 ${
-            featured
-              ? "size-11 bg-primary text-primary-foreground text-sm"
-              : "size-9 bg-primary/15 text-primary text-xs"
-          }`}
-          aria-hidden
-        >
-          {t.initials}
-        </div>
-        <div className="min-w-0">
-          <div className="font-bold text-foreground text-sm">{t.name}</div>
-          <div className="text-xs text-muted-foreground truncate">
-            {t.role}
-          </div>
-          {t.since ? (
-            <div className="text-[10px] text-primary font-medium mt-0.5">
-              {t.since}
-            </div>
-          ) : null}
-        </div>
-      </figcaption>
-    </figure>
-  );
-}
-
 export function SocialProofSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 4);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [checkScroll]);
-
   return (
     <section
       id="testimonios"
@@ -167,69 +75,57 @@ export function SocialProofSection() {
         </Reveal>
 
         <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
-          <div className="lg:col-span-3">
-            {/* Desktop: 2-column masonry-like layout with featured card */}
-            <div className="hidden lg:grid lg:grid-cols-2 gap-4">
-              <div className="row-span-2">
-                <Reveal delay={0}>
-                  <TestimonialCard t={TESTIMONIALS[0]} featured />
-                </Reveal>
-              </div>
-              {TESTIMONIALS.slice(1).map((t, i) => (
-                <Reveal key={t.name} delay={(i + 1) * 0.08}>
-                  <TestimonialCard t={t} />
-                </Reveal>
-              ))}
-            </div>
-
-            {/* Mobile: horizontal scroll carousel */}
-            <div className="lg:hidden relative">
-              <div
-                ref={scrollRef}
-                className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-none"
-                style={{ scrollbarWidth: "none" }}
-              >
-                {TESTIMONIALS.map((t, i) => (
-                  <div
-                    key={t.name}
-                    className="flex-none w-[85vw] max-w-[360px] snap-center"
-                  >
-                    <Reveal delay={i * 0.06}>
-                      <TestimonialCard t={t} featured={i === 0} />
-                    </Reveal>
+          <div className="lg:col-span-3 space-y-4">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 0.06}>
+                <figure className="bg-card border border-border rounded-2xl p-5 sm:p-6 hover:border-primary/40 hover:shadow-lg transition-all">
+                  <div className="flex items-start gap-4">
+                    <div className="size-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-xs flex-shrink-0">
+                      {t.initials}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-bold text-foreground text-sm">
+                          {t.name}
+                        </span>
+                        <div
+                          className="flex gap-0.5 text-price"
+                          role="img"
+                          aria-label="5 de 5 estrellas"
+                        >
+                          {Array.from({ length: 5 }).map((_, j) => (
+                            <Star
+                              key={j}
+                              className="size-3 fill-current"
+                              aria-hidden
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-2">
+                        {t.role}
+                        {t.since ? (
+                          <span className="text-primary font-medium ml-2">
+                            {t.since}
+                          </span>
+                        ) : null}
+                      </p>
+                      <blockquote className="text-sm text-muted-foreground leading-relaxed">
+                        &ldquo;{t.quote}&rdquo;
+                      </blockquote>
+                    </div>
                   </div>
-                ))}
-              </div>
-              {/* Scroll indicators */}
-              <div className="flex items-center justify-center gap-1.5 mt-3">
-                {TESTIMONIALS.map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === 0
-                        ? "w-6 bg-primary"
-                        : "w-1.5 bg-border"
-                    }`}
-                  />
-                ))}
-              </div>
-              {/* Edge fade */}
-              {canScrollLeft && (
-                <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-              )}
-              {canScrollRight && (
-                <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
-              )}
-            </div>
+                </figure>
+              </Reveal>
+            ))}
           </div>
 
-          {/* Stats */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:sticky lg:top-24">
               {STATS.map((stat, i) => {
                 const Icon = STAT_ICONS[stat.label] || Users;
                 return (
-                  <Reveal key={stat.label} delay={i * 0.08}>
+                  <Reveal key={stat.label} delay={i * 0.06}>
                     <div className="group text-center p-5 sm:p-6 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
                       <div className="inline-flex items-center justify-center size-10 rounded-xl bg-primary/10 mb-3 group-hover:bg-primary/20 transition-colors">
                         <Icon className="size-4 text-primary" />
