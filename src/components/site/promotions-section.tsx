@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Snowflake, Timer, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { PROMOTIONS, type Promotion } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { ComboBuilder } from "@/components/site/combo-builder";
 
 const BENEFITS = [
   { icon: Clock, text: "Lista para horno" },
@@ -15,9 +16,48 @@ const BENEFITS = [
   { icon: Users, text: "Ideal para compartir" },
 ];
 
-function FeaturedCard({ promo }: { promo: Promotion }) {
+function FeaturedCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: () => void }) {
   const href = promo.link ?? buildWhatsAppUrl(promo.whatsappMessage ?? "");
   const isExternal = !promo.link;
+  const hasCombo = !!promo.combo;
+
+  const CtaButton = () => {
+    if (hasCombo) {
+      return (
+        <button
+          onClick={onOpenCombo}
+          className="inline-flex items-center justify-center gap-2 w-fit px-6 py-3 bg-brand-red text-white font-bold text-sm uppercase tracking-wider rounded-sm hover:bg-brand-red/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-red/30 active:scale-[0.98]"
+        >
+          {promo.cta}
+          <ArrowRight className="size-4" />
+        </button>
+      );
+    }
+
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 w-fit px-6 py-3 bg-brand-red text-white font-bold text-sm uppercase tracking-wider rounded-sm hover:bg-brand-red/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-red/30 active:scale-[0.98]"
+        >
+          {promo.cta}
+          <ArrowRight className="size-4" />
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        href={href}
+        className="inline-flex items-center justify-center gap-2 w-fit px-6 py-3 bg-brand-red text-white font-bold text-sm uppercase tracking-wider rounded-sm hover:bg-brand-red/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-red/30 active:scale-[0.98]"
+      >
+        {promo.cta}
+        <ArrowRight className="size-4" />
+      </Link>
+    );
+  };
 
   return (
     <article className="group relative flex flex-col lg:flex-row h-full bg-[#0D0D0D] rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50 hover:border-brand-red/30 transition-all duration-500">
@@ -61,25 +101,7 @@ function FeaturedCard({ promo }: { promo: Promotion }) {
           </span>
         </div>
 
-        {isExternal ? (
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 w-fit px-6 py-3 bg-brand-red text-white font-bold text-sm uppercase tracking-wider rounded-sm hover:bg-brand-red/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-red/30 active:scale-[0.98]"
-          >
-            {promo.cta}
-            <ArrowRight className="size-4" />
-          </a>
-        ) : (
-          <Link
-            href={href}
-            className="inline-flex items-center justify-center gap-2 w-fit px-6 py-3 bg-brand-red text-white font-bold text-sm uppercase tracking-wider rounded-sm hover:bg-brand-red/90 transition-all duration-300 hover:shadow-lg hover:shadow-brand-red/30 active:scale-[0.98]"
-          >
-            {promo.cta}
-            <ArrowRight className="size-4" />
-          </Link>
-        )}
+        <CtaButton />
       </div>
     </article>
   );
@@ -153,64 +175,75 @@ function SecondaryCard({ promo }: { promo: Promotion }) {
 export function PromotionsSection() {
   const featured = PROMOTIONS.filter((p) => p.featured);
   const secondary = PROMOTIONS.filter((p) => !p.featured);
+  const [comboOpen, setComboOpen] = useState(false);
+  const comboPromo = PROMOTIONS.find((p) => p.combo);
 
   return (
-    <section
-      id="promociones"
-      aria-labelledby="promos-title"
-      className="py-12 sm:py-16 lg:py-24 bg-[#0D0D0D]"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal>
-          <div className="text-center mb-10 sm:mb-14">
-            <span className="text-xs sm:text-sm font-semibold text-brand-red uppercase tracking-[0.25em] mb-4 block">
-              Experiencia Clicky
-            </span>
-            <h2
-              id="promos-title"
-              className="font-brand text-3xl sm:text-4xl lg:text-5xl text-white mb-4"
-            >
-              Noche Clicky
-            </h2>
-            <p className="text-base sm:text-lg text-white/50 max-w-2xl mx-auto">
-              La excusa perfecta para compartir. Convertí cualquier noche en un
-              momento especial.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="space-y-4 sm:space-y-5 mb-10 sm:mb-14">
-          {featured.map((promo, i) => (
-            <Reveal key={promo.id} delay={i * 0.08}>
-              <FeaturedCard promo={promo} />
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal delay={0.1}>
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 mb-10 sm:mb-14">
-            {BENEFITS.map((b) => (
-              <div
-                key={b.text}
-                className="flex items-center gap-2.5 text-white/60"
+    <>
+      <section
+        id="promociones"
+        aria-labelledby="promos-title"
+        className="py-12 sm:py-16 lg:py-24 bg-[#0D0D0D]"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Reveal>
+            <div className="text-center mb-10 sm:mb-14">
+              <span className="text-xs sm:text-sm font-semibold text-brand-red uppercase tracking-[0.25em] mb-4 block">
+                Experiencia Clicky
+              </span>
+              <h2
+                id="promos-title"
+                className="font-brand text-3xl sm:text-4xl lg:text-5xl text-white mb-4"
               >
-                <b.icon className="size-4 sm:size-5 text-brand-red" />
-                <span className="text-xs sm:text-sm font-medium tracking-wide">
-                  {b.text}
-                </span>
-              </div>
+                Noche Clicky
+              </h2>
+              <p className="text-base sm:text-lg text-white/50 max-w-2xl mx-auto">
+                La excusa perfecta para compartir. Convertí cualquier noche en un
+                momento especial.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="space-y-4 sm:space-y-5 mb-10 sm:mb-14">
+            {featured.map((promo, i) => (
+              <Reveal key={promo.id} delay={i * 0.08}>
+                <FeaturedCard
+                  promo={promo}
+                  onOpenCombo={() => setComboOpen(true)}
+                />
+              </Reveal>
             ))}
           </div>
-        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          {secondary.map((promo, i) => (
-            <Reveal key={promo.id} delay={0.15 + i * 0.08}>
-              <SecondaryCard promo={promo} />
-            </Reveal>
-          ))}
+          <Reveal delay={0.1}>
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 mb-10 sm:mb-14">
+              {BENEFITS.map((b) => (
+                <div
+                  key={b.text}
+                  className="flex items-center gap-2.5 text-white/60"
+                >
+                  <b.icon className="size-4 sm:size-5 text-brand-red" />
+                  <span className="text-xs sm:text-sm font-medium tracking-wide">
+                    {b.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            {secondary.map((promo, i) => (
+              <Reveal key={promo.id} delay={0.15 + i * 0.08}>
+                <SecondaryCard promo={promo} />
+              </Reveal>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {comboOpen && comboPromo && (
+        <ComboBuilder promo={comboPromo} onClose={() => setComboOpen(false)} />
+      )}
+    </>
   );
 }

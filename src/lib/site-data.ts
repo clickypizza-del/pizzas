@@ -912,6 +912,11 @@ export type Promotion = {
   link?: string;
   featured?: boolean;
   cupos?: string;
+  combo?: {
+    pizzas: number;
+    drinks: number;
+    drinkOptions: { id: string; name: string }[];
+  };
 };
 
 export const PROMOTIONS: Promotion[] = [
@@ -928,6 +933,18 @@ export const PROMOTIONS: Promotion[] = [
     whatsappMessage:
       "¡Hola Click & Pizza! Quiero armar mi Noche Clicky. ¿Me ayudan a elegir los combos?",
     featured: true,
+    combo: {
+      pizzas: 2,
+      drinks: 1,
+      drinkOptions: [
+        { id: "coca-1.5l", name: "Coca-Cola 1.5L" },
+        { id: "coca-zero-1.5l", name: "Coca-Cola Zero 1.5L" },
+        { id: "sprite-1.5l", name: "Sprite 1.5L" },
+        { id: "fanta-1.5l", name: "Fanta 1.5L" },
+        { id: "agua-1.5l", name: "Agua Mineral 1.5L" },
+        { id: "cerveza-1l", name: "Cerveza Quilmes 1L" },
+      ],
+    },
   },
   {
     id: "combo-familiar",
