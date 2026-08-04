@@ -785,10 +785,6 @@ export const FAQS: Faq[] = [
     q: "¿Puedo elegir los sabores del kit?",
     a: "Por supuesto. En el Kit Semanal y Premium armás tu combinación de sabores entre todas nuestras variedades, con la opción de rotar cada semana.",
   },
-  {
-    q: "¿Cómo viene el packaging?",
-    a: "Cada pizza viene sellada al vacío con su instructivo de cocción, dentro de una caja térmica reciclable que mantiene la cadena de frío hasta que llega a tu freezer.",
-  },
 ];
 
 export type FreezerScienceReason = {
