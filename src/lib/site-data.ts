@@ -153,10 +153,10 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
   },
   {
     id: "premium",
-    label: "Premium & Especialidades de Autor",
+    label: "Premium",
     shortLabel: "Premium",
     subtitle: "Máxima complejidad y cocción lenta",
-    description: "La máxima expresión del catálogo. Cuatro quesos técnicos, napolitana asada, pollo al verdeo con reducción y carne desmenuzada a cocción lenta. Ingredientes elaborados, técnicas de cocina profesional y sabores que sorprenden.",
+    description: "La máxima expresión del catálogo. Cuatro quesos técnicos, pollo al verdeo con reducción y carne desmenuzada a cocción lenta. Ingredientes elaborados, técnicas de cocina profesional y sabores que sorprenden.",
     emoji: "🏆",
     accent: "#8b5cf6",
     textClass: "text-[#8b5cf6]",
@@ -297,7 +297,7 @@ export const PIZZAS: Pizza[] = [
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Cantimpalo"],
   },
-  // ── Premium & Especialidades de Autor ───────────────────────
+  // ── Premium ───────────────────────────────────────────────────
   {
     id: "cuatro-quesos",
     name: "Cuatro Quesos (Selección técnica)",
@@ -311,20 +311,6 @@ export const PIZZAS: Pizza[] = [
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
-  },
-  {
-    id: "napolitana-asada",
-    name: "Napolitana Asada (Tomates asados)",
-    description:
-      "Tomates asados lentamente, ajo confitado y mozzarella sobre masa artesanal. La Napolitana, reinventada.",
-    category: "premium",
-    freezerNote: "Los tomates asados mantienen su textura al congelar.",
-    image: "/pizzas/muzza.webp",
-    price: "$10.300",
-    badge: "nueva",
-    cookTime: "15 min",
-    portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Tomates asados", "Ajo confitado", "Mozzarella"],
   },
   {
     id: "pollo-verdeo",
