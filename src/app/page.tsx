@@ -138,8 +138,8 @@ export default function Home() {
         </div>
       </section>
 
-      <SocialProofSection />
       <HowItWorksSection />
+      <SocialProofSection />
       <FaqSection />
 
       <OrderSection />
