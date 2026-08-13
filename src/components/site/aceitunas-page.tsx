@@ -6,12 +6,9 @@ import {
   ArrowRight,
   ArrowLeft,
   ShoppingCart,
-  MessageCircle,
   Wine,
   GlassWater,
   Beer,
-  Droplets,
-  Citrus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -35,8 +32,6 @@ const BEBIDA_CATEGORY_CONFIG: Record<
 > = {
   gaseosa: { label: "Gaseosas", icon: GlassWater, color: "text-red-400" },
   cerveza: { label: "Cervezas", icon: Beer, color: "text-amber-400" },
-  agua: { label: "Aguas", icon: Droplets, color: "text-sky-400" },
-  jugo: { label: "Jugos", icon: Citrus, color: "text-orange-400" },
 };
 
 type Section = "aceitunas" | "bebidas" | "todas";
