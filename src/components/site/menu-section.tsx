@@ -74,9 +74,15 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <SectionHeading
-            eyebrow="Nuestro catálogo"
-            title="Catálogo elegido de variedades gourmet"
-            description="Doce pizzas seleccionadas en cinco líneas: Clásica & Tradicional, Gourmet, Premium & Especialidades de Autor, Mini Pizzetas y Pizza Individual. Ingredientes compartidos que simplifican el stock y estabilidad probada en freezer. Todas llegan listas para hornear."
+            eyebrow="Nuestras Pizzas"
+            headingId="menu-title"
+            title={
+              <>
+                Nuestras{" "}
+                <span className="text-gradient-brand">Pizzas</span>
+              </>
+            }
+            description="Clásica, Gourmet y Premium. Tres líneas, doce pizzas, un solo objetivo: que en 15 minutos tengas una pizza de restaurante en tu mesa."
           />
         </Reveal>
 
@@ -163,43 +169,59 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
               </div>
             </div>
           ) : (
-            /* All categories: grid layout */
-            <ul
-              role="list"
-              className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
-            >
-              {showOtherPizzas.map((pizza, i) => {
-                const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
+            /* All categories: grouped by category */
+            <div className="space-y-12">
+              {PIZZA_CATEGORIES.map((cat) => {
+                const catPizzas = PIZZAS.filter((p) => p.category === cat.id);
+                const catMinis = cat.id === "mini-pizzeta" ? MINI_PIZZETA_COMBOS : [];
+                if (catPizzas.length === 0 && catMinis.length === 0) return null;
                 return (
-                  <li key={pizza.id}>
-                    <Reveal as="div" delay={i * 0.04}>
-                      <PizzaCard
-                        pizza={pizza}
-                        category={cat}
-                        onSelect={() => {
-                          setSelected(pizza);
-                          setSelectedCat(cat);
-                        }}
+                  <div key={cat.id}>
+                    <div className="flex items-center gap-3 mb-5">
+                      <span className="text-2xl" aria-hidden>{cat.emoji}</span>
+                      <div>
+                        <h3 className="font-brand text-xl sm:text-2xl text-foreground">
+                          {cat.label}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-muted-foreground">
+                          {cat.subtitle}
+                        </p>
+                      </div>
+                      <div
+                        className="flex-1 h-px ml-3"
+                        style={{ backgroundColor: cat.accent, opacity: 0.3 }}
                       />
-                    </Reveal>
-                  </li>
+                    </div>
+                    <ul
+                      role="list"
+                      className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
+                    >
+                      {catPizzas.map((pizza, i) => (
+                        <li key={pizza.id}>
+                          <Reveal as="div" delay={i * 0.04}>
+                            <PizzaCard
+                              pizza={pizza}
+                              category={cat}
+                              onSelect={() => {
+                                setSelected(pizza);
+                                setSelectedCat(cat);
+                              }}
+                            />
+                          </Reveal>
+                        </li>
+                      ))}
+                      {catMinis.map((combo, i) => (
+                        <li key={combo.id}>
+                          <Reveal as="div" delay={i * 0.04}>
+                            <MiniPizzetaComboCard combo={combo} />
+                          </Reveal>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 );
               })}
-              {showOtherPizzas.length > 0 && Array.from({ length: (3 - (showOtherPizzas.length % 3)) % 3 }).map((_, i) => (
-                <li key={`banner-${i}`}>
-                  <Reveal as="div" delay={(showOtherPizzas.length + i) * 0.04}>
-                    <ComboBanner />
-                  </Reveal>
-                </li>
-              ))}
-              {showMiniPizzetas && MINI_PIZZETA_COMBOS.map((combo, i) => (
-                <li key={combo.id}>
-                  <Reveal as="div" delay={i * 0.04}>
-                    <MiniPizzetaComboCard combo={combo} />
-                  </Reveal>
-                </li>
-              ))}
-            </ul>
+            </div>
           )}
         </Reveal>
       </div>
