@@ -322,7 +322,7 @@ export const PIZZAS: Pizza[] = [
       "Descubre una experiencia de sabor única con nuestra pizza de autor. Sobre una base crujiente y una generosa capa de muzzarela derretida, combinamos la suavidad de las peras seleccionadas y la frescura de la cebolla morada, ambas caramelizadas lentamente para resaltar su dulzor natural. El broche de oro lo da la intensidad del queso roquefort desmenuzado, que se funde en el horno creando el equilibrio perfecto entre lo dulce y lo salado. Una verdadera delicia para los paladares más exigentes.",
     category: "premium",
     freezerNote: "Congela muy bien. Sabor intacto.",
-    image: "/pizzas/pera-roquefort.webp",
+    image: "/pizzas/pera-roquefort-v2.webp",
     price: "$15.000",
     badge: "premium",
     cookTime: "18 min",
