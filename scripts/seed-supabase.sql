@@ -117,7 +117,7 @@ BEGIN
   -- Gourmet
   ('especial-muzza', 'Especial Muzzarella', 'Muzzarella con Morrón Asado + Mix Gourmet de Aceitunas Rellenas.', 'Una pizza gourmet elaborada con abundante muzzarella, morrones rojos asados y un exclusivo mix de aceitunas verdes rellenas.', ARRAY['Masa artesanal','Salsa de tomate','Mozzarella','Morrones rojos asados','Aceitunas verdes rellenas','Orégano'], 10500, NULL, true, true, '/pizzas/especial-muzza.webp', 15, 5, cat_gourmet),
 
-  ('gourmet-jamon', 'Especial Jamón', 'Jamón en cubos sobre mozzarella fundida. Sabor intenso y crocante que conquista.', 'Jamón en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado.', ARRAY['Masa artesanal','Salsa de tomate','Mozzarella','Jamón'], 10500, NULL, true, true, '/pizzas/panceta-ahumada.webp', 15, 6, cat_gourmet),
+  ('gourmet-jamon', 'Especial Jamón', 'Jamón en cubos sobre mozzarella fundida. Sabor intenso y crocante que conquista.', 'Jamón en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado.', ARRAY['Masa artesanal','Salsa de tomate','Mozzarella','Jamón'], 10500, NULL, true, true, '/pizzas/especial-jamon-v2.webp', 15, 6, cat_gourmet),
 
   ('cantimpalo', 'Cantimpalo', 'Embutido español curado con pimentón, en rodajas sobre mozzarella. Picante, ahumado y contundente.', 'Cantimpalo — embutido español curado y con pimentón — en rodajas generosas sobre mozzarella cremosa y salsa de tomate.', ARRAY['Masa artesanal','Salsa de tomate','Mozzarella','Cantimpalo'], 10500, NULL, true, true, '/pizzas/especial-salame.webp', 15, 7, cat_gourmet),
 

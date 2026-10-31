@@ -277,7 +277,7 @@ export const PIZZAS: Pizza[] = [
       "Jamón en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado — es la pizza más robusta y \"carnosa\" del menú.\n\n**Maridaje de aceitunas:** Aceituna rellena con roquefort, panceta y morrón. Una picada liviana o ácida se perdería frente a esta pizza. Se aplica el principio de intensidad proporcional: el trío tiene que igualar la potencia de la pizza, no suavizarla. El roquefort aporta pungencia de queso azul, la panceta suma ahumado y grasa crocante, y el morrón cumple su función de contrapeso dulce para que el conjunto no se vuelva unidimensional de sal y grasa.",
     category: "gourmet",
     freezerNote: "El jamón congelado conserva muy bien el sabor.",
-    image: "/pizzas/panceta-ahumada.webp",
+    image: "/pizzas/especial-jamon-v2.webp",
     price: "$10.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
