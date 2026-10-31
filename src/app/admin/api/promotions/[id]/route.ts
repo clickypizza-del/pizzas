@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
-
-type Promotion = {
-  id: string;
-  [key: string]: unknown;
-};
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
 
 type Params = Promise<{ id: string }>;
 
-// PUT update promotion
 export async function PUT(
   request: NextRequest,
   { params }: { params: Params }
@@ -16,35 +11,40 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const promos = await readJSON<Promotion>("promotions.json");
-    const idx = promos.findIndex((p) => p.id === id);
 
-    if (idx === -1) {
-      return NextResponse.json({ error: "Promoción no encontrada" }, { status: 404 });
+    const { data, error } = await supabase
+      .from("promotions")
+      .update(body)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    promos[idx] = { ...promos[idx], ...body };
-    await writeJSON("promotions.json", promos);
-
-    return NextResponse.json(promos[idx]);
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar la promoción" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
   }
 }
 
-// DELETE promotion
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Params }
 ) {
   try {
     const { id } = await params;
-    let promos = await readJSON<Promotion>("promotions.json");
-    promos = promos.filter((p) => p.id !== id);
-    await writeJSON("promotions.json", promos);
+    const { error } = await supabase.from("promotions").delete().eq("id", id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
   } catch {
@@ -52,5 +52,7 @@ export async function DELETE(
       { error: "Error al eliminar la promoción" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
   }
 }

@@ -5,10 +5,13 @@ import type { MiniPizzetaCombo } from "@/lib/site-data";
  * Build a wa.me deep link with a pre-filled, URL-encoded message.
  * This lets every CTA on the page route the user into WhatsApp with context
  * (e.g. "Quiero el Kit Premium") already typed out.
+ *
+ * `phone` is optional so a specific section (e.g. revendedores) can use a
+ * different contact number without changing the global site number.
  */
-export function buildWhatsAppUrl(message?: string): string {
+export function buildWhatsAppUrl(message?: string, phone: string = SITE.phone): string {
   const text = message ?? SITE.whatsappText;
-  return `https://wa.me/${SITE.phone}?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
 
 /** Pre-filled messages for each plan / pizza CTA. */
@@ -32,6 +35,10 @@ export const WA_MESSAGES = {
     `¡Hola Click & Pizza! Quiero consultar por las Aceitunas Verdes Rellenas de ${name}. ¿Las tengo disponible esta semana?`,
   bebida: (name: string) =>
     `¡Hola Click & Pizza! Quiero agregar ${name} a mi pedido. ¿Está disponible?`,
+  postres:
+    "¡Hola Click & Pizza! Quiero consultar por los postres (MMM Postre!). ¿Qué sabores tienen esta semana?",
+  postre: (name: string) =>
+    `¡Hola Click & Pizza! Quiero consultar por el postre ${name}. ¿Está disponible esta semana?`,
   zona: (zone: string) =>
     `¡Hola Click & Pizza! Quiero saber si entregan en ${zone}.`,
 } as const;

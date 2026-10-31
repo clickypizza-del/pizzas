@@ -56,3 +56,5 @@ server.log
 # Admin data (user-specific)
 /data/
 /public/uploads/
+# Secrets
+.env

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Clock, Star, Leaf, ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Clock, Star, Leaf, ChevronLeft, ChevronRight, MessageCircle, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -141,7 +142,7 @@ export function HeroSection() {
     <section
       id="top"
       aria-labelledby="hero-title"
-      className="relative overflow-hidden pt-24 pb-12 sm:pt-32 sm:pb-20 lg:pt-52 lg:pb-32"
+      className="relative overflow-hidden pt-8 pb-0 sm:pt-12 sm:pb-0 lg:pt-16 lg:pb-0"
     >
       {/* Ambient red glows */}
       <div
@@ -167,9 +168,9 @@ export function HeroSection() {
             aria-hidden
             className="absolute -inset-4 bg-gradient-to-r from-primary to-brand-red-bright rounded-[2rem] blur-3xl opacity-20"
           />
-          <div className="relative rounded-2xl lg:rounded-[2rem] overflow-hidden border border-border shadow-2xl shadow-black/50">
+          <div className="relative overflow-hidden">
             {/* Image — different aspect ratios for mobile vs desktop */}
-            <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[16/7]">
+            <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/9]">
               <Image
                 src="/hero.webp"
                 alt="Pizzas gourmet recién horneadas con ingredientes premium"
@@ -180,37 +181,14 @@ export function HeroSection() {
               />
             </div>
 
-            {/* Solid dark overlay — ensures text is always readable */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
+            {/* Gradient overlay — fades image into background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-black/40 to-transparent" />
 
             {/* Text overlay — stacked on mobile, centered on desktop */}
             <div className="absolute inset-0 flex items-end sm:items-center">
               <div className="w-full px-4 sm:px-8 lg:px-14 py-8 sm:py-0">
                 <div className="max-w-xl">
-                  {/* Calendar trigger */}
-                  <div className="relative inline-block">
-                    <button
-                      type="button"
-                      onClick={() => setShowCalendar(!showCalendar)}
-                      className="inline-flex items-center gap-2 bg-brand-amber/10 border border-brand-amber/25 rounded-full px-3 py-1.5 mb-3 sm:mb-6 hover:bg-brand-amber/20 transition-colors cursor-pointer"
-                    >
-                      <span
-                        aria-hidden
-                        className="w-2 h-2 bg-brand-amber rounded-full animate-pulse"
-                      />
-                      <span className="text-brand-amber text-[11px] sm:text-sm font-semibold tracking-wide">
-                        🗓 Próxima entrega: {nextDay}
-                      </span>
-                      <span className="text-brand-amber/60 text-[10px]">▼</span>
-                    </button>
-
-                    {showCalendar && (
-                      <>
-                        <div className="fixed inset-0 z-40" onClick={() => setShowCalendar(false)} />
-                        <DeliveryCalendar onClose={() => setShowCalendar(false)} />
-                      </>
-                    )}
-                  </div>
+                  {/* Calendar trigger removed */}
 
                   <h1
                     id="hero-title"
@@ -228,18 +206,10 @@ export function HeroSection() {
                       size="lg"
                       className="cta-hero px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base font-semibold"
                     >
-                        <a href="/suscripcion">
-                        Ver planes
+                      <Link href="/menu">
+                        Ver pizzas y precios
                         <ArrowRight className="size-4" />
-                      </a>
-                    </Button>
-                    <Button
-                      asChild
-                      size="lg"
-                      variant="secondary"
-                      className="cta-inline px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base border-white/30 text-white hover:bg-white hover:text-black hover:border-white"
-                    >
-                      <a href="/menu">Ver el catálogo</a>
+                      </Link>
                     </Button>
                     <Button
                       asChild
@@ -257,6 +227,13 @@ export function HeroSection() {
                       </a>
                     </Button>
                   </div>
+                  <Link
+                    href="/suscripcion"
+                    className="inline-flex items-center gap-1.5 mt-3 sm:mt-4 text-xs sm:text-sm text-white/75 hover:text-white transition-colors"
+                  >
+                    ¿Preferís recibir pizzas todas las semanas? Conocé los kits
+                    <ArrowRight className="size-3.5" aria-hidden />
+                  </Link>
 
                   {/* Trust strip */}
                   <dl className="mt-5 sm:mt-8 grid grid-cols-3 gap-2 sm:gap-4 max-w-xs sm:max-w-lg">
@@ -275,7 +252,7 @@ export function HeroSection() {
                             {item.v}
                           </dd>
                         </div>
-                        <dt className="text-[9px] sm:text-xs text-white/60">{item.l}</dt>
+                        <dt className="text-[9px] sm:text-xs text-white/75">{item.l}</dt>
                       </div>
                     ))}
                   </dl>

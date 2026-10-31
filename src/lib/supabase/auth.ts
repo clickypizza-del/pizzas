@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
-import { readJSON, writeJSON, generateId } from "../db";
+import { supabase } from "./client";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "fallback-secret-change-me"
@@ -49,28 +49,33 @@ export async function verifyToken(
     const { payload } = await jwtVerify(token, JWT_SECRET);
     if (!payload.sub) return null;
 
-    const users = await readJSON<AdminUser>("users.json");
-    const user = users.find((u) => u.id === payload.sub);
-    if (!user) return null;
+    const { data: user } = await supabase
+      .from("admin_users")
+      .select("id, email, name, role")
+      .eq("id", payload.sub)
+      .single();
 
-    return { id: user.id, email: user.email, name: user.name, role: user.role };
+    if (!user) return null;
+    return user as { id: string; email: string; name: string; role: string };
   } catch {
     return null;
   }
 }
 
 export async function findUserByEmail(email: string): Promise<AdminUser | null> {
-  const users = await readJSON<AdminUser>("users.json");
-  return users.find((u) => u.email === email) || null;
+  const { data } = await supabase
+    .from("admin_users")
+    .select("*")
+    .eq("email", email)
+    .single();
+  return (data as AdminUser) || null;
 }
 
 export async function updateUserLogin(id: string): Promise<void> {
-  const users = await readJSON<AdminUser>("users.json");
-  const idx = users.findIndex((u) => u.id === id);
-  if (idx !== -1) {
-    users[idx].last_login = new Date().toISOString();
-    await writeJSON("users.json", users);
-  }
+  await supabase
+    .from("admin_users")
+    .update({ last_login: new Date().toISOString() })
+    .eq("id", id);
 }
 
 export async function logActivity(
@@ -81,30 +86,14 @@ export async function logActivity(
   details?: Record<string, unknown>,
   ip?: string
 ): Promise<void> {
-  const activity = await readJSON<{
-    id: string;
-    admin_id: string;
-    action: string;
-    entity_type: string;
-    entity_id?: string;
-    details?: Record<string, unknown>;
-    ip_address?: string;
-    created_at: string;
-  }>("activity.json");
-
-  activity.unshift({
-    id: generateId(),
+  await supabase.from("activity_log").insert({
     admin_id: adminId,
     action,
     entity_type: entityType,
     entity_id: entityId,
-    details,
-    ip_address: ip,
-    created_at: new Date().toISOString(),
+    details: details || null,
+    ip_address: ip || null,
   });
-
-  // Keep last 200 entries
-  await writeJSON("activity.json", activity.slice(0, 200));
 }
 
 export function cookieOptions() {

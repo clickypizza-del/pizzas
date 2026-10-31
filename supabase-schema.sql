@@ -111,6 +111,20 @@ create table activity_log (
   created_at timestamptz default now()
 );
 
+-- ── Sync logs ──────────────────────────────────────────────────
+create table sync_logs (
+  id uuid primary key default uuid_generate_v4(),
+  product_id text not null,
+  product_name text not null,
+  action text not null,
+  status text not null,
+  meta_response jsonb,
+  error_message text,
+  http_code int,
+  duration_ms int default 0,
+  created_at timestamptz default now()
+);
+
 -- ── Backups ──────────────────────────────────────────────────
 create table backups (
   id uuid primary key default uuid_generate_v4(),
@@ -132,6 +146,7 @@ create index idx_promotions_status on promotions(status);
 create index idx_promotions_sort on promotions(sort_order);
 create index idx_activity_log_admin on activity_log(admin_id);
 create index idx_activity_log_created on activity_log(created_at desc);
+create index idx_sync_logs_created on sync_logs(created_at desc);
 
 -- ── Updated_at trigger ───────────────────────────────────────
 create or replace function update_updated_at()
@@ -156,7 +171,7 @@ create trigger trg_admin_users_updated before update on admin_users
 insert into admin_users (email, password_hash, name, role)
 values (
   'admin@clickypizza.com.ar',
-  '$2a$10$YQ8GvFO6B1qFVP5PvX6Y5uGzrKxHqFzr8yX3k2mN5pL7vT9wE1aC',
+  '$2b$10$QdCz94lj/jekpfmumPPSCe9B4wBsWSUzHnq6hVNXI1B9r/H/3bioK',
   'Admin',
   'admin'
 )
@@ -181,7 +196,7 @@ on conflict (key) do nothing;
 -- ── Seed default categories ──────────────────────────────────
 insert into categories (slug, label, subtitle, emoji, accent_color, sort_order) values
   ('clasica', 'Clásicas', 'Las favoritas de siempre', '🍕', '#C1121F', 1),
-  ('gourmet', 'Gourmet', 'Sabores que te sorprenden', '🧀', '#D4A574', 2),
+  ('gourmet', 'Especiales', 'Sabores que te sorprenden', '🧀', '#D4A574', 2),
   ('premium', 'Premium & Especialidades', 'Lo mejor de nuestra cocina', '👨‍🍳', '#FFD700', 3),
   ('individual', 'Individuales', 'Porque a veces querés todo para vos', '👤', '#4CAF50', 4),
   ('mini-pizzeta', 'Mini Pizzetas', 'Para picar y compartir', '✨', '#9C27B0', 5)
@@ -195,6 +210,7 @@ alter table promotions enable row level security;
 alter table business_settings enable row level security;
 alter table activity_log enable row level security;
 alter table backups enable row level security;
+alter table sync_logs enable row level security;
 
 -- Public can read visible products & categories
 create policy "Public can view visible products"
@@ -227,6 +243,9 @@ create policy "Admins full access activity_log"
 
 create policy "Admins full access backups"
   on backups for all using (true) with check (true);
+
+create policy "Admins full access sync_logs"
+  on sync_logs for all using (true) with check (true);
 
 create policy "Admins full access admin_users"
   on admin_users for all using (true) with check (true);

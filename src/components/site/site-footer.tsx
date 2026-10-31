@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { WhatsAppIcon } from "@/components/site/icons";
 import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -8,6 +9,7 @@ const MENU_LINKS = [
   { href: "/menu?cat=gourmet", label: "Gourmet" },
   { href: "/aceitunas", label: "Picadas Gourmet" },
   { href: "/panificados", label: "Panificados" },
+  { href: "/postres", label: "MMM Postre!" },
   { href: "/menu", label: "Catálogo completo" },
   { href: "/suscripcion", label: "Suscripción" },
 ]
@@ -90,12 +92,12 @@ export function SiteFooter() {
             <ul className="space-y-2.5">
               {MENU_LINKS.map((l) => (
                 <li key={l.label}>
-                  <a
+                  <Link
                     href={l.href}
                     className="text-sm hover:text-primary transition-colors"
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -107,12 +109,12 @@ export function SiteFooter() {
             <ul className="space-y-2.5">
               {COMPANY_LINKS.map((l) => (
                 <li key={l.label}>
-                  <a
+                  <Link
                     href={l.href}
                     className="text-sm hover:text-primary transition-colors"
                   >
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -167,7 +169,7 @@ export function SiteFooter() {
             <span className="text-muted-foreground">·</span>
             <span className="text-muted-foreground">Pagá en efectivo o por transferencia</span>
             <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground">Envío en 15 minutos</span>
+            <span className="text-muted-foreground">Lista en 15 minutos</span>
           </div>
         </div>
       </div>

@@ -1,29 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
-
-type Product = {
-  id: string;
-  [key: string]: unknown;
-};
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
 
 type Params = Promise<{ id: string }>;
 
-// GET single product
 export async function GET(
   _request: NextRequest,
   { params }: { params: Params }
 ) {
   const { id } = await params;
-  const products = await readJSON<Product>("products.json");
-  const product = products.find((p) => p.id === id);
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-  if (!product) {
+  if (error || !data) {
     return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
   }
-  return NextResponse.json(product);
+  return NextResponse.json(data);
 }
 
-// PUT update product
 export async function PUT(
   request: NextRequest,
   { params }: { params: Params }
@@ -31,35 +28,41 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const products = await readJSON<Product>("products.json");
-    const idx = products.findIndex((p) => p.id === id);
 
-    if (idx === -1) {
-      return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
+    const { data, error } = await supabase
+      .from("products")
+      .update(body)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    products[idx] = { ...products[idx], ...body };
-    await writeJSON("products.json", products);
-
-    return NextResponse.json(products[idx]);
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar el producto" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }
 
-// DELETE product
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Params }
 ) {
   try {
     const { id } = await params;
-    let products = await readJSON<Product>("products.json");
-    products = products.filter((p) => p.id !== id);
-    await writeJSON("products.json", products);
+    const { error } = await supabase.from("products").delete().eq("id", id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
   } catch {
@@ -67,5 +70,8 @@ export async function DELETE(
       { error: "Error al eliminar el producto" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }

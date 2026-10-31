@@ -60,22 +60,23 @@ function FeaturedCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: (
   };
 
   return (
-    <article className="group relative flex flex-col lg:flex-row h-full bg-[#0D0D0D] rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50 hover:border-brand-red/30 transition-all duration-500">
+    <article className="group relative flex flex-col lg:flex-row h-full bg-[#0D0D0D] rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50 hover:border-brand-gold/30 transition-all duration-500">
       <div className="relative lg:w-1/2 aspect-[16/10] lg:aspect-auto overflow-hidden bg-secondary">
         <Image
           src={promo.image}
-          alt={`Noche Clicky — Cena gourmet en casa con Click & Pizza`}
+          alt={`Noche Clicky — Cena premium en casa con Click & Pizza`}
           width={800}
           height={600}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0D0D0D]/70 hidden lg:block" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0D0D0D] hidden lg:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/40 to-transparent lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-gold/10 via-transparent to-transparent mix-blend-overlay" />
 
         {promo.badge && (
           <div className="absolute top-4 left-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-red text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-sm">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-gold text-black text-[10px] sm:text-xs font-bold uppercase tracking-widest rounded-full">
               {promo.badge}
             </span>
           </div>
@@ -83,7 +84,7 @@ function FeaturedCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: (
       </div>
 
       <div className="flex flex-col justify-center flex-1 p-6 sm:p-8 lg:p-10">
-        <span className="text-xs sm:text-sm font-semibold text-brand-red uppercase tracking-[0.2em] mb-3">
+        <span className="text-xs sm:text-sm font-semibold text-brand-gold uppercase tracking-[0.2em] mb-3">
           La excusa perfecta
         </span>
 
@@ -91,15 +92,16 @@ function FeaturedCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: (
           {promo.title}
         </h3>
 
-        <p className="text-base sm:text-lg text-white/60 leading-relaxed mb-6 max-w-lg">
+        <p className="text-base sm:text-lg text-white/75 leading-relaxed mb-6 max-w-lg">
           {promo.description}
         </p>
 
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-sm mb-8 w-fit">
-          <span className="text-sm sm:text-base font-semibold text-brand-gold">
+        <div className="flex items-baseline gap-3 mb-3">
+          <span className="text-3xl sm:text-4xl font-extrabold text-brand-gold leading-none">
             {promo.price}
           </span>
         </div>
+        <p className="text-xs sm:text-sm text-brand-gold/70 font-medium mb-8">🍷 Vino de regalo incluido</p>
 
         <CtaButton />
       </div>
@@ -107,9 +109,10 @@ function FeaturedCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: (
   );
 }
 
-function SecondaryCard({ promo }: { promo: Promotion }) {
+function SecondaryCard({ promo, onOpenCombo }: { promo: Promotion; onOpenCombo: () => void }) {
   const href = promo.link ?? buildWhatsAppUrl(promo.whatsappMessage ?? "");
   const isExternal = !promo.link;
+  const hasCombo = !!promo.combo;
 
   return (
     <article className="group relative flex flex-col h-full bg-[#111111] rounded-2xl border border-white/10 overflow-hidden hover:border-brand-red/30 hover:-translate-y-1 transition-all duration-500">
@@ -138,7 +141,7 @@ function SecondaryCard({ promo }: { promo: Promotion }) {
           {promo.title}
         </h4>
 
-        <p className="text-sm text-white/50 leading-relaxed mb-4 line-clamp-2">
+        <p className="text-sm text-white/70 leading-relaxed mb-4 line-clamp-2">
           {promo.description}
         </p>
 
@@ -147,7 +150,15 @@ function SecondaryCard({ promo }: { promo: Promotion }) {
             {promo.price}
           </span>
 
-          {isExternal ? (
+          {hasCombo ? (
+            <button
+              onClick={onOpenCombo}
+              className="inline-flex items-center justify-center gap-1.5 w-full px-4 py-2.5 bg-white/5 border border-white/10 text-white text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-brand-red/10 hover:border-brand-red/30 transition-all duration-300"
+            >
+              {promo.cta}
+              <ArrowRight className="size-3.5" />
+            </button>
+          ) : isExternal ? (
             <a
               href={href}
               target="_blank"
@@ -175,8 +186,9 @@ function SecondaryCard({ promo }: { promo: Promotion }) {
 export function PromotionsSection() {
   const featured = PROMOTIONS.filter((p) => p.featured);
   const secondary = PROMOTIONS.filter((p) => !p.featured);
-  const [comboOpen, setComboOpen] = useState(false);
-  const comboPromo = PROMOTIONS.find((p) => p.combo);
+  const [openComboPromo, setOpenComboPromo] = useState<Promotion | null>(null);
+
+  const openCombo = (promo: Promotion) => () => setOpenComboPromo(promo);
 
   return (
     <>
@@ -193,11 +205,11 @@ export function PromotionsSection() {
               </span>
               <h2
                 id="promos-title"
-                className="font-brand text-3xl sm:text-4xl lg:text-5xl text-white mb-4"
+                className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-4"
               >
                 Noche Clicky
               </h2>
-              <p className="text-base sm:text-lg text-white/50 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto">
                 La excusa perfecta para compartir. Convertí cualquier noche en un
                 momento especial.
               </p>
@@ -209,7 +221,7 @@ export function PromotionsSection() {
               <Reveal key={promo.id} delay={i * 0.08}>
                 <FeaturedCard
                   promo={promo}
-                  onOpenCombo={() => setComboOpen(true)}
+                  onOpenCombo={openCombo(promo)}
                 />
               </Reveal>
             ))}
@@ -220,7 +232,7 @@ export function PromotionsSection() {
               {BENEFITS.map((b) => (
                 <div
                   key={b.text}
-                  className="flex items-center gap-2.5 text-white/60"
+                  className="flex items-center gap-2.5 text-white/75"
                 >
                   <b.icon className="size-4 sm:size-5 text-brand-red" />
                   <span className="text-xs sm:text-sm font-medium tracking-wide">
@@ -231,18 +243,18 @@ export function PromotionsSection() {
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {secondary.map((promo, i) => (
               <Reveal key={promo.id} delay={0.15 + i * 0.08}>
-                <SecondaryCard promo={promo} />
+                <SecondaryCard promo={promo} onOpenCombo={openCombo(promo)} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {comboOpen && comboPromo && (
-        <ComboBuilder promo={comboPromo} onClose={() => setComboOpen(false)} />
+      {openComboPromo?.combo && (
+        <ComboBuilder promo={openComboPromo} onClose={() => setOpenComboPromo(null)} />
       )}
     </>
   );

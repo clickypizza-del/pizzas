@@ -1,4 +1,5 @@
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { supabase } from "@/lib/supabase/client";
+import { generateId } from "@/lib/db";
 import {
   createProduct,
   updateProduct,
@@ -6,7 +7,6 @@ import {
   getCatalogProducts,
   MetaApiError,
 } from "@/lib/meta-client";
-import { PIZZAS } from "@/lib/site-data";
 
 type SyncLog = {
   id: string;
@@ -30,22 +30,55 @@ type SyncStatus = {
 };
 
 async function getSyncLogs(): Promise<SyncLog[]> {
-  return readJSON<SyncLog>("sync-logs.json");
-}
+  const { data, error } = await supabase
+    .from("sync_logs")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(500);
 
-async function saveSyncLogs(logs: SyncLog[]): Promise<void> {
-  await writeJSON("sync-logs.json", logs.slice(0, 500));
+  if (error) {
+    console.error("Error fetching sync logs:", error);
+    return [];
+  }
+
+  return (data || []).map((row: Record<string, unknown>) => ({
+    id: row.id,
+    productId: row.product_id as string,
+    productName: row.product_name as string,
+    action: row.action as SyncLog["action"],
+    status: row.status as SyncLog["status"],
+    metaResponse: row.meta_response as Record<string, unknown> | undefined,
+    errorMessage: row.error_message as string | undefined,
+    httpCode: row.http_code as number | undefined,
+    durationMs: row.duration_ms as number,
+    createdAt: row.created_at as string,
+  }));
 }
 
 async function addLog(log: Omit<SyncLog, "id" | "createdAt">): Promise<SyncLog> {
-  const logs = await getSyncLogs();
+  const id = generateId();
   const entry: SyncLog = {
     ...log,
-    id: generateId(),
+    id,
     createdAt: new Date().toISOString(),
   };
-  logs.unshift(entry);
-  await saveSyncLogs(logs);
+
+  const { error } = await supabase.from("sync_logs").insert({
+    id,
+    product_id: log.productId,
+    product_name: log.productName,
+    action: log.action,
+    status: log.status,
+    meta_response: log.metaResponse || null,
+    error_message: log.errorMessage || null,
+    http_code: log.httpCode || null,
+    duration_ms: log.durationMs,
+  });
+
+  if (error) {
+    console.error("Error inserting sync log:", error);
+  }
+
   return entry;
 }
 
@@ -176,24 +209,16 @@ export async function syncAllProducts(): Promise<SyncLog[]> {
       ])
     );
 
-    const categories = await readJSON<{ id: string; slug: string; label: string }>(
-      "categories.json"
+    const [{ data: categories }, { data: products }] = await Promise.all([
+      supabase.from("categories").select("id, slug, label"),
+      supabase.from("products").select("id, name, slug, description_short, price, image_url, category_id, available, visible"),
+    ]);
+
+    const catMap = new Map(
+      (categories || []).map((c: Record<string, unknown>) => [c.id, c.slug])
     );
-    const catMap = new Map(categories.map((c) => [c.id, c.slug]));
 
-    const products = await readJSON<{
-      id: string;
-      name: string;
-      slug: string;
-      description_short: string;
-      price: number;
-      image_url: string;
-      category_id: string;
-      available: boolean;
-      visible: boolean;
-    }>("products.json");
-
-    for (const product of products) {
+    for (const product of products || []) {
       if (!product.visible) continue;
 
       const category = catMap.get(product.category_id) || "clasica";
@@ -216,7 +241,9 @@ export async function syncAllProducts(): Promise<SyncLog[]> {
       logs.push(log);
     }
 
-    const deletedSlugs = new Set(products.map((p) => p.slug));
+    const deletedSlugs = new Set(
+      (products || []).map((p: Record<string, unknown>) => p.slug)
+    );
     for (const [slug, metaProduct] of metaMap.entries()) {
       if (!deletedSlugs.has(slug)) {
         const log = await syncDelete(

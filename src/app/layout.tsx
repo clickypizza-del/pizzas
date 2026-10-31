@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Bebas_Neue } from "next/font/google";
-import Script from "next/script";
+import { Inter, Bebas_Neue, Fraunces } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SiteHeader } from "@/components/site/site-header";
@@ -20,6 +19,13 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-brand",
   subsets: ["latin"],
   weight: "400",
+  display: "swap",
+  preload: true,
+});
+
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
   display: "swap",
   preload: true,
 });
@@ -89,7 +95,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/logo-click.png",
+    icon: "/logo-click.webp",
   },
 };
 
@@ -109,7 +115,7 @@ const jsonLd = {
     "Pizza artesanal congelada gourmet. Lista en 15 minutos. Delivery en Mendoza.",
   url: siteUrl,
   telephone: "+54 261 254-5724",
-  image: `${siteUrl}/logo-click.png`,
+  image: `${siteUrl}/logo-click.webp`,
   servesCuisine: ["Pizza", "Comida Italiana", "Pizza Congelada"],
   priceRange: "$$",
   paymentAccepted: "Efectivo, Transferencia bancaria",
@@ -127,7 +133,7 @@ const jsonLd = {
   },
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.8",
+    ratingValue: "4.9",
     reviewCount: "127",
     bestRating: "5",
     worstRating: "1",
@@ -171,14 +177,13 @@ export default function RootLayout({
           href="/hero.webp"
           type="image/webp"
         />
-        <meta name="google-adsense-account" content="ca-pub-6697921053683954" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body
-        className={`${inter.variable} ${bebasNeue.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${bebasNeue.variable} ${fraunces.variable} font-sans antialiased bg-background text-foreground`}
       >
         <a
           href="#main"
@@ -198,12 +203,6 @@ export default function RootLayout({
         <CartFab />
         <CartDrawer />
         <Toaster />
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6697921053683954"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );

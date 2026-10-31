@@ -1,49 +1,57 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId, slugify } from "@/lib/db";
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
+import { slugify } from "@/lib/db";
 
-type Category = {
-  id: string;
-  slug: string;
-  label: string;
-  subtitle: string;
-  emoji: string;
-  accent_color: string;
-  sort_order: number;
-  visible: boolean;
-};
-
-// GET all categories
 export async function GET() {
-  const categories = await readJSON<Category>("categories.json");
-  categories.sort((a, b) => a.sort_order - b.sort_order);
-  return NextResponse.json(categories);
+  const { data, error } = await supabase
+    .from("categories")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data || []);
 }
 
-// POST create category
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const categories = await readJSON<Category>("categories.json");
 
-    const newCategory: Category = {
-      id: generateId(),
+    const { count } = await supabase
+      .from("categories")
+      .select("*", { count: "exact", head: true });
+
+    const newCategory = {
       slug: body.slug || slugify(body.label),
       label: body.label,
       subtitle: body.subtitle || "",
       emoji: body.emoji || "🍕",
       accent_color: body.accent_color || "#C1121F",
-      sort_order: categories.length,
+      sort_order: count || 0,
       visible: body.visible ?? true,
     };
 
-    categories.push(newCategory);
-    await writeJSON("categories.json", categories);
+    const { data, error } = await supabase
+      .from("categories")
+      .insert(newCategory)
+      .select()
+      .single();
 
-    return NextResponse.json(newCategory, { status: 201 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json(
       { error: "Error al crear la categoría" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }

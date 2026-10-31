@@ -1,71 +1,72 @@
 import { NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
-import fs from "fs/promises";
-import path from "path";
+import { supabase } from "@/lib/supabase/client";
 
-// GET list backups
 export async function GET() {
-  const backupDir = path.join(process.cwd(), "data", "backups");
-  try {
-    const files = await fs.readdir(backupDir);
-    const backups = files
-      .filter((f) => f.endsWith(".json"))
-      .map((f) => ({
-        filename: f,
-        created_at: f,
-      }))
-      .sort((a, b) => b.created_at.localeCompare(a.created_at))
-      .slice(0, 20);
-    return NextResponse.json(backups);
-  } catch {
+  const { data, error } = await supabase
+    .from("backups")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  if (error) {
     return NextResponse.json([]);
   }
+
+  return NextResponse.json(
+    (data || []).map((b: Record<string, unknown>) => ({
+      filename: b.filename,
+      created_at: b.created_at,
+    }))
+  );
 }
 
-// POST create backup
 export async function POST() {
   try {
     const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
     const filename = `backup-${timestamp}.json`;
 
-    const [products, categories, promotions, settings, users, activity] =
+    const [productsResult, categoriesResult, promotionsResult, settingsResult, usersResult, activityResult] =
       await Promise.all([
-        readJSON("products.json"),
-        readJSON("categories.json"),
-        readJSON("promotions.json"),
-        readJSON("settings.json"),
-        readJSON("users.json"),
-        readJSON("activity.json"),
+        supabase.from("products").select("*"),
+        supabase.from("categories").select("*"),
+        supabase.from("promotions").select("*"),
+        supabase.from("business_settings").select("*"),
+        supabase.from("admin_users").select("id, email, name, role, last_login, created_at"),
+        supabase.from("activity_log").select("*"),
       ]);
 
     const backupData = {
       version: "1.0",
       created_at: new Date().toISOString(),
-      products,
-      categories,
-      promotions,
-      settings,
-      users: users.map((u: Record<string, unknown>) => {
-        const { password_hash, ...rest } = u;
-        return rest;
-      }),
-      activity,
+      products: productsResult.data,
+      categories: categoriesResult.data,
+      promotions: promotionsResult.data,
+      settings: settingsResult.data,
+      users: usersResult.data,
+      activity: activityResult.data,
     };
 
-    const backupDir = path.join(process.cwd(), "data", "backups");
-    try {
-      await fs.access(backupDir);
-    } catch {
-      await fs.mkdir(backupDir, { recursive: true });
-    }
+    const jsonStr = JSON.stringify(backupData, null, 2);
+    const sizeBytes = new TextEncoder().encode(jsonStr).length;
 
-    const filePath = path.join(backupDir, filename);
-    await fs.writeFile(filePath, JSON.stringify(backupData, null, 2), "utf-8");
+    const { data, error } = await supabase
+      .from("backups")
+      .insert({
+        filename,
+        size_bytes: sizeBytes,
+        status: "completed",
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json(
       {
         filename,
-        size_bytes: (await fs.stat(filePath)).size,
+        size_bytes: sizeBytes,
         status: "completed",
       },
       { status: 201 }

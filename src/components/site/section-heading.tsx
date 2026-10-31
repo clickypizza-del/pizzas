@@ -46,7 +46,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? <Eyebrow className="block mb-3">{eyebrow}</Eyebrow> : null}
-      <h2 id={headingId} className="font-brand text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[1.1] tracking-tight">
+      <h2 id={headingId} className="font-display text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[1.1]">
         {title}
       </h2>
       {description ? (

@@ -1,49 +1,57 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId } from "@/lib/db";
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
 
-type Promotion = {
-  id: string;
-  [key: string]: unknown;
-};
-
-// GET all promotions
 export async function GET() {
-  const promos = await readJSON<Promotion>("promotions.json");
-  promos.sort((a, b) => (a.sort_order as number) - (b.sort_order as number));
-  return NextResponse.json(promos);
+  const { data, error } = await supabase
+    .from("promotions")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data || []);
 }
 
-// POST create promotion
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const promos = await readJSON<Promotion>("promotions.json");
 
-    const newPromo: Promotion = {
-      id: generateId(),
+    const newPromo = {
+      slug: body.slug || body.title?.toLowerCase().replace(/\s+/g, "-"),
       title: body.title,
-      subtitle: body.subtitle || "",
       description: body.description || "",
+      price: body.price || null,
       image_url: body.image_url || "",
-      start_date: body.start_date || "",
-      end_date: body.end_date || "",
-      button_text: body.button_text || "Ver más",
-      button_url: body.button_url || "",
-      badge: body.badge || "",
-      accent_color: body.accent_color || "#C1121F",
-      status: body.status || "active",
+      badge: body.badge || null,
+      badge_color: body.badge_color || null,
+      cta: body.cta || body.button_text || "Ver más",
+      whatsapp_message: body.whatsapp_message || null,
+      link: body.link || body.button_url || null,
       featured: body.featured ?? false,
-      sort_order: promos.length,
+      visible: body.visible ?? true,
+      combo: body.combo || null,
     };
 
-    promos.push(newPromo);
-    await writeJSON("promotions.json", promos);
+    const { data, error } = await supabase
+      .from("promotions")
+      .insert(newPromo)
+      .select()
+      .single();
 
-    return NextResponse.json(newPromo, { status: 201 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json(
       { error: "Error al crear la promoción" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
   }
 }

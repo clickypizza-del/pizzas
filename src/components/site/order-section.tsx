@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { ZoneChecker } from "@/components/site/zone-checker";
 import { SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/site/icons";
@@ -24,13 +25,13 @@ export function OrderSection() {
                 <span className="text-gradient-brand">WhatsApp</span>
               </>
             }
-            description="¿Listo para vivir la experiencia gourmet? Escaneá el código o escribinos para armar tu suscripción o pedido puntual."
+            description="¿Listo para vivir la experiencia gourmet? Escribinos para armar tu pedido puntual o tu suscripción semanal."
           />
         </Reveal>
 
         <Reveal delay={0.1}>
           <div className="flex flex-col items-center gap-8">
-            <figure className="relative">
+            <figure className="relative hidden lg:block">
               <div
                 aria-hidden
                 className="absolute -inset-3 bg-primary/20 rounded-3xl blur-2xl"
@@ -41,7 +42,6 @@ export function OrderSection() {
                 width={250}
                 height={250}
                 className="relative size-56 sm:size-64 rounded-2xl border-2 border-primary p-3 bg-white shadow-2xl shadow-primary/30"
-                priority
               />
               <figcaption className="sr-only">
                 Escaneá este QR con la cámara de tu celular para chatear con
@@ -49,28 +49,36 @@ export function OrderSection() {
               </figcaption>
             </figure>
 
-            <Button
-              asChild
-              size="lg"
-              className="rounded-full px-8 text-base sm:text-lg cta-hero bg-brand-green hover:bg-brand-green-hover text-white shadow-brand-green/30"
-            >
-              <a
-                href={buildWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="flex flex-col items-center gap-6 w-full">
+              <Button
+                asChild
+                size="lg"
+                className="rounded-full px-8 text-base sm:text-lg cta-hero bg-brand-green hover:bg-brand-green-hover text-white shadow-brand-green/30"
               >
-                <WhatsAppIcon className="size-5" />
-                Contactar por WhatsApp
-              </a>
-            </Button>
+                <a
+                  href={buildWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <WhatsAppIcon className="size-5" />
+                  Contactar por WhatsApp
+                </a>
+              </Button>
 
-            <p className="text-sm text-muted-foreground text-center max-w-md">
-              Atendemos de{" "}
-              <span className="text-foreground font-medium">
-                lunes a viernes de 9 a 21 hs
-              </span>{" "}
-              y los sábados de 10 a 14 hs.
-            </p>
+              <ZoneChecker />
+
+              <p className="text-sm text-muted-foreground text-center max-w-md">
+                Atendemos de{" "}
+                <span className="text-foreground font-medium">
+                  lunes a viernes de 9 a 21 hs
+                </span>{" "}
+                y los sábados de 10 a 14 hs.
+              </p>
+              <p className="text-xs text-muted-foreground text-center">
+                Entregas programadas de martes a viernes de 18 a 21 hs · Pagá en
+                efectivo o por transferencia
+              </p>
+            </div>
           </div>
         </Reveal>
       </div>

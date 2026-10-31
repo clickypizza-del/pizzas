@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON, generateId, slugify } from "@/lib/db";
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
+import { slugify } from "@/lib/db";
 
 type Product = {
   id: string;
@@ -30,53 +32,47 @@ type Product = {
   order_clicks: number;
 };
 
-// GET all products
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get("category");
   const visible = searchParams.get("visible");
   const featured = searchParams.get("featured");
 
-  let products = await readJSON<Product>("products.json");
+  let query = supabase
+    .from("products")
+    .select("*, categories(id, label, slug)")
+    .order("sort_order", { ascending: true });
 
-  if (category) products = products.filter((p) => p.category_id === category);
-  if (visible !== null)
-    products = products.filter(
-      (p) => p.visible === (visible === "true")
-    );
-  if (featured !== null)
-    products = products.filter(
-      (p) => p.featured === (featured === "true")
-    );
+  if (category) query = query.eq("category_id", category);
+  if (visible) query = query.eq("visible", visible === "true");
+  if (featured) query = query.eq("featured", featured === "true");
 
-  products.sort((a, b) => a.sort_order - b.sort_order);
+  const { data: products, error } = await query;
 
-  // Attach category info
-  const categories = await readJSON<{ id: string; label: string; slug: string }>(
-    "categories.json"
-  );
-  const catMap = new Map(categories.map((c) => [c.id, c]));
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 
-  const result = products.map((p) => ({
+  const result = (products || []).map((p: Record<string, unknown>) => ({
     ...p,
-    categories: catMap.get(p.category_id) || null,
+    categories: (p.categories as Record<string, unknown>) || null,
   }));
 
   return NextResponse.json(result);
 }
 
-// POST create product
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const products = await readJSON<Product>("products.json");
+    const { count } = await supabase
+      .from("products")
+      .select("*", { count: "exact", head: true });
 
-    const newProduct: Product = {
-      id: generateId(),
+    const newProduct = {
       slug: body.slug || slugify(body.name),
       name: body.name,
-      category_id: body.category_id || "",
+      category_id: body.category_id || null,
       description_short: body.description_short || "",
       description_full: body.description_full || "",
       ingredients: body.ingredients || [],
@@ -91,24 +87,27 @@ export async function POST(request: NextRequest) {
       stock: body.stock || 0,
       image_url: body.image_url || "",
       prep_time_minutes: body.prep_time_minutes || 15,
-      delivery_time_minutes: body.delivery_time_minutes || 30,
-      sort_order: products.length,
-      meta_title: body.meta_title || "",
-      meta_description: body.meta_description || "",
-      meta_keywords: body.meta_keywords || [],
-      view_count: 0,
-      whatsapp_clicks: 0,
-      order_clicks: 0,
+      sort_order: count || 0,
     };
 
-    products.push(newProduct);
-    await writeJSON("products.json", products);
+    const { data, error } = await supabase
+      .from("products")
+      .insert(newProduct)
+      .select()
+      .single();
 
-    return NextResponse.json(newProduct, { status: 201 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json(
       { error: "Error al crear el producto" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }

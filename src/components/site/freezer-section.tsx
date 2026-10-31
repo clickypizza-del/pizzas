@@ -31,7 +31,7 @@ export function FreezerSection() {
                 Un catálogo <span className="text-gradient-brand">optimizado</span> para tu freezer
               </>
             }
-            description="No son pizzas al azar. Elegimos 12 variedades en 5 líneas que comparten ingredientes y soportan estar congeladas 3+ meses sin perder calidad."
+            description="No son pizzas al azar. Elegimos 14 variedades en 5 líneas que comparten ingredientes y soportan estar congeladas 3+ meses sin perder calidad."
           />
         </Reveal>
 
@@ -111,7 +111,7 @@ export function FreezerSection() {
                 Familias de ingredientes
               </h3>
               <p className="text-xs text-muted-foreground mb-5">
-                Cómo se reparten los insumos entre las 12 variedades
+                Cómo se reparten los insumos entre las 14 variedades
               </p>
               <ul role="list" className="space-y-4">
                 {CATALOG_FAMILIES.map((family) => (

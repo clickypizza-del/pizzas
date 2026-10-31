@@ -15,8 +15,8 @@ import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ShareButton } from "@/components/site/share-button";
 import {
-  PIZZAS,
-  PIZZA_CATEGORIES,
+  PIZZAS as FALLBACK_PIZZAS,
+  PIZZA_CATEGORIES as FALLBACK_CATEGORIES,
   PIZZA_PRICES,
   SITE,
   MINI_PIZZETA_COMBOS,
@@ -28,8 +28,8 @@ import {
 import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
 import { useCartStore } from "@/lib/cart-store";
 
-function pizzasByCategory(catId: PizzaCategoryMeta["id"]): Pizza[] {
-  return PIZZAS.filter((p) => p.category === catId);
+function pizzasByCategory(catId: PizzaCategoryMeta["id"], pizzas: Pizza[]): Pizza[] {
+  return (pizzas ?? []).filter((p) => p.category === catId);
 }
 
 const BADGE_CONFIG: Record<string, { label: string; className: string }> = {
@@ -45,25 +45,28 @@ const COMBO_LABEL_CONFIG: Record<MiniPizzetaComboLabel, { label: string; classNa
   "premium": { label: "Premium", className: "bg-purple-600 text-white" },
 };
 
-export function MenuSection({ initialCategory }: { initialCategory?: string }) {
+export function MenuSection({ initialCategory, initialProducts, initialCategories }: { initialCategory?: string; initialProducts?: Pizza[]; initialCategories?: PizzaCategoryMeta[] }) {
+  const pizzas = initialProducts?.length ? initialProducts : FALLBACK_PIZZAS;
+  const allCategories = initialCategories?.length ? initialCategories : FALLBACK_CATEGORIES;
+
   const [selected, setSelected] = useState<Pizza | null>(null);
   const [selectedCat, setSelectedCat] = useState<PizzaCategoryMeta | null>(null);
   const [activeCat, setActiveCat] = useState<PizzaCategoryMeta["id"] | "all">(() => {
     if (!initialCategory) return "all";
-    const match = PIZZA_CATEGORIES.find(
-      (c) => c.id === initialCategory || c.shortLabel?.toLowerCase() === initialCategory.toLowerCase(),
+    const match = allCategories.find(
+      (c) => c.id === initialCategory || ("shortLabel" in c && (c as PizzaCategoryMeta).shortLabel?.toLowerCase() === initialCategory.toLowerCase()),
     );
     return match ? match.id : "all";
   });
 
-  const filteredPizzas = activeCat === "all"
-    ? PIZZAS
-    : PIZZAS.filter((p) => p.category === activeCat);
+  const filteredPizzas = (activeCat === "all"
+    ? pizzas
+    : pizzas?.filter((p) => p.category === activeCat)) ?? [];
 
   const showMiniPizzetas = activeCat === "all" || activeCat === "mini-pizzeta";
   const showOtherPizzas = filteredPizzas.filter((p) => p.category !== "mini-pizzeta");
 
-  const activeCategoryMeta = activeCat !== "all" ? PIZZA_CATEGORIES.find((c) => c.id === activeCat) ?? null : null;
+  const activeCategoryMeta = activeCat !== "all" ? allCategories.find((c) => c.id === activeCat) ?? null : null;
 
   return (
     <section
@@ -82,7 +85,7 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
                 <span className="text-gradient-brand">Pizzas</span>
               </>
             }
-            description="Clásica, Gourmet y Premium. Tres líneas, doce pizzas, un solo objetivo: que en 15 minutos tengas una pizza de restaurante en tu mesa."
+            description="Clásica, Gourmet, Premium, Individuales y Mini Pizzetas. Cinco líneas, catorce pizzas, un solo objetivo: que en 15 minutos tengas una pizza de restaurante en tu mesa."
           />
         </Reveal>
 
@@ -102,11 +105,13 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
                       : "bg-card border border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                   }`}
                 >
-                  Todas ({PIZZAS.length})
+                  Todas ({pizzas.length})
                 </button>
               </li>
-              {PIZZA_CATEGORIES.map((cat) => {
-                const count = pizzasByCategory(cat.id).length;
+              {allCategories.map((cat) => {
+                const count = cat.id === "mini-pizzeta"
+                  ? MINI_PIZZETA_COMBOS.length
+                  : pizzasByCategory(cat.id, pizzas).length;
                 const isActive = activeCat === cat.id;
                 return (
                   <li key={cat.id}>
@@ -136,7 +141,7 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
             <div className="grid lg:grid-cols-3 gap-6 lg:gap-10">
               <div className="lg:col-span-2 space-y-4">
                 {showOtherPizzas.map((pizza, i) => {
-                  const cat = PIZZA_CATEGORIES.find((c) => c.id === pizza.category)!;
+                  const cat = allCategories.find((c) => c.id === pizza.category)!;
                   return (
                     <Reveal key={pizza.id} as="div" delay={i * 0.04}>
                       <PizzaCard pizza={pizza} category={cat} onSelect={() => { setSelected(pizza); setSelectedCat(cat); }} horizontal />
@@ -171,8 +176,8 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
           ) : (
             /* All categories: grouped by category */
             <div className="space-y-12">
-              {PIZZA_CATEGORIES.map((cat) => {
-                const catPizzas = PIZZAS.filter((p) => p.category === cat.id);
+              {allCategories.map((cat) => {
+                const catPizzas = pizzas.filter((p) => p.category === cat.id);
                 const catMinis = cat.id === "mini-pizzeta" ? MINI_PIZZETA_COMBOS : [];
                 if (catPizzas.length === 0 && catMinis.length === 0) return null;
                 return (
@@ -194,7 +199,11 @@ export function MenuSection({ initialCategory }: { initialCategory?: string }) {
                     </div>
                     <ul
                       role="list"
-                      className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
+                      className={`grid gap-3 sm:gap-5 ${
+                        cat.id === "individual" || cat.id === "clasica"
+                          ? "grid-cols-2 sm:grid-cols-4"
+                          : "grid-cols-2 sm:grid-cols-2 lg:grid-cols-3"
+                      }`}
                     >
                       {catPizzas.map((pizza, i) => (
                         <li key={pizza.id}>
@@ -251,7 +260,7 @@ function MiniPizzetaComboCard({ combo, horizontal }: { combo: MiniPizzetaCombo; 
       id: `mini-pizzetas-${combo.id}`,
       name: `Mini Pizzetas — ${combo.nombre}`,
       price: combo.precio,
-      image: "/pizzas/mini-pizzetas2.png",
+      image: "/pizzas/mini-pizzetas2.webp",
       category: "mini-pizzeta",
       flavors: combo.sabores.map((s) => `${s.qty} ${s.name}`),
     });
@@ -265,7 +274,7 @@ function MiniPizzetaComboCard({ combo, horizontal }: { combo: MiniPizzetaCombo; 
     <article className={`group flex bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 cursor-pointer ${horizontal ? "flex-row" : "flex-col"}`}>
       <div className={`relative overflow-hidden bg-secondary group/img ${horizontal ? "w-32 sm:w-44 flex-shrink-0" : "aspect-[4/3]"}`}>
         <Image
-          src="/pizzas/mini-pizzetas2.png"
+          src="/pizzas/mini-pizzetas2.webp"
           alt={`Mini Pizzetas — ${combo.nombre}`}
           width={600}
           height={450}
@@ -421,6 +430,11 @@ function PizzaCard({
           <Snowflake className="size-2.5 text-primary" aria-hidden />
           <span className="text-primary">3+ meses</span>
         </div>
+        {badgeConf ? (
+          <Badge className={`absolute top-2 right-2 border-transparent shadow-lg text-[10px] sm:text-xs font-bold px-1.5 py-0.5 leading-tight ${badgeConf.className}`}>
+            {badgeConf.label}
+          </Badge>
+        ) : null}
       </button>
 
       <div className="p-3 sm:p-5 flex flex-col flex-1 min-h-0">
@@ -432,11 +446,6 @@ function PizzaCard({
             <span aria-hidden className="mr-0.5">{category.emoji}</span>
             {category.label}
           </Badge>
-          {badgeConf ? (
-            <Badge className={`border-transparent shadow-lg text-[10px] sm:text-xs font-bold px-1.5 py-0.5 leading-tight ${badgeConf.className}`}>
-              {badgeConf.label}
-            </Badge>
-          ) : null}
         </div>
         <div className="flex items-start justify-between gap-2 mb-1.5">
           <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">

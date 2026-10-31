@@ -39,6 +39,15 @@ export function FaqSection() {
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground text-base leading-relaxed">
                   {faq.a}
+                  <a
+                    href={buildWhatsAppUrl(`¡Hola Click & Pizza! Tengo una consulta: ${faq.q}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 mt-3 text-sm font-semibold text-brand-green hover:text-brand-green-hover transition-colors"
+                  >
+                    Preguntar esto por WhatsApp
+                    <span aria-hidden>→</span>
+                  </a>
                 </AccordionContent>
               </AccordionItem>
             ))}

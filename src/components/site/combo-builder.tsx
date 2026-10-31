@@ -14,11 +14,18 @@ type Props = {
 
 export function ComboBuilder({ promo, onClose }: Props) {
   const combo = promo.combo!;
-  const gourmetPizzas = PIZZAS.filter((p) => p.category === "gourmet");
+  const categories = combo.categories ?? ["gourmet"];
+  const pool = PIZZAS.filter((p) => categories.includes(p.category));
+  const hasDrinks = combo.drinks > 0 && combo.drinkOptions.length > 0;
+  const totalSteps = hasDrinks ? 3 : 2;
+
+  const fixedPizzas = (combo.fixed ?? [])
+    .map((f) => ({ pizza: PIZZAS.find((p) => p.id === f.pizzaId), qty: f.qty }))
+    .filter((f): f is { pizza: (typeof PIZZAS)[number]; qty: number } => Boolean(f.pizza));
 
   const [selectedPizzas, setSelectedPizzas] = useState<string[]>([]);
   const [selectedDrink, setSelectedDrink] = useState<string>("");
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState(1);
 
   const togglePizza = (pizzaId: string) => {
     setSelectedPizzas((prev) => {
@@ -29,19 +36,30 @@ export function ComboBuilder({ promo, onClose }: Props) {
   };
 
   const canNextStep1 = selectedPizzas.length === combo.pizzas;
-  const canNextStep2 = selectedDrink !== "";
+  const canNextStep2 = !hasDrinks || selectedDrink !== "";
 
   const handleSend = () => {
-    const pizzaNames = selectedPizzas
-      .map((id) => gourmetPizzas.find((p) => p.id === id)?.name)
-      .filter(Boolean);
-    const drinkName = combo.drinkOptions.find((d) => d.id === selectedDrink)?.name;
+    const lines = fixedPizzas.map(
+      (f) => `🍕 ${f.qty}× ${f.pizza.name}`,
+    );
 
-    const msg = `¡Hola Click & Pizza! Quiero mi Noche Clicky:\n\n🍕 Pizza 1: ${pizzaNames[0]}\n🍕 Pizza 2: ${pizzaNames[1]}\n🥤 Bebida: ${drinkName}`;
+    selectedPizzas.forEach((id) => {
+      const pizza = pool.find((p) => p.id === id);
+      if (pizza) lines.push(`🍕 Pizza a elección: ${pizza.name}`);
+    });
+
+    if (hasDrinks) {
+      const drinkName = combo.drinkOptions.find((d) => d.id === selectedDrink)?.name;
+      lines.push(`🥤 Bebida: ${drinkName}`);
+    }
+
+    const msg = `¡Hola Click & Pizza! Quiero mi ${promo.title}:\n\n${lines.join("\n")}`;
 
     window.open(buildWhatsAppUrl(msg), "_blank");
     onClose();
   };
+
+  const isLastStep = step === totalSteps;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 p-0 sm:p-4">
@@ -49,8 +67,12 @@ export function ComboBuilder({ promo, onClose }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 shrink-0">
           <div>
-            <h3 className="font-brand text-lg text-white">Noche Clicky</h3>
-            <p className="text-xs text-white/40">2 pizzas gourmet + bebida de regalo</p>
+            <h3 className="font-brand text-lg text-white">{promo.title}</h3>
+            <p className="text-xs text-white/40">
+              {fixedPizzas.length > 0
+                ? `${fixedPizzas.map((f) => `${f.qty}× ${f.pizza.name}`).join(" + ")} + ${combo.pizzas} especial a elección${hasDrinks ? " + vino de regalo" : ""}`
+                : `${combo.pizzas} pizzas a elección${hasDrinks ? " + bebida de regalo" : ""}`}
+            </p>
           </div>
           <button onClick={onClose} className="text-white/40 hover:text-white">
             <X className="size-5" />
@@ -59,33 +81,39 @@ export function ComboBuilder({ promo, onClose }: Props) {
 
         {/* Steps indicator */}
         <div className="flex items-center gap-2 px-5 pt-4 shrink-0">
-          {[1, 2, 3].map((s) => (
-            <div key={s} className="flex items-center gap-2 flex-1">
-              <div
-                className={`size-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                  step === s
-                    ? "bg-brand-red text-white"
-                    : step > s
-                      ? "bg-green-600 text-white"
-                      : "bg-white/10 text-white/30"
-                }`}
-              >
-                {step > s ? <Check className="size-3.5" /> : s}
-              </div>
-              {s < 3 && (
+          {Array.from({ length: totalSteps }).map((_, idx) => {
+            const s = idx + 1;
+            return (
+              <div key={s} className="flex items-center gap-2 flex-1">
                 <div
-                  className={`h-px flex-1 ${step > s ? "bg-green-600" : "bg-white/10"}`}
-                />
-              )}
-            </div>
-          ))}
+                  className={`size-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                    step === s
+                      ? "bg-brand-red text-white"
+                      : step > s
+                        ? "bg-green-600 text-white"
+                        : "bg-white/10 text-white/30"
+                  }`}
+                >
+                  {step > s ? <Check className="size-3.5" /> : s}
+                </div>
+                {s < totalSteps && (
+                  <div
+                    className={`h-px flex-1 ${step > s ? "bg-green-600" : "bg-white/10"}`}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div className="px-5 pt-2 pb-1 shrink-0">
           <p className="text-xs text-white/30">
-            {step === 1 && `Elegí tus ${combo.pizzas} pizzas gourmet`}
-            {step === 2 && "Elegí tu bebida de regalo"}
-            {step === 3 && "Confirmá tu pedido"}
+            {step === 1 &&
+              (fixedPizzas.length > 0
+                ? "Elegí tu pizza especial"
+                : `Elegí tus ${combo.pizzas} pizzas`)}
+            {step === 2 && hasDrinks && "Elegí tu bebida de regalo"}
+            {isLastStep && "Confirmá tu pedido"}
           </p>
         </div>
 
@@ -94,7 +122,32 @@ export function ComboBuilder({ promo, onClose }: Props) {
           {/* Step 1: Pick pizzas */}
           {step === 1 && (
             <div className="space-y-2">
-              {gourmetPizzas.map((pizza) => {
+              {fixedPizzas.length > 0 && (
+                <div className="rounded-xl border border-white/10 bg-white/5 p-3 mb-3">
+                  <p className="text-[10px] uppercase tracking-wider text-white/30 mb-2">
+                    Incluidas en el combo
+                  </p>
+                  <div className="space-y-2">
+                    {fixedPizzas.map((f) => (
+                      <div key={f.pizza.id} className="flex items-center gap-3">
+                        <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-white/5">
+                          <Image
+                            src={f.pizza.image}
+                            alt={f.pizza.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <span className="text-sm font-medium text-white">
+                          {f.qty}× {f.pizza.name}
+                        </span>
+                        <Check className="size-4 text-green-500 ml-auto shrink-0" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {pool.map((pizza) => {
                 const isSelected = selectedPizzas.includes(pizza.id);
                 return (
                   <button
@@ -134,7 +187,7 @@ export function ComboBuilder({ promo, onClose }: Props) {
           )}
 
           {/* Step 2: Pick drink */}
-          {step === 2 && (
+          {step === 2 && hasDrinks && (
             <div className="space-y-2">
               {combo.drinkOptions.map((drink) => {
                 const isSelected = selectedDrink === drink.id;
@@ -160,13 +213,23 @@ export function ComboBuilder({ promo, onClose }: Props) {
             </div>
           )}
 
-          {/* Step 3: Review */}
-          {step === 3 && (
+          {/* Review */}
+          {isLastStep && (
             <div className="space-y-4">
               <div className="bg-[#0D0D0D] rounded-xl p-4 space-y-3">
                 <h4 className="text-xs text-white/30 uppercase tracking-wider">Tus pizzas</h4>
+                {fixedPizzas.map((f) => (
+                  <div key={f.pizza.id} className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0">
+                      <Image src={f.pizza.image} alt={f.pizza.name} fill className="object-cover" />
+                    </div>
+                    <span className="text-sm text-white">
+                      {f.qty}× {f.pizza.name}
+                    </span>
+                  </div>
+                ))}
                 {selectedPizzas.map((id) => {
-                  const pizza = gourmetPizzas.find((p) => p.id === id);
+                  const pizza = pool.find((p) => p.id === id);
                   if (!pizza) return null;
                   return (
                     <div key={id} className="flex items-center gap-3">
@@ -180,16 +243,18 @@ export function ComboBuilder({ promo, onClose }: Props) {
                 })}
               </div>
 
-              <div className="bg-[#0D0D0D] rounded-xl p-4 space-y-2">
-                <h4 className="text-xs text-white/30 uppercase tracking-wider">Tu bebida</h4>
-                <div className="flex items-center gap-2">
-                  <span>🥤</span>
-                  <span className="text-sm text-white">
-                    {combo.drinkOptions.find((d) => d.id === selectedDrink)?.name}
-                  </span>
-                  <span className="text-xs text-green-400 ml-auto">Gratis</span>
+              {hasDrinks ? (
+                <div className="bg-[#0D0D0D] rounded-xl p-4 space-y-2">
+                  <h4 className="text-xs text-white/30 uppercase tracking-wider">Tu bebida</h4>
+                  <div className="flex items-center gap-2">
+                    <span>🥤</span>
+                    <span className="text-sm text-white">
+                      {combo.drinkOptions.find((d) => d.id === selectedDrink)?.name}
+                    </span>
+                    <span className="text-xs text-green-400 ml-auto">Gratis</span>
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           )}
         </div>
@@ -199,22 +264,22 @@ export function ComboBuilder({ promo, onClose }: Props) {
           <div className="flex gap-3">
             {step > 1 && (
               <button
-                onClick={() => setStep((s) => (s - 1) as 1 | 2 | 3)}
+                onClick={() => setStep((s) => s - 1)}
                 className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-sm text-white/60 hover:text-white"
               >
                 Volver
               </button>
             )}
-            {step < 3 && (
+            {!isLastStep && (
               <button
-                onClick={() => setStep((s) => (s + 1) as 1 | 2 | 3)}
+                onClick={() => setStep((s) => s + 1)}
                 disabled={(step === 1 && !canNextStep1) || (step === 2 && !canNextStep2)}
                 className="flex-1 py-2.5 bg-brand-red text-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-brand-red/90 transition-all disabled:opacity-40"
               >
                 Siguiente
               </button>
             )}
-            {step === 3 && (
+            {isLastStep && (
               <button
                 onClick={handleSend}
                 className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 bg-green-600 text-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-green-700 transition-all"

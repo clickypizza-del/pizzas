@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -17,12 +17,15 @@ import {
 import { NAV_ITEMS, SITE } from "@/lib/site-data";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/site/icons";
+import { useCartStore, cartTotalItems } from "@/lib/cart-store";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const cartCount = useCartStore((s) => cartTotalItems(s.items));
+  const openCart = useCartStore((s) => s.openCart);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -51,7 +54,7 @@ export function SiteHeader() {
         Saltar al contenido
       </a>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-28">
+        <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Brand */}
           <Link
             href="/"
@@ -128,8 +131,21 @@ export function SiteHeader() {
             </Button>
           </div>
 
-          {/* Mobile menu trigger */}
-          <div className="lg:hidden">
+          {/* Mobile actions */}
+          <div className="lg:hidden flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={openCart}
+              className="relative size-12 rounded-full text-foreground bg-secondary/50 hover:bg-secondary flex items-center justify-center transition-colors"
+              aria-label={`Abrir carrito (${cartCount} productos)`}
+            >
+              <ShoppingBag className="size-5" />
+              {cartCount > 0 ? (
+                <span className="absolute -top-0.5 -right-0.5 size-5 rounded-full bg-primary text-primary-foreground text-[10px] font-extrabold flex items-center justify-center">
+                  {cartCount > 9 ? "9+" : cartCount}
+                </span>
+              ) : null}
+            </button>
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger asChild>
                 <Button

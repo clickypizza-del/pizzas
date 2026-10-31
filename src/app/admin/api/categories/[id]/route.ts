@@ -1,14 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
-
-type Category = {
-  id: string;
-  [key: string]: unknown;
-};
+import { revalidatePath } from "next/cache";
+import { supabase } from "@/lib/supabase/client";
 
 type Params = Promise<{ id: string }>;
 
-// PUT update category
 export async function PUT(
   request: NextRequest,
   { params }: { params: Params }
@@ -16,35 +11,41 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const categories = await readJSON<Category>("categories.json");
-    const idx = categories.findIndex((c) => c.id === id);
 
-    if (idx === -1) {
-      return NextResponse.json({ error: "Categoría no encontrada" }, { status: 404 });
+    const { data, error } = await supabase
+      .from("categories")
+      .update(body)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    categories[idx] = { ...categories[idx], ...body };
-    await writeJSON("categories.json", categories);
-
-    return NextResponse.json(categories[idx]);
+    return NextResponse.json(data);
   } catch {
     return NextResponse.json(
       { error: "Error al actualizar la categoría" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }
 
-// DELETE category
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Params }
 ) {
   try {
     const { id } = await params;
-    let categories = await readJSON<Category>("categories.json");
-    categories = categories.filter((c) => c.id !== id);
-    await writeJSON("categories.json", categories);
+    const { error } = await supabase.from("categories").delete().eq("id", id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true });
   } catch {
@@ -52,5 +53,8 @@ export async function DELETE(
       { error: "Error al eliminar la categoría" },
       { status: 500 }
     );
+  } finally {
+    revalidatePath("/");
+    revalidatePath("/menu");
   }
 }

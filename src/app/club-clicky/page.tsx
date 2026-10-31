@@ -25,7 +25,7 @@ const STEPS = [
     number: "1",
     icon: ShoppingBag,
     title: "Elegí tus pizzas",
-    description: "Explorá nuestro catálogo de 12 variedades y elegí las que más te gusten.",
+    description: "Explorá nuestro catálogo de 14 variedades y elegí las que más te gusten.",
   },
   {
     number: "2",

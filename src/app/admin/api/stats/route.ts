@@ -1,93 +1,82 @@
 import { NextResponse } from "next/server";
-import { readJSON } from "@/lib/db";
-
-type Product = {
-  id: string;
-  category_id: string;
-  visible: boolean;
-  featured: boolean;
-  sold_out: boolean;
-  price: number;
-  discount_percent: number;
-  view_count: number;
-  whatsapp_clicks: number;
-  order_clicks: number;
-};
-
-type Category = {
-  id: string;
-  label: string;
-};
-
-type Activity = {
-  id: string;
-  action: string;
-  entity_type: string;
-  entity_id?: string;
-  details?: Record<string, unknown>;
-  created_at: string;
-};
+import { supabase } from "@/lib/supabase/client";
 
 export async function GET() {
   try {
-    const [products, categories, activity] = await Promise.all([
-      readJSON<Product>("products.json"),
-      readJSON<Category>("categories.json"),
-      readJSON<Activity>("activity.json"),
-    ]);
+    const [productsResult, categoriesResult, promosResult, activityResult] =
+      await Promise.all([
+        supabase.from("products").select("*"),
+        supabase.from("categories").select("*"),
+        supabase.from("promotions").select("*"),
+        supabase
+          .from("activity_log")
+          .select("*, admin_users(name)")
+          .order("created_at", { ascending: false })
+          .limit(20),
+      ]);
+
+    const products = productsResult.data || [];
+    const categories = categoriesResult.data || [];
+    const promos = promosResult.data || [];
+    const activity = activityResult.data || [];
 
     const stats = {
       totalProducts: products.length,
-      visibleProducts: products.filter((p) => p.visible).length,
-      hiddenProducts: products.filter((p) => !p.visible).length,
-      featuredProducts: products.filter((p) => p.featured).length,
-      soldOutProducts: products.filter((p) => p.sold_out).length,
+      visibleProducts: products.filter((p: Record<string, unknown>) => p.visible).length,
+      hiddenProducts: products.filter((p: Record<string, unknown>) => !p.visible).length,
+      featuredProducts: products.filter((p: Record<string, unknown>) => p.featured).length,
+      soldOutProducts: products.filter((p: Record<string, unknown>) => p.sold_out).length,
       totalCategories: categories.length,
-      activePromotions: 0,
-      inactivePromotions: 0,
-      scheduledPromotions: 0,
-      totalViews: products.reduce((sum, p) => sum + (p.view_count || 0), 0),
+      activePromotions: promos.filter((p: Record<string, unknown>) => p.status === "active").length,
+      inactivePromotions: promos.filter((p: Record<string, unknown>) => p.status === "inactive").length,
+      scheduledPromotions: promos.filter((p: Record<string, unknown>) => p.status === "scheduled").length,
+      totalViews: products.reduce(
+        (sum: number, p: Record<string, unknown>) => sum + ((p.view_count as number) || 0),
+        0
+      ),
       totalWhatsappClicks: products.reduce(
-        (sum, p) => sum + (p.whatsapp_clicks || 0),
+        (sum: number, p: Record<string, unknown>) => sum + ((p.whatsapp_clicks as number) || 0),
         0
       ),
       totalOrderClicks: products.reduce(
-        (sum, p) => sum + (p.order_clicks || 0),
+        (sum: number, p: Record<string, unknown>) => sum + ((p.order_clicks as number) || 0),
         0
       ),
       averagePrice: products.length
         ? Math.round(
-            products.reduce((sum, p) => sum + p.price, 0) / products.length
+            products.reduce((sum: number, p: Record<string, unknown>) => sum + (p.price as number), 0) /
+              products.length
           )
         : 0,
-      discountedProducts: products.filter((p) => p.discount_percent > 0).length,
-      categoriesBreakdown: categories.map((c) => ({
+      discountedProducts: products.filter(
+        (p: Record<string, unknown>) => (p.discount_percent as number) > 0
+      ).length,
+      categoriesBreakdown: categories.map((c: Record<string, unknown>) => ({
         id: c.id,
         label: c.label,
-        count: products.filter((p) => p.category_id === c.id).length,
+        count: products.filter(
+          (p: Record<string, unknown>) => p.category_id === c.id
+        ).length,
       })),
     };
 
-    // Count promotions from promotions.json
-    const promos = await readJSON<{ status: string }>("promotions.json");
-    stats.activePromotions = promos.filter((p) => p.status === "active").length;
-    stats.inactivePromotions = promos.filter((p) => p.status === "inactive").length;
-    stats.scheduledPromotions = promos.filter((p) => p.status === "scheduled").length;
-
     const topProducts = [...products]
-      .sort((a, b) => (b.view_count || 0) - (a.view_count || 0))
+      .sort(
+        (a: Record<string, unknown>, b: Record<string, unknown>) =>
+          ((b.view_count as number) || 0) - ((a.view_count as number) || 0)
+      )
       .slice(0, 10)
-      .map((p) => ({
+      .map((p: Record<string, unknown>) => ({
         id: p.id,
-        name: (p as Product & { name: string }).name || "",
-        view_count: p.view_count || 0,
-        whatsapp_clicks: p.whatsapp_clicks || 0,
-        order_clicks: p.order_clicks || 0,
+        name: p.name || "",
+        view_count: (p.view_count as number) || 0,
+        whatsapp_clicks: (p.whatsapp_clicks as number) || 0,
+        order_clicks: (p.order_clicks as number) || 0,
       }));
 
     return NextResponse.json({
       stats,
-      recentActivity: activity.slice(0, 20),
+      recentActivity: activity,
       topProducts,
     });
   } catch {

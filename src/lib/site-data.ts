@@ -12,8 +12,8 @@ export const SITE = {
   instagramUrl: "https://instagram.com/click_y_pizza",
   whatsappText:
     "¡Hola Click & Pizza! Quiero hacer una consulta sobre las pizzas.",
-  qrUrl: "/qr-whatsapp.png",
-  logoUrl: "/logo-click.png",
+  qrUrl: "/qr-whatsapp.webp",
+  logoUrl: "/logo-click.webp",
   shareUrl: "https://clickypizza.com.ar",
 } as const;
 
@@ -35,6 +35,7 @@ export { isNavGroup };
 export const NAV_ITEMS: NavLink[] = [
   { href: "/menu", label: "Nuestras Pizzas" },
   { href: "/aceitunas", label: "Estilo Gourmet" },
+  { href: "/postres", label: "MMM Postre!" },
   { href: "/suscripcion", label: "Suscripción" },
   { href: "/club-clicky", label: "Club Clicky" },
   { href: "/revendedores", label: "Revendedores" },
@@ -112,11 +113,11 @@ export type Pizza = {
 };
 
 export const PIZZA_PRICES: Record<PizzaCategory, string> = {
-  clasica: "$8.000",
-  gourmet: "$9.000",
-  premium: "$10.300",
+  clasica: "$8.500",
+  gourmet: "$10.500",
+  premium: "$15.000",
   "mini-pizzeta": "$5.500",
-  individual: "$10.000",
+  individual: "$4.500",
 };
 
 export type PizzaCategoryMeta = {
@@ -143,8 +144,8 @@ export const PIZZA_CATEGORIES: PizzaCategoryMeta[] = [
   },
   {
     id: "gourmet",
-    label: "Gourmet",
-    shortLabel: "Gourmet",
+    label: "Especiales",
+    shortLabel: "Especiales",
     subtitle: "Sabores intensos y quesos premium",
     description: "Ingredientes con personalidad: provolone picante, salame de Tandil, lomito, queso azul con miel y cantimpalo español. Para quienes buscan algo más allá del clásico, con sabores intensos y combinaciones originales.",
     emoji: "⭐",
@@ -198,7 +199,7 @@ export const PIZZAS: Pizza[] = [
     category: "clasica",
     freezerNote: "Muy estable. Excelente calidad varios meses.",
     image: "/pizzas/muzza.webp",
-    price: "$7.700",
+    price: "$8.500",
     badge: "mas-vendida",
     cookTime: "15 min",
     portions: "4-6 porciones",
@@ -214,7 +215,7 @@ export const PIZZAS: Pizza[] = [
     category: "clasica",
     freezerNote: "El salame congela bien si está bien sellado. Sabor intacto.",
     image: "/pizzas/salame.webp",
-    price: "$8.500",
+    price: "$9.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame seleccionado", "Aceitunas negras"],
@@ -231,20 +232,20 @@ export const PIZZAS: Pizza[] = [
     category: "clasica",
     freezerNote: "El queso azul congela excelente. Conserva toda su intensidad.",
     image: "/pizzas/azul.webp",
-    price: "$8.500",
+    price: "$9.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul (Roquefort)"],
   },
   {
-    id: "especial-jamon",
+    id: "clasica-jamon",
     name: "Clásica de Jamón",
     description:
       "Masa artesanal, salsa de tomate, muzzarella, abundante jamón cocido, aderezo especial y aceitunas verdes descarozadas.",
     category: "clasica",
     freezerNote: "El jamón cocido congela bien si está bien sellado.",
     image: "/pizzas/jamon.webp",
-    price: "$8.000",
+    price: "$9.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Muzzarella", "Jamón cocido", "Aderezo especial", "Aceitunas verdes"],
@@ -268,19 +269,19 @@ export const PIZZAS: Pizza[] = [
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Morrones rojos asados", "Aceitunas verdes rellenas", "Orégano"],
   },
   {
-    id: "lomito",
-    name: "Lomito",
+    id: "gourmet-jamon",
+    name: "Especial Jamón",
     description:
-      "Lomito en cubos sobre mozzarella fundida. Ahumado intenso y crocante que conquista.",
+      "Jamón en cubos sobre mozzarella fundida. Sabor intenso y crocante que conquista.",
     detail:
-      "Lomito en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado — es la pizza más robusta y \"carnosa\" del menú.\n\n**Maridaje de aceitunas:** Aceituna rellena con roquefort, panceta y morrón. Una picada liviana o ácida se perdería frente a esta pizza. Se aplica el principio de intensidad proporcional: el trío tiene que igualar la potencia de la pizza, no suavizarla. El roquefort aporta pungencia de queso azul, la panceta suma ahumado y grasa crocante, y el morrón cumple su función de contrapeso dulce para que el conjunto no se vuelva unidimensional de sal y grasa.",
+      "Jamón en cubos generosos sobre mozzarella fundida y salsa de tomate. Alta en proteína, grasa y sabor concentrado — es la pizza más robusta y \"carnosa\" del menú.\n\n**Maridaje de aceitunas:** Aceituna rellena con roquefort, panceta y morrón. Una picada liviana o ácida se perdería frente a esta pizza. Se aplica el principio de intensidad proporcional: el trío tiene que igualar la potencia de la pizza, no suavizarla. El roquefort aporta pungencia de queso azul, la panceta suma ahumado y grasa crocante, y el morrón cumple su función de contrapeso dulce para que el conjunto no se vuelva unidimensional de sal y grasa.",
     category: "gourmet",
-    freezerNote: "El lomito congelado conserva muy bien el sabor.",
-    image: "/pizzas/lomito.jpg",
-    price: "$9.400",
+    freezerNote: "El jamón congelado conserva muy bien el sabor.",
+    image: "/pizzas/panceta-ahumada.webp",
+    price: "$10.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón"],
   },
   {
     id: "cantimpalo",
@@ -291,8 +292,8 @@ export const PIZZAS: Pizza[] = [
       "Cantimpalo — embutido español curado y con pimentón — en rodajas generosas sobre mozzarella cremosa y salsa de tomate. Aporta picante, ahumado y grasa animal en niveles altos, en un registro similar al del salame pero con la personalidad del pimentón español.\n\n**Maridaje de aceitunas:** Aceituna verde descarozada con jamón cocido, almendra y palmito. El cantimpalo ya tiene curado y salazón de sobra, por eso se usa jamón cocido (más suave, más dulce) en lugar de jamón crudo — sumar jamón crudo hubiera duplicado el registro curado-salado. La almendra y el palmito aportan crocancia y frescura que frenan el picor del pimentón.",
     category: "gourmet",
     freezerNote: "El cantimpalo soporta muy bien el congelado. Sabor intacto.",
-    image: "/pizzas/cantimpalo.png",
-    price: "$9.400",
+    image: "/pizzas/especial-salame.webp",
+    price: "$10.500",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Cantimpalo"],
@@ -305,26 +306,28 @@ export const PIZZAS: Pizza[] = [
       "Mozzarella, provolone, parmesano y queso azul. La explosión de quesos semiduros en su máxima expresión.",
     category: "premium",
     freezerNote: "Excelente comportamiento con quesos semiduros.",
-    image: "/pizzas/cuatro-quesos.jpg",
-    price: "$10.300",
+    image: "/pizzas/cuatro_quesos.webp",
+    price: "$15.000",
     badge: "premium",
     cookTime: "15 min",
     portions: "4-6 porciones",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
   },
   {
-    id: "pollo-verdeo",
-    name: "Pollo al Verdeo (Reducción espesa)",
+    id: "pera-roquefort",
+    name: "Pera & Roquefort Premium",
     description:
-      "Pollo desmenuzado con verdeo salteado y reducción espesa sobre mozzarella cremosa. Elegancia en cada porción.",
+      "Base de muzzarela fundida, coronada con peras y cebollas moradas perfectamente caramelizadas, contrastadas con el toque intenso y cremoso del auténtico queso roquefort. Una explosión agridulce irresistible.",
+    detail:
+      "Descubre una experiencia de sabor única con nuestra pizza de autor. Sobre una base crujiente y una generosa capa de muzzarela derretida, combinamos la suavidad de las peras seleccionadas y la frescura de la cebolla morada, ambas caramelizadas lentamente para resaltar su dulzor natural. El broche de oro lo da la intensidad del queso roquefort desmenuzado, que se funde en el horno creando el equilibrio perfecto entre lo dulce y lo salado. Una verdadera delicia para los paladares más exigentes.",
     category: "premium",
-    freezerNote: "El pollo cocido congela muy bien. Sabor intacto.",
-    image: "/pizzas/muzza.webp",
-    price: "$11.000",
+    freezerNote: "Congela muy bien. Sabor intacto.",
+    image: "/pizzas/pera-roquefort.webp",
+    price: "$15.000",
     badge: "premium",
     cookTime: "18 min",
     portions: "4-6 porciones",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Pollo desmenuzado", "Verdeo salteado", "Reducción espesa"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Pera caramelizada", "Roquefort"],
   },
   {
     id: "carne-desmenuzada",
@@ -333,8 +336,8 @@ export const PIZZAS: Pizza[] = [
       "Carne desmenuzada a cocción lenta con cebolla caramelizada y especias sobre mozzarella. La más contundente del catálogo.",
     category: "premium",
     freezerNote: "La carne desmenuzada congela excelente. Textura preservada.",
-    image: "/pizzas/muzza.webp",
-    price: "$11.000",
+    image: "/pizzas/fugazzeta.webp",
+    price: "$15.000",
     badge: "premium",
     cookTime: "18 min",
     portions: "4-6 porciones",
@@ -343,66 +346,70 @@ export const PIZZAS: Pizza[] = [
   // ── Pizza Individual ──────────────────────────────────────
   {
     id: "ind-muzzarella",
-    name: "Individual Muzzarella",
+    name: "Individual Muzzarella Clásica",
     description:
       "Pizza individual de mozzarella premium con salsa de tomate natural. Una porción perfecta para uno.",
     category: "individual",
     freezerNote: "Porción individual. Se hornea en 12 minutos directo del freezer.",
-    image: "/pizzas/invividual1.png",
+    image: "/pizzas/invividual1.webp",
+    price: "$4.500",
     cookTime: "12 min",
     portions: "1 porción",
     ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella"],
   },
   {
-    id: "ind-especial-jamon",
-    name: "Individual Especial Jamón",
+    id: "ind-clasica-salame",
+    name: "Individual Clásica de Salame",
     description:
-      "Pizza individual con jamón natural y mozzarella cremosa. El clásico en tamaño personal.",
+      "Pizza individual con salame seleccionado y mozzarella cremosa. El clásico en tamaño personal.",
     category: "individual",
-    freezerNote: "El jamón congela perfecto en formato individual.",
-    image: "/pizzas/invividual1.png",
+    freezerNote: "El salame congela bien en formato individual.",
+    image: "/pizzas/invividual1.webp",
+    price: "$4.500",
     cookTime: "12 min",
     portions: "1 porción",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón natural"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame seleccionado"],
   },
   {
-    id: "ind-cuatro-quesos",
-    name: "Individual Cuatro Quesos",
+    id: "ind-queso-azul",
+    name: "Individual Queso Azul",
     description:
-      "Pizza individual de mozzarella, provolone, parmesano y queso azul. Explosión de quesos para uno solo.",
+      "Pizza individual de mozzarella y queso azul. Explosión de sabor para uno solo.",
     category: "individual",
     freezerNote: "Los quesos semiduros se comportan excelente congelados.",
-    image: "/pizzas/invividual1.png",
+    image: "/pizzas/invividual1.webp",
+    price: "$4.500",
     cookTime: "12 min",
     portions: "1 porción",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Provolone", "Parmesano", "Queso azul"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Queso azul (Roquefort)"],
   },
   {
-    id: "ind-lomito",
-    name: "Individual Lomito",
+    id: "ind-especial-jamon",
+    name: "Individual Clásica de Jamón",
     description:
-      "Pizza individual de lomito en cubos sobre mozzarella fundida. Sabor intenso, porción perfecta.",
+      "Pizza individual con jamón cocido y mozzarella cremosa. Sabor intenso, porción perfecta.",
     category: "individual",
-    freezerNote: "El lomito congela muy bien. Sabor intacto.",
-    image: "/pizzas/invividual1.png",
+    freezerNote: "El jamón congela perfecto en formato individual.",
+    image: "/pizzas/invividual1.webp",
+    price: "$4.500",
     cookTime: "12 min",
     portions: "1 porción",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Lomito"],
+    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Jamón cocido"],
   },
   // ── Mini Pizzetas ─────────────────────────────────────────
-  {
-    id: "mini-pizzetas",
-    name: "Mini Pizzetas (4 sabores)",
-    description:
-      "Bandeja de 6 mini pizzas en 4 sabores: Mozzarella, Salame, Jamón y Queso Azul. Elegí la combinación que más te guste.",
-    category: "mini-pizzeta",
-    freezerNote: "Ideales para freezer. Se hornean directo del congelado en 10 minutos.",
-    image: "/pizzas/mini-pizzetas2.png",
-    cookTime: "10 min",
-    portions: "6 unidades",
-    ingredients: ["Masa artesanal", "Salsa de tomate", "Mozzarella", "Salame", "Jamón natural", "Queso azul"],
-  },
 ];
+
+/**
+ * Featured picks for the home "Las más pedidas" grid, in display order.
+ */
+export const BEST_SELLER_IDS = [
+  "musa-suprema",
+  "cuatro-quesos",
+  "clasica-salame",
+  "especial-muzza",
+  "cantimpalo",
+  "pera-roquefort",
+] as const;
 
 export type MiniPizzetaComboFlavor = {
   name: string;
@@ -422,75 +429,16 @@ export type MiniPizzetaCombo = {
 
 export const MINI_PIZZETA_COMBOS: MiniPizzetaCombo[] = [
   {
-    id: "combo-clasica",
-    nombre: "Combinación Clásica",
-    cantidad: 6,
-    sabores: [
-      { name: "Muzzarella", qty: 3 },
-      { name: "Jamón", qty: 3 },
-    ],
-    precio: 5500,
-    etiqueta: "mas-vendida",
-  },
-  {
-    id: "combo-salame",
-    nombre: "Combinación Salame",
-    cantidad: 6,
-    sabores: [
-      { name: "Muzzarella", qty: 2 },
-      { name: "Salame", qty: 3 },
-      { name: "Jamón", qty: 1 },
-    ],
-    precio: 5500,
-  },
-  {
-    id: "combo-jamon",
-    nombre: "Combinación Jamón",
-    cantidad: 6,
-    sabores: [
-      { name: "Muzzarella", qty: 2 },
-      { name: "Jamón", qty: 3 },
-      { name: "Queso Azul", qty: 1 },
-    ],
-    precio: 5500,
-  },
-  {
-    id: "combo-azul",
-    nombre: "Combinación Queso Azul",
-    cantidad: 6,
-    sabores: [
-      { name: "Muzzarella", qty: 1 },
-      { name: "Salame", qty: 1 },
-      { name: "Queso Azul", qty: 4 },
-    ],
-    precio: 5500,
-    etiqueta: "premium",
-  },
-  {
     id: "combo-recomendada",
-    nombre: "Combinación Recomendada",
+    nombre: "Combinación 3 Sabores",
     cantidad: 6,
     sabores: [
       { name: "Muzzarella", qty: 2 },
       { name: "Salame", qty: 2 },
-      { name: "Jamón", qty: 1 },
-      { name: "Queso Azul", qty: 1 },
+      { name: "Jamón", qty: 2 },
     ],
     precio: 5500,
     etiqueta: "recomendada",
-  },
-  {
-    id: "combo-variedad",
-    nombre: "Combinación Variedad",
-    cantidad: 6,
-    sabores: [
-      { name: "Muzzarella", qty: 1 },
-      { name: "Salame", qty: 2 },
-      { name: "Jamón", qty: 2 },
-      { name: "Queso Azul", qty: 1 },
-    ],
-    precio: 5500,
-    etiqueta: "familiar",
   },
 ];
 
@@ -535,7 +483,7 @@ export const CATALOG_FAMILIES: IngredientFamily[] = [
 
 /** Headline stats for the optimized-catalog section. */
 export const CATALOG_STATS = [
-  { value: "12", label: "Variedades elegidas" },
+  { value: "14", label: "Variedades elegidas" },
   { value: "5", label: "Líneas de producto" },
   { value: "3+", label: "Meses en freezer" },
   { value: "∞", label: "Al vacío, más tiempo" },
@@ -627,8 +575,27 @@ export const PANIFICADOS: Panificado[] = [
     description:
       "Pan artesanal de salvado de trigo, rico en fibra. Ideal para tostadas al desayuno o como acompañamiento. Se congela excelente y se mantiene tierno por semanas.",
     note: "Rico en fibra · Freezer 3+ meses",
-    image: "/pan-salvado.jpeg",
+    image: "/pan-salvado.webp",
     price: "$3.500",
+    isNew: true,
+  },
+];
+
+/**
+ * Postres artesanales congelados — línea "MMM Postre!". Mismo criterio que
+ * panificados: producto terminado, listo para descongelar y servir.
+ */
+export type Postre = Panificado;
+
+export const POSTRES: Postre[] = [
+  {
+    id: "lemon-pie",
+    name: "Lemon Pie",
+    description:
+      "Base de masa sablée horneada, crema de limón con jugo y ralladura natural, y merengue italiano flameado. Congelado en su punto justo para que lo sirvas como recién hecho.",
+    note: "Precio por porción · Rinde 8 porciones · Freezer 30 días",
+    image: "/postres/lemon-pie.webp",
+    price: "$3.000",
     isNew: true,
   },
 ];
@@ -785,6 +752,10 @@ export const FAQS: Faq[] = [
     q: "¿Puedo elegir los sabores del kit?",
     a: "Por supuesto. En el Kit Semanal y Premium armás tu combinación de sabores entre todas nuestras variedades, con la opción de rotar cada semana.",
   },
+  {
+    q: "¿Cuánto cuesta el envío?",
+    a: "El costo depende de tu zona dentro de Gran Mendoza. Escribinos por WhatsApp con tu dirección y te confirmamos el precio exacto antes de armar el pedido.",
+  },
 ];
 
 export type FreezerScienceReason = {
@@ -898,6 +869,10 @@ export type Promotion = {
     pizzas: number;
     drinks: number;
     drinkOptions: { id: string; name: string }[];
+    /** Which pizza lines the user can pick from. Defaults to gourmet only. */
+    categories?: Array<"clasica" | "gourmet" | "premium">;
+    /** Pizzas included automatically in the combo (not user-selectable). */
+    fixed?: { pizzaId: string; qty: number }[];
   };
 };
 
@@ -906,53 +881,39 @@ export const PROMOTIONS: Promotion[] = [
     id: "noche-clicky",
     title: "Noche Clicky",
     description:
-      "Elegí tus sabores favoritos y disfrutá una cena gourmet en casa, lista en minutos y sin complicaciones.",
-    image: "/pizzas/muzza.webp",
+      "2 muzzas + 1 especial y un vino de regalo a elección. Elegí tu especial favorita y disfrutá una cena premium en casa.",
+    image: "/pizzas/cuatro_quesos.webp",
     badge: "Combo especial",
     badgeColor: "bg-brand-red text-white",
-    price: "2 pizzas gourmet + bebida de regalo",
+    price: "$32.000",
     cta: "Pedir por WhatsApp",
     whatsappMessage:
       "¡Hola Click & Pizza! Quiero armar mi Noche Clicky. ¿Me ayudan a elegir los combos?",
     featured: true,
     combo: {
-      pizzas: 2,
+      pizzas: 1,
       drinks: 1,
+      categories: ["gourmet", "premium"],
+      fixed: [{ pizzaId: "musa-suprema", qty: 2 }],
       drinkOptions: [
-        { id: "coca-1.5l", name: "Coca-Cola 1.5L" },
-        { id: "coca-zero-1.5l", name: "Coca-Cola Zero 1.5L" },
-        { id: "sprite-1.5l", name: "Sprite 1.5L" },
-        { id: "fanta-1.5l", name: "Fanta 1.5L" },
-        { id: "agua-1.5l", name: "Agua Mineral 1.5L" },
-        { id: "cerveza-1l", name: "Cerveza Quilmes 1L" },
+        { id: "vino-malbec", name: "Vino Malbec" },
+        { id: "vino-cabernet", name: "Vino Cabernet" },
+        { id: "vino-torrontes", name: "Vino Torrontés" },
+        { id: "vino-chardonnay", name: "Vino Chardonnay" },
       ],
     },
   },
   {
-    id: "combo-familiar",
-    title: "Combo Familiar",
+    id: "mmm-postre",
+    title: "MMM Postre!",
     description:
-      "4 pizzas gourmet para compartir en familia. Elegí los sabores que más te gusten y armá tu cena perfecta.",
-    image: "/pizzas/cuatro-quesos.webp",
-    badge: "Para compartir",
+      "Lemon Pie artesanal con merengue flameado, congelado en su punto justo. El cierre perfecto para tu cena, listo para servir.",
+    image: "/postres/lemon-pie.webp",
+    badge: "Nuevo",
     badgeColor: "bg-brand-amber text-black",
-    price: "Desde $32.000",
-    cta: "Armar mi combo",
-    whatsappMessage:
-      "¡Hola Click & Pizza! Quiero armar un Combo Familiar con 4 pizzas gourmet. ¿Cómo seguimos?",
-  },
-  {
-    id: "mix-sabores",
-    title: "Mix de Sabores",
-    description:
-      "No te decidas por una sola. Armá tu mix con 3 variedades distintas y descubrí tu favorita.",
-    image: "/pizzas/especial-salame.webp",
-    badge: "Mix & Match",
-    badgeColor: "bg-purple-600 text-white",
-    price: "Desde $26.000",
-    cta: "Elegir mis sabores",
-    whatsappMessage:
-      "¡Hola Click & Pizza! Quiero armar un Mix de Sabores con 3 variedades. ¿Me ayudan?",
+    price: "$3.000 / porción",
+    cta: "Ver MMM Postre!",
+    link: "/postres",
   },
   {
     id: "promo-club-clicky",

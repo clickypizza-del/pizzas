@@ -12,8 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { buildWhatsAppUrl, WA_MESSAGES } from "@/lib/whatsapp";
-import { SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
+
+/**
+ * Contacto exclusivo de la sección de revendedores. No toca el número
+ * general del sitio.
+ */
+const REVENDEDOR_PHONE = "5492615573511";
+const REVENDEDOR_PHONE_DISPLAY = "261 557-3511";
 
 const STEPS = [
   {
@@ -88,7 +94,7 @@ const FAQS = [
   },
   {
     q: "¿Qué variedades puedo ofrecer?",
-    a: "Tenemos 12 variedades en 5 categorías: Clásica, Gourmet, Premium, Individual y Mini. Algo para cada cliente.",
+    a: "Tenemos 14 variedades en 5 categorías: Clásica, Gourmet, Premium, Individual y Mini. Algo para cada cliente.",
   },
 ];
 
@@ -138,7 +144,7 @@ export function RevendedorSection() {
                   className="rounded-full px-8 py-6 text-base cta-hero bg-brand-amber hover:bg-brand-amber/90 text-black"
                 >
                   <a
-                    href={buildWhatsAppUrl(WA_MESSAGES.revendedor)}
+                    href={buildWhatsAppUrl(WA_MESSAGES.revendedor, REVENDEDOR_PHONE)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -274,7 +280,7 @@ export function RevendedorSection() {
           <Reveal>
             <SectionHeading
               eyebrow="Nuestro catálogo"
-              title={<>12 variedades para <span className="text-gradient-brand">vender</span></>}
+              title={<>14 variedades para <span className="text-gradient-brand">vender</span></>}
               description="De la clásica muzzarella a la premium con queso azul. Algo para cada cliente."
             />
           </Reveal>
@@ -389,7 +395,7 @@ export function RevendedorSection() {
                   className="rounded-full px-10 py-6 text-base cta-hero bg-brand-amber hover:bg-brand-amber/90 text-black"
                 >
                   <a
-                    href={buildWhatsAppUrl(WA_MESSAGES.revendedor)}
+                    href={buildWhatsAppUrl(WA_MESSAGES.revendedor, REVENDEDOR_PHONE)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -398,7 +404,7 @@ export function RevendedorSection() {
                   </a>
                 </Button>
                 <p className="text-xs text-muted-foreground mt-4">
-                  {SITE.phoneDisplay} · Respondemos rápido
+                  {REVENDEDOR_PHONE_DISPLAY} · Respondemos rápido
                 </p>
               </div>
             </div>

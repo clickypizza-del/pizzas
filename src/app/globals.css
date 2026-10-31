@@ -40,9 +40,11 @@
   --color-surface-sunken: var(--surface-sunken);
   --color-surface-dark: var(--surface-dark);
   --color-price: var(--price);
+  --color-brand-red: var(--brand-red);
+  --color-brand-red-bright: var(--brand-red-bright);
+  --color-brand-gold: var(--brand-amber);
   --color-brand-green: var(--brand-green);
   --color-brand-green-hover: var(--brand-green-hover);
-  --color-brand-red-bright: var(--brand-red-bright);
   --color-brand-amber: var(--brand-amber);
   --color-brand-purple: var(--brand-purple);
 
@@ -147,7 +149,7 @@
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 8rem; /* offset for taller fixed navbar when jumping to #anchors */
+    scroll-padding-top: 6rem; /* offset for fixed navbar when jumping to #anchors */
   }
   html, body {
     overflow-x: hidden;
@@ -181,10 +183,16 @@
 }
 
 @layer utilities {
-  /* Brand display font */
+  /* Brand display font (condensed caps, product names & wordmark) */
   .font-brand {
     font-family: var(--font-brand), var(--font-sans), sans-serif;
     letter-spacing: 0.02em;
+  }
+  /* Editorial display font (section titles, gourmet tone) */
+  .font-display {
+    font-family: var(--font-display), var(--font-sans), serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   /* Tomato-red gradient text used for highlight words */
   .text-gradient-brand {

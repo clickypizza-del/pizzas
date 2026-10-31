@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { MenuPageClient } from "@/components/site/menu-page-client";
+import { fetchProducts, fetchCategories } from "@/lib/catalog-api";
+import { MenuSection } from "@/components/site/menu-section";
 
 export const metadata: Metadata = {
   title: "Catálogo — Variedades de pizza gourmet",
@@ -8,6 +9,24 @@ export const metadata: Metadata = {
   alternates: { canonical: "/menu" },
 };
 
-export default function MenuPage() {
-  return <MenuPageClient />;
+export const revalidate = 300;
+
+export default async function MenuPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cat?: string }>;
+}) {
+  const [products, categories, params] = await Promise.all([
+    fetchProducts(),
+    fetchCategories(),
+    searchParams,
+  ]);
+
+  return (
+    <MenuSection
+      initialCategory={params.cat}
+      initialProducts={products}
+      initialCategories={categories}
+    />
+  );
 }

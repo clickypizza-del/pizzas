@@ -1,37 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readJSON, writeJSON } from "@/lib/db";
+import { supabase } from "@/lib/supabase/client";
 
-type Setting = {
-  key: string;
-  value: string;
-};
-
-// GET all settings
 export async function GET() {
-  const settings = await readJSON<Setting>("settings.json");
+  const { data, error } = await supabase
+    .from("business_settings")
+    .select("*");
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
   const result: Record<string, string> = {};
-  settings.forEach((s) => {
-    result[s.key] = s.value;
+  (data || []).forEach((s: { key: string; value: unknown }) => {
+    const val =
+      typeof s.value === "string" ? s.value : JSON.stringify(s.value);
+    result[s.key] = val.replace(/^"|"$/g, "");
   });
+
   return NextResponse.json(result);
 }
 
-// PUT update settings (bulk)
 export async function PUT(request: NextRequest) {
   try {
     const incoming = await request.json();
-    const settings = await readJSON<Setting>("settings.json");
 
     for (const [key, value] of Object.entries(incoming)) {
-      const idx = settings.findIndex((s) => s.key === key);
-      if (idx !== -1) {
-        settings[idx].value = String(value);
-      } else {
-        settings.push({ key, value: String(value) });
+      const jsonValue = typeof value === "string" ? `"${value}"` : value;
+
+      const { error } = await supabase
+        .from("business_settings")
+        .upsert({ key, value: jsonValue }, { onConflict: "key" });
+
+      if (error) {
+        console.error(`Error upserting setting ${key}:`, error);
       }
     }
 
-    await writeJSON("settings.json", settings);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json(
